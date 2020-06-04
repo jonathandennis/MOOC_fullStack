@@ -1,141 +1,3 @@
-
-//////////////////////////////////////////////////
-//////   1.5: course information step5
-//////////////////////////////////////////////////
-
-/*
-Exercise 1.5 task information
-
-Let's take the changes one step further. Change the course and its parts into a single JavaScript object. Fix everything that breaks.
-
-const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
-  }
-
-  return (
-    <div>
-      ...
-    </div>
-  )
-}
-*/
-
-//////////////////////////////// End 1.5 task information ex. 1.5 below
-
-import React from 'react'
-import ReactDOM from 'react-dom'
-
-
-const Header = (props) => {
-  console.log(props);
-  return (
-    <div>
-      <h1>{props.course}</h1>
-    </div>
-  )
-}
-
-const Part1 = (props) => {
-  console.log(props);
-  return (
-    <div>
-      <p>
-        {props.parts1.name} {props.parts1.exercises}
-      </p>
-    </div>
-  )
-}
-
-const Part2 = (props) => {
-  console.log(props);
-  return (
-    <div>
-      <p>
-        {props.parts2.name} {props.parts2.exercises}
-      </p>
-    </div>
-  )
-}
-
-const Part3 = (props) => {
-  console.log(props);
-  return (
-    <div>
-      <p>
-        {props.parts3.name} {props.parts3.exercises}
-      </p>
-    </div>
-  )
-}
-
-const Content = (props) => {
-  console.log(props);
-  
-  return (
-    <div>
-      <Part1 parts1={props.parts[0]} />
-      <Part2 parts2={props.parts[1]} />
-      <Part3 parts3={props.parts[2]} />
-    </div>
-  )
-}
-
-const Total = (props) => {
-  console.log(props);
-  return (
-    <div>
-      <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    </div>
-  )
-}
-
-
-const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
-  }
-
-
-  return (
-    <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </div>
-  )
-}
-
-ReactDOM.render(<App />, document.getElementById('root'))
-
  
 //////////////////////////////////////////////////
 //////   1.4: course information step4
@@ -186,7 +48,7 @@ const App = () => {
 }
 */
 //////////////////////////////// End 1.4 task information ex. 1.4 below
-/*
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -281,7 +143,6 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-*/ 
 
 //////////////////////////////////////////////////
 //////   1.3: course information step3

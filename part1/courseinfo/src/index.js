@@ -1,5 +1,533 @@
 
 //////////////////////////////////////////////////
+//////   1.5: course information step5
+//////////////////////////////////////////////////
+
+/*
+Exercise 1.5 task information
+
+Let's take the changes one step further. Change the course and its parts into a single JavaScript object. Fix everything that breaks.
+
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+
+  return (
+    <div>
+      ...
+    </div>
+  )
+}
+*/
+
+//////////////////////////////// End 1.5 task information ex. 1.5 below
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+
+const Header = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  )
+}
+
+const Part1 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts1.name} {props.parts1.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part2 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts2.name} {props.parts2.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part3 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts3.name} {props.parts3.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props);
+  
+  return (
+    <div>
+      <Part1 parts1={props.parts[0]} />
+      <Part2 parts2={props.parts[1]} />
+      <Part3 parts3={props.parts[2]} />
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+    </div>
+  )
+}
+
+
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
+  }
+
+
+  return (
+    <div>
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+
+ 
+//////////////////////////////////////////////////
+//////   1.4: course information step4
+//////////////////////////////////////////////////
+
+/*
+Exercise 1.4 task information
+
+And then place the objects into an array. Modify the variable definitions of App into the following form and modify the other parts of the application accordingly:
+
+const App = () => {
+  const course = 'Half Stack application development'
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
+
+  return (
+    <div>
+      ...
+    </div>
+  )
+}
+NB at this point you can assume that there are always three items, so there is no need to go through the arrays using loops. We will come back to the topic of rendering components based on items in arrays with a more thorough exploration in the next part of the course.
+
+However, do not pass different objects as separate props from the App component to the components Content and Total. Instead, pass them directly as an array:
+
+const App = () => {
+  // const definitions
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content parts={parts} />
+      <Total parts={parts} />
+    </div>
+  )
+}
+*/
+//////////////////////////////// End 1.4 task information ex. 1.4 below
+/*
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const Header = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  )
+}
+
+const Part1 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts1.name} {props.parts1.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part2 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts2.name} {props.parts2.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part3 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.parts3.name} {props.parts3.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props);
+   
+  return (
+    <div>
+      <Part1 parts1={props.parts[0]} />
+      <Part2 parts2={props.parts[1]} />
+      <Part3 parts3={props.parts[2]} />
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
+    </div>
+  )
+}
+
+const App = () => {
+
+  const course = 'Half Stack application development'
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    } 
+  ]
+  
+  return (
+    <div>
+      <Header course={course} />
+      <Content parts={parts} />
+      <Total parts={parts} />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+*/ 
+
+//////////////////////////////////////////////////
+//////   1.3: course information step3
+//////////////////////////////////////////////////
+
+/*
+Exercise 1.3 task information
+
+Let's move forward to using objects in our application. Modify the variable definitions of the App component as follows and also refactor the application so that it still works:
+
+const App = () => {
+  const course = 'Half Stack application development'
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
+
+  return (
+    <div>
+      ...
+    </div>
+  )
+}
+*/
+//////////////////////////////// End 1.3 task information ex. 1.3 below
+/* 
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const Header = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  )
+}
+
+const Part1 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part1.name} {props.part1.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part2 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part2.name} {props.part2.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Part3 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part3.name} {props.part3.exercises}
+      </p>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <Part1 part1={props.part1} />
+      <Part2 part2={props.part2} />
+      <Part3 part3={props.part3} />
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3} </p>
+    </div>
+  )
+}
+
+const App = () => {
+  const course = 'Half Stack application development'
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content part1={part1}
+               part2={part2}
+               part3={part3}
+      />
+      <Total exercises1={part1.exercises} 
+             exercises2={part2.exercises} 
+             exercises3={part3.exercises} 
+      />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root')) 
+*/
+
+//////////////////////////////////////////////////
+//////   1.2: course information, step2
+//////////////////////////////////////////////////
+
+/*
+Exercise 1.2 task information
+
+Refactor the Content component so that it does not render any names of parts or their number of exercises by itself. Instead it only renders three Part components of which each renders the name and number of exercises of one part.
+
+const Content = ... {
+  return (
+    <div>
+      <Part .../>
+      <Part .../>
+      <Part .../>
+    </div>
+  )
+}
+*/
+//////////////////////////////// End 1.2 task information ex. 1.2 below
+/* 
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const Header = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>{props.course}</h1>
+    </div>
+  )
+}
+
+const Part1 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part1} {props.exercises1}
+      </p>
+    </div>
+  )
+}
+
+const Part2 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part2} {props.exercises2}
+      </p>
+    </div>
+  )
+}
+
+const Part3 = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>
+        {props.part3} {props.exercises3}
+      </p>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <Part1 part1={props.part1} exercises1={props.exercises1} />
+      <Part2 part2={props.part2} exercises2={props.exercises2} />
+      <Part3 part3={props.part3} exercises3={props.exercises3} />
+    </div>
+  )
+}
+
+const Total = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3} </p>
+    </div>
+  )
+}
+
+const App = () => {
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'
+  const exercises1 = 10
+  const part2 = 'Using props to pass data'
+  const exercises2 = 7
+  const part3 = 'State of a component'
+  const exercises3 = 14
+
+  return (
+    <div>
+      <Header course={course} />
+      <Content part1={part1} exercises1={exercises1}
+               part2={part2} exercises2={exercises2}
+               part3={part3} exercises3={exercises3}
+      />
+      <Total exercises1={exercises1} 
+             exercises2={exercises2} 
+             exercises3={exercises3} 
+      />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+*/
+
+//////////////////////////////////////////////////
 //////   1.1: course information, step1
 //////////////////////////////////////////////////
 
@@ -22,7 +550,7 @@ const App = () => {
 }
 */
 //////////////////////////////// End 1.1 task information ex. 1.1 below
- 
+/*  
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -86,6 +614,8 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
+*/ 
+
 
 
 //////////////////////////////////////////////////

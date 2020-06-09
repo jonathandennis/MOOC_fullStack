@@ -1,7 +1,104 @@
 /////////////////////////////////////////////////////
-//////   EXERCISE 1.9: unicafe step4
+//////   EXERCISE 1.10: unicafe step5
 /////////////////////////////////////////////////////
 
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
+
+const Button = ({ onClick, text }) => (
+  <button onClick={onClick}>{text}</button>
+)
+
+const Buttons = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <Button onClick={props.handleGoodClick} text='good' />
+      <Button onClick={props.handleNeutralClick} text='neutral' />
+      <Button onClick={props.handleBadClick} text='bad' />
+    </div>
+  )
+}
+
+const Statistic = ({ text, value }) => {
+  return (
+    <div>
+      <p>{text} {value}</p>
+    </div>
+  )
+}
+
+const Statistics = (props) => {
+  console.log(props);
+
+  const all = props.good + props.neutral + props.bad;
+  const scoreAvg = ((props.good * 1) + (props.neutral * 0) + (props.bad * -1)) / all;
+  const positiveAvg = (props.good * 100) / all;
+
+  if (all === 0) {
+    return (
+      <div>
+        <p>No feedback given.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <Statistic text="good:" value={props.good} />
+      <Statistic text="neutral:" value={props.neutral} />
+      <Statistic text="bad:" value={props.bad} />
+      <Statistic text="all:" value={all} />
+      <Statistic text="scoreAvg:" value={scoreAvg} />
+      <Statistic text="positiveAvg:" value={positiveAvg} />
+    </div>
+  )
+}
+
+const App = () => {
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+
+  const handleGoodClick = () => {
+    setGood(good + 1)
+  }  
+
+  const handleNeutralClick = () => {
+    setNeutral(neutral + 1)  
+  }
+
+  const handleBadClick = () => {
+    setBad(bad + 1)
+  }
+
+  return (
+    <div>
+      <h1>Give Feedback</h1>
+      <Buttons  handleGoodClick={handleGoodClick} 
+                handleNeutralClick={handleNeutralClick} 
+                handleBadClick={handleBadClick} 
+                />
+      <h1>Statistics</h1>
+      <Statistics good={good}      
+                  neutral={neutral}
+                  bad={bad}
+                  />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, 
+  document.getElementById('root')
+)
+
+
+/////////////////////////////////////////////////////
+//////   EXERCISE 1.9: unicafe step4
+/////////////////////////////////////////////////////
+/* 
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
@@ -140,7 +237,7 @@ const App = () => {
 ReactDOM.render(<App />, 
   document.getElementById('root')
 )
-
+ */
 
 /////////////////////////////////////////////////////
 //////   EXERCISE 1.8: unicafe step3

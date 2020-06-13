@@ -1,7 +1,100 @@
 //////////////////////////////////////////////////
-//////   2.1: course information step6
+//////   2.2: course contents step7
 //////////////////////////////////////////////////
 
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Header = ({ header }) => {
+  return (
+    <h1>{header}</h1>
+  )
+}
+
+const Part = ({ part }) => {
+  console.log('Part', part)
+  return (
+    <p>
+      {part.name} {part.exercises}
+    </p>    
+  )
+}
+
+const Total = ({ exercise }) => {
+  console.log('Total', exercise)
+  console.log('exercisesExercises', exercise[2])
+  const arrSum = exercise => exercise.reduce((a,b) => a + b, 0)
+  // //console.log('arrSum', arrSum)
+  return(
+    <h4>Number of exercises {arrSum}</h4>
+  ) 
+}
+
+const Content = ({ parts }) => {
+  console.log('Content', parts)
+  //console.log('PartsExercises', parts.exercises)
+  return (
+    <div>
+      {parts.map(parts =>
+        <Part key={parts.id} 
+              part={parts}
+        />  
+      )}
+      <Total exercise={parts.exercises.map(parts.exercises)} />
+    </div>
+  )
+}
+
+const Course = ({ course }) => {
+  console.log('Course', course)
+  return (
+    <div>
+      <Header header={course.name} />
+      <Content parts={course.parts} />
+    </div>
+  )
+}
+
+const App = () => {
+  const course = {
+    id: 1,
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      }
+    ]
+  }
+
+  return <Course course={course} />
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+
+
+
+//////////////////////////////////////////////////
+//////   2.1: course contents step6
+//////////////////////////////////////////////////
+/* 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -77,7 +170,7 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-
+ */
 
 //////////////////////////////////////////////////
 //////   1.5: course information step5

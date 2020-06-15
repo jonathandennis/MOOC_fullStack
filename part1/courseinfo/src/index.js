@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////
-//////   2.2: course contents step7
+//////   2.3: course contents step8
 //////////////////////////////////////////////////
+// Utilized the reduce function already
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -99,6 +100,108 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
+
+//////////////////////////////////////////////////
+//////   2.2: course contents step7
+//////////////////////////////////////////////////
+/* 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Header = ({ header }) => {
+  return (
+    <h1>{header}</h1>
+  )
+}
+
+const Part = ({ part }) => {
+  console.log('Part', part)
+  return (
+    <p>
+      {part.name} {part.exercises}
+    </p>    
+  )
+}
+
+const Total = ({ part }) => {
+  console.log('Total', part)
+   //const exercisesArr = part.map((parts) => parts.exercises )
+   //console.log(exercisesArr)
+  // const exercisesSum = exercisesArr.reduce(function(sum, exercise) {
+  //   console.log('hello', sum, exercise)
+  //   return sum + exercise
+  // }, 0)
+  ////// Now use arrow function!! //////
+  //const exercisesSum = exercisesArr.reduce((sum, exercise) => sum + exercise, 0)
+  // Joni Help Solution //
+  //const total = part.exercises.map(parts => parts.exercises).reduce((a,b) => a + b, 0)
+  // Utilizing Joni's help //
+   
+  const total = part.map(parts => parts.exercises).reduce((sum, exercise) => sum + exercise, 0)
+
+    return(
+      <h4>Number of exercises: {total}</h4>
+    ) 
+}
+
+const Content = ({ parts }) => {
+  console.log('Content', parts)
+  //console.log('PartsExercises', parts.exercises)
+  return (
+    <div>
+      {parts.map(parts =>
+        <Part key={parts.id} 
+              part={parts}
+        />  
+      )}
+      <Total part={parts} />
+    </div>
+  )
+}
+
+const Course = ({ course }) => {
+  console.log('Course', course)
+  return (
+    <div>
+      <Header header={course.name} />
+      <Content parts={course.parts} />
+    </div>
+  )
+}
+
+const App = () => {
+  const course = {
+    id: 1,
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        id: 1
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        id: 2
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
+      }
+    ]
+  }
+
+  return <Course course={course} />
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+ */
 
 //////////////////////////////////////////////////
 //////   2.1: course contents step6

@@ -44,13 +44,13 @@ const Content = ({ parts }) => {
   )
 }
 
-const Courses = ({ courses }) => {
-  console.log('Course', courses)
+const Course = ({ course }) => {
+  console.log('Course', course)
   return (
     <div>
-      {courses.map(courses => 
-        <><Header header={courses.name} />
-          <Content parts={courses.parts} /></>
+      {course.map(course => 
+        <><Header header={course.name} />
+          <Content parts={course.parts} /></>
       )}
     </div>
   )
@@ -104,7 +104,7 @@ const App = () => {
   return (
     <div>
       <h1>Web development curriculum</h1>
-      <Courses courses={courses} />
+      <Course course={courses} />
     </div>
   )
 }

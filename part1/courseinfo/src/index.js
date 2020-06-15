@@ -2,7 +2,6 @@
 //////   2.2: course contents step7
 //////////////////////////////////////////////////
 
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -21,14 +20,25 @@ const Part = ({ part }) => {
   )
 }
 
-const Total = ({ exercise }) => {
-  console.log('Total', exercise)
-  console.log('exercisesExercises', exercise[2])
-  const arrSum = exercise => exercise.reduce((a,b) => a + b, 0)
-  // //console.log('arrSum', arrSum)
-  return(
-    <h4>Number of exercises {arrSum}</h4>
-  ) 
+const Total = ({ part }) => {
+  console.log('Total', part)
+   //const exercisesArr = part.map((parts) => parts.exercises )
+   //console.log(exercisesArr)
+  // const exercisesSum = exercisesArr.reduce(function(sum, exercise) {
+  //   console.log('hello', sum, exercise)
+  //   return sum + exercise
+  // }, 0)
+  ////// Now use arrow function!! //////
+  //const exercisesSum = exercisesArr.reduce((sum, exercise) => sum + exercise, 0)
+  // Joni Help Solution //
+  //const total = part.exercises.map(parts => parts.exercises).reduce((a,b) => a + b, 0)
+  // Utilizing Joni's help //
+   
+  const total = part.map(parts => parts.exercises).reduce((sum, exercise) => sum + exercise, 0)
+  
+    return(
+      <h4>Number of exercises: {total}</h4>
+    ) 
 }
 
 const Content = ({ parts }) => {
@@ -41,7 +51,7 @@ const Content = ({ parts }) => {
               part={parts}
         />  
       )}
-      <Total exercise={parts.exercises.map(parts.exercises)} />
+      <Total part={parts} />
     </div>
   )
 }
@@ -88,7 +98,6 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-
 
 
 //////////////////////////////////////////////////

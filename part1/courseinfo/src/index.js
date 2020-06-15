@@ -1,8 +1,122 @@
 //////////////////////////////////////////////////
+//////   2.4: course contents step9
+//////////////////////////////////////////////////
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+const Header = ({ header }) => {
+  return (
+    <h2>{header}</h2>
+  )
+}
+
+const Part = ({ part }) => {
+  console.log('Part', part)
+  return (
+    <p>
+      {part.name} {part.exercises}
+    </p>    
+  )
+}
+
+const Total = ({ part }) => {
+  console.log('Total', part)
+   
+  const total = part.map(parts => parts.exercises).reduce((sum, exercise) => sum + exercise, 0)
+  
+    return(
+      <h4>Number of exercises: {total}</h4>
+    ) 
+}
+
+const Content = ({ parts }) => {
+  console.log('Content', parts)
+  return (
+    <div>
+      {parts.map(parts =>
+        <Part key={parts.id} 
+              part={parts}
+        />  
+      )}
+      <Total part={parts} />
+    </div>
+  )
+}
+
+const Courses = ({ courses }) => {
+  console.log('Course', courses)
+  return (
+    <div>
+      {courses.map(courses => 
+        <><Header header={courses.name} />
+          <Content parts={courses.parts} /></>
+      )}
+    </div>
+  )
+}
+
+const App = () => {
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
+  return (
+    <div>
+      <h1>Web development curriculum</h1>
+      <Courses courses={courses} />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
+
+
+//////////////////////////////////////////////////
 //////   2.3: course contents step8
 //////////////////////////////////////////////////
 // Utilized the reduce function already
-
+/* 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -99,7 +213,7 @@ const App = () => {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
-
+ */
 
 //////////////////////////////////////////////////
 //////   2.2: course contents step7

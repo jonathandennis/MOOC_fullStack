@@ -1,8 +1,66 @@
+//////////////////////////////////////////////////
+//////   2.10: The Phonebook Step5
+//////////////////////////////////////////////////
+
+import React, { useState } from 'react'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+
+
+const App = (props) => {
+  const [ persons, setPersons ] = useState(props.persons) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+
+  
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setSearchTerm(event.target.value)
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+        <Filter searchTerm={searchTerm}
+                handleFilterChange={handleFilterChange} 
+          />
+      <h2>add a new</h2>
+        <PersonForm persons={persons}
+                    setPersons={setPersons}
+                    newName={newName}
+                    setNewName={setNewName}
+                    handleNameChange={handleNameChange} 
+                    newNumber={newNumber}
+                    setNewNumber={setNewNumber}
+                    handleNumberChange={handleNumberChange} 
+          />
+      <h2>Numbers</h2>
+        <Persons persons={persons}
+                 searchTerm={searchTerm} 
+        />
+    </div>
+  )
+}
+
+export default App
+
 
 //////////////////////////////////////////////////
 //////   2.9: The Phonebook Step4
 //////////////////////////////////////////////////
-
+/* 
 import React, { useState } from 'react'
 
 const App = (props) => {
@@ -92,7 +150,7 @@ const App = (props) => {
 }
 
 export default App
-
+*/
 
 //////////////////////////////////////////////////
 //////   2.8: The Phonebook Step3

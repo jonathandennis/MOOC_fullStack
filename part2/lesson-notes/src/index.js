@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 const notes = [
   {
@@ -29,4 +29,4 @@ const notes = [
 ReactDOM.render(
   <App notes={notes} />,
   document.getElementById('root')
-)
+);

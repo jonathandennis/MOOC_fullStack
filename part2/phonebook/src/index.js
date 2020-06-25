@@ -1,7 +1,18 @@
 //////////////////////////////////////////////////
-//////   2.8: The Phonebook Step3
+//////   2.11: The Phonebook Step6
 //////////////////////////////////////////////////
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <App />, document.getElementById('root'));
+
+//////////////////////////////////////////////////
+//////   2.8-10: The Phonebook Step3-5
+//////////////////////////////////////////////////
+/* 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -24,7 +35,7 @@ ReactDOM.render(
   <App persons={persons} />,
   document.getElementById('root')
 );
-
+*/
 
 //////////////////////////////////////////////////
 //////   2.7: The Phonebook Step2

@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+//////////////////////////////////////////////////
+//////   2.12 Data for countries, step1
+//////////////////////////////////////////////////
 
-function App() {
+import React, { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import Countries from './components/Countries'
+
+import axios from 'axios'
+
+const App = () => {
+  const [countries, setCountries] = useState([])
+  const [ searchTerm, setSearchTerm ] = useState('')
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('https://restcountries.eu/rest/v2/all')
+      .then(response => {
+        console.log('promise fulfilled')
+        setCountries(response.data)
+      })
+  }, [])
+  console.log('Countries', countries)
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setSearchTerm(event.target.value)
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Filter searchTerm={searchTerm}
+              handleFilterChange={handleFilterChange} 
+      />
+      <Countries countries={countries}
+                 searchTerm={searchTerm} 
+      />
     </div>
   );
 }
 
 export default App;
+

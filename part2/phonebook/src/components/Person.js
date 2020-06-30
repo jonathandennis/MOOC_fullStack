@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-const Persons = ({ persons, searchTerm }) => {
+const Person = ({ persons, searchTerm }) => {
     
     const results = !searchTerm
         ? persons
@@ -23,7 +23,7 @@ const Persons = ({ persons, searchTerm }) => {
     )
 }
 
-export default Persons
+export default Person
 
 
 //////////////////////////////////////////////////

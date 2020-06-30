@@ -1,8 +1,81 @@
 //////////////////////////////////////////////////
-//////   2.15: The Phonebook Step7
+//////   2.16: The Phonebook Step8
 //////////////////////////////////////////////////
 
+import React, { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import Person from './components/Person'
+import PersonForm from './components/PersonForm'
+import personService from './services/persons'
 
+
+const App = () => {
+  const [ persons, setPersons ] = useState([]) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+
+  useEffect(() => {
+      personService
+        .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
+    // console.log('effect')
+    // axios
+    //   .get('http://localhost:3001/persons')
+    //   .then(response => {
+    //     console.log('promise fulfilled')
+    //     setPersons(response.data)
+    //   })
+  }, [])
+  
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setSearchTerm(event.target.value)
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+        <Filter searchTerm={searchTerm}
+                handleFilterChange={handleFilterChange} 
+          />
+      <h2>add a new</h2>
+        <PersonForm persons={persons}
+                    setPersons={setPersons}
+                    newName={newName}
+                    setNewName={setNewName}
+                    handleNameChange={handleNameChange} 
+                    newNumber={newNumber}
+                    setNewNumber={setNewNumber}
+                    handleNumberChange={handleNumberChange} 
+          />
+      <h2>Numbers</h2>
+        <Person persons={persons}
+                 searchTerm={searchTerm} 
+        />
+    </div>
+  )
+}
+
+export default App
+
+
+//////////////////////////////////////////////////
+//////   2.15: The Phonebook Step7
+//////////////////////////////////////////////////
+/* 
 import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
@@ -67,7 +140,7 @@ const App = () => {
 }
 
 export default App
-
+*/
 
 //////////////////////////////////////////////////
 //////   2.11: The Phonebook Step6

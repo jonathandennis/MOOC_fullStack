@@ -1,8 +1,26 @@
 //////////////////////////////////////////////////
-//////   2.10: The Phonebook Step5
+//////   2.17: The Phonebook Step9
 //////////////////////////////////////////////////
 
+import React from 'react'
 
+const Person = ({ person, removePerson }) => {
+    
+
+    return (
+            <li style={{ listStyleType: "none" }}>
+                {person.name} {person.number}   <button onClick={removePerson}> delete </button>
+            </li>
+    )
+}
+
+export default Person
+
+
+//////////////////////////////////////////////////
+//////   2.10: The Phonebook Step5
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const Person = ({ persons, searchTerm }) => {
@@ -24,7 +42,7 @@ const Person = ({ persons, searchTerm }) => {
 }
 
 export default Person
-
+*/
 
 //////////////////////////////////////////////////
 //////   2.9: The Phonebook Step4

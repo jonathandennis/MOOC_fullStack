@@ -6,6 +6,7 @@
 import React from 'react'
 
 const Filter = ({ searchTerm, handleFilterChange }) => {
+    
     return (
         <p>filter shown with <input type="text"
                                     placeholder="Search"

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   2.17: The Phonebook Step9
+//////   2.18: The Phonebook Step10
 //////////////////////////////////////////////////
 
 import React, { useState, useEffect } from 'react'
@@ -67,6 +67,77 @@ const App = () => {
 
 export default App
 
+
+//////////////////////////////////////////////////
+//////   2.17: The Phonebook Step9
+//////////////////////////////////////////////////
+
+/* 
+import React, { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import personService from './services/persons'
+
+
+const App = () => {
+  const [ persons, setPersons ] = useState([]) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+
+  useEffect(() => {
+      personService
+        .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
+  }, [])
+  
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setSearchTerm(event.target.value)
+  }
+
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+        <Filter searchTerm={searchTerm}
+                handleFilterChange={handleFilterChange} 
+          />
+      <h2>add a new</h2>
+        <PersonForm persons={persons}
+                    setPersons={setPersons}
+                    newName={newName}
+                    setNewName={setNewName}
+                    handleNameChange={handleNameChange} 
+                    newNumber={newNumber}
+                    setNewNumber={setNewNumber}
+                    handleNumberChange={handleNumberChange} 
+          />
+      <h2>Numbers</h2>
+      <Persons 
+            persons={persons}
+            setPersons={setPersons}
+            searchTerm={searchTerm} 
+      />
+    </div>
+  )
+}
+
+export default App
+*/
 
 //////////////////////////////////////////////////
 //////   2.16: The Phonebook Step8

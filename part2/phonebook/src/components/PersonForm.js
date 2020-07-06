@@ -6,7 +6,7 @@ import React from 'react'
 import personService from '../services/persons'
 
 
-const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNewNumber, setNotification, handleNameChange, handleNumberChange, setErrorMessage }) => {
+const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNewNumber, notify, handleNameChange, handleNumberChange }) => {
 
     const addPerson = (event) => {
       event.preventDefault()
@@ -17,19 +17,13 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
       const duplicateName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
       const duplicateNumber = persons.some(person => person.number.replace(/ /g, '') === newNumber.replace(/ /g, ''))
 
-      console.log('duplicateName:', duplicateName)
-
-
       if (!duplicateName) {
         personService
           .create(personObject)
           .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
+            notify(`${personObject.name} was sucessfully added!`, 'ok')
+            setPersons(persons.concat(returnedPerson))
           })
-          setNotification(`${personObject.name} was sucessfully added!`)
-          setTimeout(() => {
-            setNotification(null)
-          }, 5000)
       }
       else if (duplicateName && duplicateNumber) { 
         window.alert(`${newName} is already added to phonebook`)
@@ -37,27 +31,19 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
       else if (duplicateName && !duplicateNumber) {
         const person = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
         const changedPerson = {...person, number: newNumber}
-        console.log('person in else/if:', person)
-        console.log('changedPerson in else/if:', changedPerson)
         const isConfirm = (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
           if (isConfirm) { 
             personService
               .update(changedPerson.id, changedPerson)
               .then(response => {
+                notify(`${person.name}'s number was sucessfully changed!`, 'ok')
                 setPersons(persons.map(person => person.id !== changedPerson.id ? person : response))})   
               .catch(error => {
                 console.log('catch error:', error)
-                setErrorMessage(`${person.name} was already deleted from server`)
-                console.log('setErrorMessage:', setErrorMessage)
+                notify(`${person.name} was already deleted from server`)
                 setPersons(persons.filter(person => person.id !== changedPerson.id))
               })
           }
-          setNotification(
-            `${person.name}'s number was sucessfully changed!`
-          )
-          setTimeout(() => {
-            setNotification(null)
-          }, 5000)
         } 
         setNewName('')
         setNewNumber('')       

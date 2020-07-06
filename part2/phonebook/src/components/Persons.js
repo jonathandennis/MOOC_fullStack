@@ -6,7 +6,7 @@ import React from 'react'
 import Person from './Person'
 import personService from '../services/persons'
 
-const Persons = ({ persons, setPersons, searchTerm, setNotification }) => {
+const Persons = ({ persons, setPersons, searchTerm, notify }) => {
 
     const results = !searchTerm
             ? persons
@@ -23,9 +23,9 @@ const Persons = ({ persons, setPersons, searchTerm, setNotification }) => {
                 personService
                 .remove(id)
                 .then(() => {
-                    setPersons(results.filter(person => person.id !== id))
+                  setPersons(results.filter(person => person.id !== id))
+                  notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
             })
-        //console.log('don\'t delete me!!!')
       }
     }
 

@@ -1,15 +1,20 @@
+//////////////////////////////////////////////////
+//////   2.19: The Phonebook Step11
+//////////////////////////////////////////////////
+
 import React from 'react'
 
-const Notification = ({ message, type }) => {
- if (message === null) {
+const Notification = ({ notice }) => {
+ if (notice === null) {
      return null
    }
    
-   console.log('message:', message)
+   console.log('message in Notification:', notice.message)
+   console.log('type in Notification:', notice.type)
 
    const notificationStyle = {
     background: 'lightgrey',
-    color: type ==='error' ? 'red' : 'green',
+    color: notice.type ==='ok' ? 'green' : 'red',
     fontSize: 20,
     borderStyle: 'solid',
     borderRadius: 5,
@@ -19,7 +24,7 @@ const Notification = ({ message, type }) => {
 
    return (
     <div style={notificationStyle}>
-       {message}
+       {notice.message}
     </div>
   )
 }

@@ -40,14 +40,17 @@ const App = () => {
     setSearchTerm(event.target.value)
   }
 
-  const setErrorMessage = message => setNotification({ type: 'error', message })
-
+  const notify = (message, type='error') => {
+    setNotification({type,message})
+    setTimeout(() => {
+      setNotification(null)
+    }, 2500)
+  }
 
   return (
     <div>
       <h2>Phonebook</h2>
-        <Notification message={notification}
-         />
+        <Notification notice={notification}/>
         <Filter searchTerm={searchTerm}
                 handleFilterChange={handleFilterChange} 
         />
@@ -60,15 +63,15 @@ const App = () => {
                     newNumber={newNumber}
                     setNewNumber={setNewNumber}
                     handleNumberChange={handleNumberChange}
-                    setErrorMessage={setErrorMessage}
-                    setNotification={setNotification} 
+                    setNotification={setNotification}
+                    notify={notify}
           />
       <h2>Numbers</h2>
-        <Persons 
-              persons={persons}
-              setPersons={setPersons}
-              searchTerm={searchTerm}
-              setNotification={setNotification} 
+        <Persons persons={persons}
+                 setPersons={setPersons}
+                 searchTerm={searchTerm}
+                 setNotification={setNotification}
+                 notify={notify} 
         />
     </div>
   )

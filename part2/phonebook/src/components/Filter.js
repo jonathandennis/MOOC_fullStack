@@ -1,8 +1,24 @@
 //////////////////////////////////////////////////
-//////   2.10: The Phonebook Step5
+//////   suggested solution
 //////////////////////////////////////////////////
 
+import React from 'react'
 
+const Filter = (props) => {
+
+    return (
+      <input
+      value={props.value}
+      onChange={props.onChange}
+      />
+    )
+
+export default Filter
+
+//////////////////////////////////////////////////
+//////   2.10: The Phonebook Step5
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const Filter = ({ searchTerm, handleFilterChange }) => {
@@ -17,4 +33,5 @@ const Filter = ({ searchTerm, handleFilterChange }) => {
     )
 }
 
-export default Filter
+export default Filter 
+*/

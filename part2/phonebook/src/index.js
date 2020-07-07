@@ -1,14 +1,28 @@
 //////////////////////////////////////////////////
-//////   2.11: The Phonebook Step6
+//////   suggested solution
 //////////////////////////////////////////////////
 
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import './index.css'
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+)
+
+//////////////////////////////////////////////////
+//////   2.11: The Phonebook Step6
+//////////////////////////////////////////////////
+/* 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
 ReactDOM.render(
   <App />, document.getElementById('root'));
-
+ */
 //////////////////////////////////////////////////
 //////   2.8-10: The Phonebook Step3-5
 //////////////////////////////////////////////////

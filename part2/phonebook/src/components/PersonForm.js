@@ -1,7 +1,41 @@
 //////////////////////////////////////////////////
-//////   2.20: The Phonebook Step11
+//////   suggested solution
 //////////////////////////////////////////////////
 
+import React from 'react'
+
+const PersonForm = (props) => {
+
+  return (
+    <form onSubmit={props.addPerson}>
+      <div>
+        name: 
+        <input
+          value={props.newName}
+          onChange={props.handleNameChange}
+        />
+      </div>
+      <div>
+        number:
+        <input 
+          value={props.newNumber}
+          onChange={props.handleNumberChange}          
+        />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+export default PersonForm
+
+
+//////////////////////////////////////////////////
+//////   2.20: The Phonebook Step11
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 import personService from '../services/persons'
 
@@ -71,7 +105,7 @@ const PersonForm = ({ persons, newName, newNumber, setPersons, setNewName, setNe
 }
 
 export default PersonForm
-
+ */
 
 //////////////////////////////////////////////////
 //////   2.18: The Phonebook Step10

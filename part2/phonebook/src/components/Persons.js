@@ -1,7 +1,27 @@
 //////////////////////////////////////////////////
-//////   2.20: The Phonebook Step11
+//////   suggested solution
 //////////////////////////////////////////////////
 
+import React from 'react'
+
+const Persons = ({ persons, deletePerson }) => {
+  return (
+    persons.map(person=>
+      <p key={person.id}>
+        {person.name} {person.number} 
+        <button onClick={() => deletePerson(person.id)}>delete</button>
+      </p>
+    )
+  )
+}
+
+export default Persons
+
+
+//////////////////////////////////////////////////
+//////   2.20: The Phonebook Step11
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 import Person from './Person'
 import personService from '../services/persons'
@@ -43,7 +63,7 @@ const Persons = ({ persons, setPersons, searchTerm, notify }) => {
 }
 
 export default Persons
-
+ */
 
 //////////////////////////////////////////////////
 //////   2.18: The Phonebook Step10

@@ -1,7 +1,27 @@
 //////////////////////////////////////////////////
-//////   2.20: The Phonebook Step11
+//////   suggested solution
 //////////////////////////////////////////////////
 
+import React from 'react'
+
+const Notification = ({ notification }) => {
+  if (notification === null) {
+    return null
+  }
+
+  return (
+    <div className={notification.type}>
+      {notification.message}
+    </div>
+  )
+}
+
+export default Notification
+
+//////////////////////////////////////////////////
+//////   2.20: The Phonebook Step11
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const Notification = ({ notice }) => {
@@ -30,4 +50,5 @@ const Notification = ({ notice }) => {
 }
 
 
-export default Notification
+export default Notification 
+*/

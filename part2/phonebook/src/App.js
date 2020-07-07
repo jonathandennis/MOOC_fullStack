@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   2.20: The Phonebook Step11
+//////   Suggested Solution
 //////////////////////////////////////////////////
 
 import React, { useState, useEffect } from 'react'
@@ -80,6 +80,89 @@ const App = () => {
 export default App
 
 
+
+//////////////////////////////////////////////////
+//////   2.20: The Phonebook Step11
+//////////////////////////////////////////////////
+/* 
+import React, { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
+import personService from './services/persons'
+
+
+const App = () => {
+  const [ persons, setPersons ] = useState([]) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+  const [notification, setNotification] = useState(null)
+
+  useEffect(() => {
+      personService
+        .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
+  }, [])
+  
+  const handleNameChange = (event) => {
+    console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value)
+    setSearchTerm(event.target.value)
+  }
+
+  const notify = (message, type='error') => {
+    setNotification({type,message})
+    setTimeout(() => {
+      setNotification(null)
+    }, 2500)
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+        <Notification notice={notification}/>
+        <Filter searchTerm={searchTerm}
+                handleFilterChange={handleFilterChange} 
+        />
+      <h2>add a new</h2>
+        <PersonForm persons={persons}
+                    setPersons={setPersons}
+                    newName={newName}
+                    setNewName={setNewName}
+                    handleNameChange={handleNameChange} 
+                    newNumber={newNumber}
+                    setNewNumber={setNewNumber}
+                    handleNumberChange={handleNumberChange}
+                    setNotification={setNotification}
+                    notify={notify}
+          />
+      <h2>Numbers</h2>
+        <Persons persons={persons}
+                 setPersons={setPersons}
+                 searchTerm={searchTerm}
+                 setNotification={setNotification}
+                 notify={notify} 
+        />
+    </div>
+  )
+}
+
+export default App
+
+ */
 //////////////////////////////////////////////////
 //////   2.18: The Phonebook Step10
 //////////////////////////////////////////////////

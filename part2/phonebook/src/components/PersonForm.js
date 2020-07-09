@@ -1,7 +1,39 @@
 //////////////////////////////////////////////////
-//////   suggested solution
+//////   My solution with corrections
 //////////////////////////////////////////////////
 
+import React from 'react'
+
+const PersonForm = (props) => {
+      
+    
+    return (
+        <form onSubmit={props.addPerson}>
+        <div>
+          name: <input 
+                  value={props.newName}
+                  onChange={props.handleNameChange} 
+                />
+        </div>
+        <div>
+          number: <input
+                    value={props.newNumber}
+                    onChange={props.handleNumberChange} 
+                  />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+    )
+}
+
+export default PersonForm
+
+//////////////////////////////////////////////////
+//////   suggested solution
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const PersonForm = (props) => {
@@ -30,7 +62,7 @@ const PersonForm = (props) => {
 }
 
 export default PersonForm
-
+ */
 
 //////////////////////////////////////////////////
 //////   2.20: The Phonebook Step11

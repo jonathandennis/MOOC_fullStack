@@ -1,7 +1,28 @@
 //////////////////////////////////////////////////
-//////   suggested solution
+//////   My solution with corrections
 //////////////////////////////////////////////////
 
+import React from 'react'
+
+const Filter = (props) => {
+    
+    return (
+        <p>filter shown with <input type="text"
+                                    placeholder="Search"
+                                    value={props.searchTerm}
+                                    onChange={props.handleFilterChange} 
+                                    />
+        </p>
+    )
+}
+
+export default Filter 
+
+
+//////////////////////////////////////////////////
+//////   suggested solution
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const Filter = (props) => {
@@ -12,9 +33,10 @@ const Filter = (props) => {
       onChange={props.onChange}
       />
     )
+}
 
 export default Filter
-
+ */
 //////////////////////////////////////////////////
 //////   2.10: The Phonebook Step5
 //////////////////////////////////////////////////

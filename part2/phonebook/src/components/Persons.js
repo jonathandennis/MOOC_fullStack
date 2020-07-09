@@ -1,7 +1,54 @@
 //////////////////////////////////////////////////
-//////   suggested solution
+//////   My solution with corrections
 //////////////////////////////////////////////////
 
+import React from 'react'
+import Person from './Person'
+import personService from '../services/persons'
+
+const Persons = ({ persons, setPersons, searchTerm, notify }) => {
+
+    const results = !searchTerm
+            ? persons
+            : persons.filter(person => 
+                person.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+    
+    const removePersonOf = (id) => {
+
+        const idName = results.filter(person => person.id === id)
+        console.log('idName:', idName)
+        const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
+            if (isConfirm) {
+                personService
+                .remove(id)
+                .then(() => {
+                  setPersons(results.filter(person => person.id !== id))
+                  notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
+            })
+      }
+    }
+
+    return(
+        <ul style={{ padding: 0 }}>
+      {results.map((person, i) =>
+        <Person 
+          key={i}
+          person={person}
+          removePerson={() => removePersonOf(person.id)}
+        />
+      )}
+      </ul>
+    )
+}
+
+export default Persons
+
+
+//////////////////////////////////////////////////
+//////   suggested solution
+//////////////////////////////////////////////////
+/* 
 import React from 'react'
 
 const Persons = ({ persons, deletePerson }) => {
@@ -17,7 +64,7 @@ const Persons = ({ persons, deletePerson }) => {
 
 export default Persons
 
-
+ */
 //////////////////////////////////////////////////
 //////   2.20: The Phonebook Step11
 //////////////////////////////////////////////////

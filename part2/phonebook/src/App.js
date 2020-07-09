@@ -1,12 +1,12 @@
 //////////////////////////////////////////////////
-//////   Suggested Solution
+//////   My solution with corrections
 //////////////////////////////////////////////////
 
 import React, { useState, useEffect } from 'react'
+import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Notification from './components/Notification'
-import Filter from './components/Filter'
 import personService from './services/persons'
 
 
@@ -14,23 +14,16 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  const [ filterString, setStringFilter ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
   const [ notification, setNotification ] = useState(null)
 
   useEffect(() => {
-    personService
-      .getAll()
-      .then(data => {
-        setPersons(data)
-      })
+      personService
+        .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
   }, [])
-
-  const notifyWith = (message, type='success') => {
-    setNotification({message, type})
-    setTimeout(() => {
-      setNotification(null)
-    }, 2500)
-  }
   
   const handleNameChange = (event) => {
     console.log(event.target.value)
@@ -42,10 +35,132 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleFilterStringChange = (event) => {
+  const handleFilterChange = (event) => {
     console.log(event.target.value)
-    setStringFilter(event.target.value)
+    setSearchTerm(event.target.value)
   }
+
+  const notify = (message, type='error') => {
+    setNotification({type,message})
+    setTimeout(() => {
+      setNotification(null)
+    }, 2500)
+  }
+
+  const addPerson = (event) => {
+    event.preventDefault()
+    const personObject = {
+      name: newName,
+      number: newNumber
+    }
+    const duplicateName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
+    const duplicateNumber = persons.some(person => person.number.replace(/ /g, '') === newNumber.replace(/ /g, ''))
+
+    if (!duplicateName) {
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          notify(`${personObject.name} was sucessfully added!`, 'ok')
+          setPersons(persons.concat(returnedPerson))
+        })
+    }
+    else if (duplicateName && duplicateNumber) { 
+      window.alert(`${newName} is already added to phonebook`)
+    }
+    else if (duplicateName && !duplicateNumber) {
+      const person = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+      const changedPerson = {...person, number: newNumber}
+      const isConfirm = (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
+        if (isConfirm) { 
+          personService
+            .update(changedPerson.id, changedPerson)
+            .then(response => {
+              notify(`${person.name}'s number was sucessfully changed!`, 'ok')
+              setPersons(persons.map(person => person.id !== changedPerson.id ? person : response))})   
+            .catch(error => {
+              console.log('catch error:', error)
+              notify(`${person.name} was already deleted from server`)
+              setPersons(persons.filter(person => person.id !== changedPerson.id))
+            })
+        }
+      } 
+      setNewName('')
+      setNewNumber('')       
+  }          
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+        <Notification notice={notification}/>
+        <Filter searchTerm={searchTerm}
+                handleFilterChange={handleFilterChange} 
+        />
+      <h2>add a new</h2>
+        <PersonForm addPerson={addPerson}
+                    newName={newName}
+                    newNumber={newNumber}
+                    handleNameChange={handleNameChange}
+                    handleNumberChange={handleNumberChange}
+          />
+      <h2>Numbers</h2>
+        <Persons persons={persons}
+                 setPersons={setPersons}
+                 searchTerm={searchTerm}
+                 setNotification={setNotification}
+                 notify={notify} 
+        />
+    </div>
+  )
+}
+
+export default App
+
+
+//////////////////////////////////////////////////
+//////   Suggested Solution
+//////////////////////////////////////////////////
+/* 
+import React, { useState, useEffect } from 'react'
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
+import Filter from './components/Filter'
+import personService from './services/persons'
+
+const App = () => {
+  const [persons, setPersons] = useState([])
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ filterString, setStringFilter ] = useState('')
+  const [ notification, setNotification ] = useState(null)
+
+  useEffect(() => {
+    personService
+      .getAll()
+      .then((data) => {
+        setPersons(data)
+      })
+
+  }, [])
+
+  const notifyWith = (message, type='success') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
+  }  
+  
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }  
+
+  const handleFilterStringChange = (event) => {
+    setStringFilter(event.target.value)
+  } 
 
   const deletePerson = (id) => {
     const toDelete = persons.find(p => p.id === id)
@@ -54,7 +169,7 @@ const App = () => {
       personService.remove(id)
         .then(response => {
           setPersons(persons.filter(p => p.id !== id))
-          notifyWith(`${toDelete.name}'s number was sucessfully deleted!`)
+          notifyWith(`Deleted ${toDelete.name}`)
         }).catch(() => {
           setPersons(persons.filter(p => p.id !== id))
           notifyWith(`${toDelete.name} had already been removed`, 'error')
@@ -90,6 +205,7 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       }).catch(error => {
+        // pääset käsiksi palvelimen palauttamaan virheilmoitusolioon näin
         console.log(error.response.data.error)
         notifyWith(`${error.response.data.error} `, 'error')
       })
@@ -103,12 +219,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Notification notification={notification}/>
-        filter shown with: 
-        <Filter
-          value={filterString}
-          onChange={handleFilterStringChange}
-        /> 
+
+      <Notification notification={notification} />
+
+      filter shown with: 
+      <Filter
+        value={filterString}
+        onChange={handleFilterStringChange}
+      />
+
       <h3>add a new</h3>
       <PersonForm 
         handleNameChange={handleNameChange}
@@ -117,15 +236,16 @@ const App = () => {
         newName={newName}
         addPerson={addPerson}
       />
+     
       <h3>Numbers</h3>
       <Persons persons={personsToShow} deletePerson={deletePerson}/>
     </div>
   )
+
 }
 
-export default App
-
-
+export default App 
+ */
 
 //////////////////////////////////////////////////
 //////   2.20: The Phonebook Step11

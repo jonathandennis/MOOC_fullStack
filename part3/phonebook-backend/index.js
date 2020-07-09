@@ -6,6 +6,10 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 
+morgan.token('log-body', function (req, res) {
+  return JSON.stringify(req.body)}
+)
+
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :log-body'))
 
@@ -60,12 +64,8 @@ let persons = [
 
   app.post('/api/persons', (req, res) => {
     const body = req.body
-    console.log(body)
+    console.log('body:', body)
     const duplicateName = persons.some(person => person.name.toLowerCase() === body.name.toLowerCase())
-
-    morgan.token('log-body', function() {
-        return JSON.stringify(body)}
-    )
    
     if (!body.name || !body.number) {
         return res.status(400).json({
@@ -99,12 +99,12 @@ let persons = [
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
-
+ 
 
 //////////////////////////////////////////////////
 //////   3.7: Phonebook backend step7
 //////////////////////////////////////////////////
-/* 
+/*  
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -198,7 +198,7 @@ let persons = [
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
- */
+  */
 
 //////////////////////////////////////////////////
 //////   3.6: Phonebook backend step6

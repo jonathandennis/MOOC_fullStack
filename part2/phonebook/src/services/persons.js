@@ -1,10 +1,9 @@
 //////////////////////////////////////////////////
-//////   My solution with corrections
+//////   3.11 phonebook full stack
 //////////////////////////////////////////////////
 
 import axios from 'axios'
-//const baseUrl = 'http://localhost:3001/api/persons'
-const baseUrl = 'https://arcane-refuge-08202.herokuapp.com/api/persons'
+const baseUrl = '/api/persons'
 
 const getAll = () => {
     const request = axios.get(baseUrl)

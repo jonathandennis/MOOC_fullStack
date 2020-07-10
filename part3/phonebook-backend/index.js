@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   3.8: Phonebook backend step8
+//////   3.11 phonebook full stack
 //////////////////////////////////////////////////
 
 const express = require('express')
@@ -11,6 +11,7 @@ morgan.token('log-body', function (req, res) {
   return JSON.stringify(req.body)}
 )
 
+app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :log-body'))
 app.use(cors())
@@ -37,10 +38,6 @@ let persons = [
         id: 4
     }
   ]
-
-  app.get('/', (req, res) => {
-    res.send('<h1>Phonebook Backend</h1>')
-  })
 
   app.get('/api/persons', (req, res) => {
     res.json(persons)

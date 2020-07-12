@@ -37,21 +37,3 @@ Note.find({}).then(result => {
 //   console.log('note saved!')
 //   mongoose.connection.close()
 // })
-
-
-///////////////////////////////////////
-////////// from connect mongo
-///////////////////////////////////////
-
-/* 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://fullstack:<password>@cluster0.kk7vy.mongodb.net/<dbname>?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-
-mongodb+srv://fullstack:${password}@cluster0-ostce.mongodb.net/test?retryWrites=true
-*/

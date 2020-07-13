@@ -1,9 +1,11 @@
 //////////////////////////////////////////////
-////////////  lesson part 3-4
+////////////  lesson part 3-5
 //////////////////////////////////////////////
 
 
 const mongoose = require('mongoose')
+
+mongoose.set('useFindAndModify', false)
 
 const url = process.env.MONGODB_URI
 

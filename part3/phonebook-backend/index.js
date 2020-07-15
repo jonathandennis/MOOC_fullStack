@@ -30,19 +30,22 @@ app.use(cors())
   })
 
   app.get('/info', (req, res) => {
-    const numPersons = persons.length
-    res.send(`<p>Phonebook has info for ${numPersons} people</p>
-    ${new Date()}`)    
+    Entry.count({}).then(num => {
+      res.send(`<p>Phonebook has info for ${num} people</p>
+    ${new Date()}`) 
+    })  
   })
 
-  app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(p => p.id === id)
-    if (person) {
-        res.json(person)
-      } else {
-        res.status(404).end()
-      } 
+  app.get('/api/persons/:id', (req, res, next) => {
+    Entry.findById(req.params.id)
+      .then(entry => {
+        if (entry) {
+          res.json(entry)
+        } else {
+          res.status(404).end()
+        } 
+      })
+      .catch(error => next(error))
   })
 
   app.post('/api/persons', (req, res) => {

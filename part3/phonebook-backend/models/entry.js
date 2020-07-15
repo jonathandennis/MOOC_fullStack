@@ -1,4 +1,9 @@
+//////////////////////////////////////////////////
+//////   3.15: Phonebook database, step3
+//////////////////////////////////////////////////
+
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 
 const url = process.env.MONGODB_URI
 

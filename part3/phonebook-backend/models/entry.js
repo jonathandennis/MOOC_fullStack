@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   3.15: Phonebook database, step3
+//////   3.20: Phonebook database, step8
 //////////////////////////////////////////////////
 
 const mongoose = require('mongoose')
@@ -21,8 +21,15 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   })
 
 const entrySchema = new mongoose.Schema({
-  name: {type: String, unique: true, required: true, uniqueCaseInsensitive: true},
-  number: String,
+  name: {type: String, 
+         minlength: 3, 
+         unique: true, 
+         required: true,
+         uniqueCaseInsensitive: true
+        },
+  number: {type: String,
+           minlength: 8
+          }
 })
 entrySchema.plugin(uniqueValidator)
 

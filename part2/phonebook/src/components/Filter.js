@@ -7,11 +7,11 @@ import React from 'react'
 const Filter = (props) => {
     
     return (
-        <p>filter shown with <input type="text"
-                                    placeholder="Search"
-                                    value={props.searchTerm}
-                                    onChange={props.handleFilterChange} 
-                                    />
+        <p>filter shown with <input
+                                placeholder="Search"
+                                value={props.value}
+                                onChange={props.onChange} 
+                            />
         </p>
     )
 }

@@ -46,21 +46,41 @@ const App = () => {
     console.log(event.target.value)
     setSearchTerm(event.target.value)
   }
-  
+ 
   const removePersonOf = (id) => {
-
-    const idName = personsToShow.filter(person => person.id === id)
-    console.log('idName:', idName)
-    const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
-        if (isConfirm) {
-            personService
-            .remove(id)
-            .then(() => {
-              setPersons(personsToShow.filter(person => person.id !== id))
-              notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
+    const toDelete = persons.find(person => person.id === id)
+    const ok = window.confirm(`Delete ${toDelete.name}?`)
+    if (ok) {
+      personService
+        .remove(id)
+        .then(response => {
+          setPersons(persons.filter(person => person.id !== id))
+          notify(`${toDelete.name}'s number was sucessfully deleted!`, 'ok')
+        }).catch(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          notify(`${toDelete.name} had already been removed`)
         })
+    }
   }
-}
+//   const removePersonOf = (id) => {
+
+//     const idName = personsToShow.filter(person => person.id === id)
+//     console.log('idName:', idName)
+//     const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
+//         if (isConfirm) {
+//             personService
+//             .remove(id)
+//             .then(() => {
+//               setPersons(personsToShow.filter(person => person.id !== id))
+//               notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
+//         })
+//         .catch(error => {
+//             console.log('catch error:', error)
+//             notify(`${idName[0].name} was already deleted from server`)
+//             setPersons(persons.filter(person => person.id !== idName[0].id))
+//           })
+//   }
+// }
 
 const addPerson = (event) => {
   event.preventDefault()
@@ -101,33 +121,36 @@ const addPerson = (event) => {
             notify(`${person.name}'s number was sucessfully changed!`, 'ok')
             setNewName('')
             setNewNumber('')
-          })  
-          .catch(error => {
-            console.log('e.r.d:', error.response.data.error)
-            notify(error.response.data.error)
           })
           // .catch(error => {
           //   console.log('catch error:', error)
           //   notify(`${person.name} was already deleted from server`)
           //   setPersons(persons.filter(person => person.id !== changedPerson.id))
-          // })
+          // })  
+          .catch(error => {
+            console.log('e.r.d:', error.response.data.error)
+            console.log('catch error:', error)
+            notify(error.response.data.error)
+          })
       }
     }   
 } 
+
+const personsToShow = searchTerm.length === 0 ?
+    persons : 
+    persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()))
   
-  const personsToShow = !searchTerm
-            ? persons
-            : persons.filter(person => 
-                person.name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+  // const personsToShow = !searchTerm
+  //           ? persons
+  //           : persons.filter(person => 
+  //               person.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //           )
 
   return (
     <div>
       <h2>Phonebook</h2>
         <Notification notice={notification}/>
-        <Filter searchTerm={searchTerm}
-                handleFilterChange={handleFilterChange} 
-        />
+        <Filter value={searchTerm} onChange={handleFilterChange} />
       <h2>add a new</h2>
         <PersonForm addPerson={addPerson}
                     newName={newName}

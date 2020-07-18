@@ -24,6 +24,13 @@ const App = () => {
           setPersons(initialPersons)
         })
   }, [])
+
+  const notify = (message, type='error') => {
+    setNotification({type,message})
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
   
   const handleNameChange = (event) => {
     console.log(event.target.value)
@@ -39,54 +46,80 @@ const App = () => {
     console.log(event.target.value)
     setSearchTerm(event.target.value)
   }
+  
+  const removePersonOf = (id) => {
 
-  const notify = (message, type='error') => {
-    setNotification({type,message})
-    setTimeout(() => {
-      setNotification(null)
-    }, 2500)
-  }
-
-  const addPerson = (event) => {
-    event.preventDefault()
-    const personObject = {
-      name: newName,
-      number: newNumber
-    }
-    const duplicateName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
-    const duplicateNumber = persons.some(person => person.number.replace(/ /g, '') === newNumber.replace(/ /g, ''))
-
-    if (!duplicateName) {
-      personService
-        .create(personObject)
-        .then(returnedPerson => {
-          notify(`${personObject.name} was sucessfully added!`, 'ok')
-          setPersons(persons.concat(returnedPerson))
+    const idName = personsToShow.filter(person => person.id === id)
+    console.log('idName:', idName)
+    const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
+        if (isConfirm) {
+            personService
+            .remove(id)
+            .then(() => {
+              setPersons(personsToShow.filter(person => person.id !== id))
+              notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
         })
-    }
-    else if (duplicateName && duplicateNumber) { 
-      window.alert(`${newName} is already added to phonebook`)
-    }
-    else if (duplicateName && !duplicateNumber) {
-      const person = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
-      const changedPerson = {...person, number: newNumber}
-      const isConfirm = (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
-        if (isConfirm) { 
-          personService
-            .update(changedPerson.id, changedPerson)
-            .then(response => {
-              notify(`${person.name}'s number was sucessfully changed!`, 'ok')
-              setPersons(persons.map(person => person.id !== changedPerson.id ? person : response))})   
-            .catch(error => {
-              console.log('catch error:', error)
-              notify(`${person.name} was already deleted from server`)
-              setPersons(persons.filter(person => person.id !== changedPerson.id))
-            })
-        }
-      } 
-      setNewName('')
-      setNewNumber('')       
-  }          
+  }
+}
+
+const addPerson = (event) => {
+  event.preventDefault()
+  const personObject = {
+    name: newName,
+    number: newNumber
+  }
+  const duplicateName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
+  const duplicateNumber = persons.some(person => person.number.replace(/ /g, '') === newNumber.replace(/ /g, ''))
+    
+
+  if (!duplicateName) {
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        notify(`${personObject.name} was sucessfully added!`, 'ok')
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        console.log('e.r.d:', error.response.data.error)
+        notify(error.response.data.error)
+      })  
+  }
+  else if (duplicateName && duplicateNumber) { 
+    window.alert(`${newName} is already added to phonebook`)
+  }
+  else if (duplicateName && !duplicateNumber) {
+    const person = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+    const changedPerson = {...person, number: newNumber}
+    const isConfirm = (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
+      if (isConfirm) { 
+        personService
+          .update(changedPerson.id, changedPerson)
+          .then(response => {
+            setPersons(persons.map(person => person.id !== changedPerson.id ? person :response))
+            notify(`${person.name}'s number was sucessfully changed!`, 'ok')
+            setNewName('')
+            setNewNumber('')
+          })  
+          .catch(error => {
+            console.log('e.r.d:', error.response.data.error)
+            notify(error.response.data.error)
+          })
+          // .catch(error => {
+          //   console.log('catch error:', error)
+          //   notify(`${person.name} was already deleted from server`)
+          //   setPersons(persons.filter(person => person.id !== changedPerson.id))
+          // })
+      }
+    }   
+} 
+  
+  const personsToShow = !searchTerm
+            ? persons
+            : persons.filter(person => 
+                person.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
 
   return (
     <div>
@@ -103,12 +136,7 @@ const App = () => {
                     handleNumberChange={handleNumberChange}
           />
       <h2>Numbers</h2>
-        <Persons persons={persons}
-                 setPersons={setPersons}
-                 searchTerm={searchTerm}
-                 setNotification={setNotification}
-                 notify={notify} 
-        />
+        <Persons persons={personsToShow} removePerson={removePersonOf} />
     </div>
   )
 }

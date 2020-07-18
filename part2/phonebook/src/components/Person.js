@@ -2,19 +2,19 @@
 //////   2.17: The Phonebook Step9
 //////////////////////////////////////////////////
 
-import React from 'react'
+// import React from 'react'
 
-const Person = ({ person, removePerson }) => {
+// const Person = ({ person, removePerson }) => {
     
 
-    return (
-            <li style={{ listStyleType: "none" }}>
-                {person.name} {person.number}   <button onClick={removePerson}> delete </button>
-            </li>
-    )
-}
+//     return (
+//             <li style={{ listStyleType: "none" }}>
+//                 {person.name} {person.number}   <button onClick={removePerson}> delete </button>
+//             </li>
+//     )
+// }
 
-export default Person
+// export default Person
 
 
 //////////////////////////////////////////////////

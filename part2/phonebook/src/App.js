@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   My solution
+//////   My solution with corrections
 //////////////////////////////////////////////////
 
 import React, { useState, useEffect } from 'react'
@@ -62,6 +62,25 @@ const App = () => {
         })
     }
   }
+//   const removePersonOf = (id) => {
+
+//     const idName = personsToShow.filter(person => person.id === id)
+//     console.log('idName:', idName)
+//     const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
+//         if (isConfirm) {
+//             personService
+//             .remove(id)
+//             .then(() => {
+//               setPersons(personsToShow.filter(person => person.id !== id))
+//               notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
+//         })
+//         .catch(error => {
+//             console.log('catch error:', error)
+//             notify(`${idName[0].name} was already deleted from server`)
+//             setPersons(persons.filter(person => person.id !== idName[0].id))
+//           })
+//   }
+// }
 
 const addPerson = (event) => {
   event.preventDefault()
@@ -96,18 +115,41 @@ const addPerson = (event) => {
         console.log("outside", changedPerson, changedPerson.id)
         personService
           .update(changedPerson.id, changedPerson)
+          //console.log('changedPerson:', changedPerson)
           .then(response => {
             console.log("inside", changedPerson, changedPerson.id, response)
             setPersons(persons.map(person => person.id !== changedPerson.id ? person :response))
             notify(`${person.name}'s number was sucessfully changed!`, 'ok')
           }) 
-          .catch(error => {
-            if (error.response.data.error === 'Validation failed') {
-              return notify(error.response.data.error)
+          .catch((error) => {
+            const errMessage = error.response.data.error;
+            console.log(errMessage);
+            if (errMessage.includes("deleted")) {
+              console.log("setPersons:", setPersons)
+              console.log("inside the if block");
+              console.log(
+                "setPersons:", setPersons,
+                "persons",
+                persons,
+                "changedPersons:",
+                changedPerson
+              );
+              setPersons(persons.filter(person => person.id !== changedPerson.id));
+              return notify(errMessage);
             }
-              setPersons(persons.filter(person => person.id !== changedPerson.id))
-              notify(error.response.data.error)
-          })
+            console.log("I shouldnt run if errmessage equals Validation failed");
+            notify(errMessage);
+          });
+          // .catch(error => {
+          //   console.log('Error:', error)
+          //   console.log('e.r.d:', error.response.data.error)
+          //   if (error.response.data.error === 'Validation failed') {
+          //     return notify(error.response.data.error)
+          //   }
+          //   console.log('shoot me now')
+          //     setPersons(persons.filter(person => person.id !== changedPerson.id))
+          //     notify(error.response.data.error)
+          // })
       }
     } 
     setNewName('')
@@ -117,6 +159,12 @@ const addPerson = (event) => {
 const personsToShow = searchTerm.length === 0 ?
     persons : 
     persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  
+  // const personsToShow = !searchTerm
+  //           ? persons
+  //           : persons.filter(person => 
+  //               person.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //           )
 
   return (
     <div>

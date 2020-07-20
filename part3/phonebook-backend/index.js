@@ -77,15 +77,15 @@ app.use(cors())
 
   app.put('/api/persons/:id', (req, res, next) => {
     const body = req.body
-  
     const entry = {
       number: body.number,
     }
-
-
     console.log('entry number:', entry)
     Entry.findByIdAndUpdate(req.params.id, entry, { new: true, runValidators: true, context: 'query' })
       .then(updatedEntry => {
+        if (updatedEntry === null) {
+          return res.status(404).send({error: `${body.name} was already deleted from server`})
+        }
         res.json(updatedEntry)
       })
       .catch(error => next(error))

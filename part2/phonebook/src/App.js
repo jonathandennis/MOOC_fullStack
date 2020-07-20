@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//////   My solution with corrections
+//////   My solution
 //////////////////////////////////////////////////
 
 import React, { useState, useEffect } from 'react'
@@ -62,25 +62,6 @@ const App = () => {
         })
     }
   }
-//   const removePersonOf = (id) => {
-
-//     const idName = personsToShow.filter(person => person.id === id)
-//     console.log('idName:', idName)
-//     const isConfirm = (window.confirm(`Delete ${ idName[0].name }?`))
-//         if (isConfirm) {
-//             personService
-//             .remove(id)
-//             .then(() => {
-//               setPersons(personsToShow.filter(person => person.id !== id))
-//               notify(`${idName[0].name}'s number was sucessfully deleted!`, 'ok')
-//         })
-//         .catch(error => {
-//             console.log('catch error:', error)
-//             notify(`${idName[0].name} was already deleted from server`)
-//             setPersons(persons.filter(person => person.id !== idName[0].id))
-//           })
-//   }
-// }
 
 const addPerson = (event) => {
   event.preventDefault()
@@ -98,8 +79,6 @@ const addPerson = (event) => {
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
         notify(`${personObject.name} was sucessfully added!`, 'ok')
-        setNewName('')
-        setNewNumber('')
       })
       .catch(error => {
         console.log('e.r.d:', error.response.data.error)
@@ -114,37 +93,30 @@ const addPerson = (event) => {
     const changedPerson = {...person, number: newNumber}
     const isConfirm = (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
       if (isConfirm) { 
+        console.log("outside", changedPerson, changedPerson.id)
         personService
           .update(changedPerson.id, changedPerson)
           .then(response => {
+            console.log("inside", changedPerson, changedPerson.id, response)
             setPersons(persons.map(person => person.id !== changedPerson.id ? person :response))
             notify(`${person.name}'s number was sucessfully changed!`, 'ok')
-            setNewName('')
-            setNewNumber('')
-          })
-          // .catch(error => {
-          //   console.log('catch error:', error)
-          //   notify(`${person.name} was already deleted from server`)
-          //   setPersons(persons.filter(person => person.id !== changedPerson.id))
-          // })  
+          }) 
           .catch(error => {
-            console.log('e.r.d:', error.response.data.error)
-            console.log('catch error:', error)
-            notify(error.response.data.error)
+            if (error.response.data.error === 'Validation failed') {
+              return notify(error.response.data.error)
+            }
+              setPersons(persons.filter(person => person.id !== changedPerson.id))
+              notify(error.response.data.error)
           })
       }
-    }   
+    } 
+    setNewName('')
+    setNewNumber('')  
 } 
 
 const personsToShow = searchTerm.length === 0 ?
     persons : 
     persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  
-  // const personsToShow = !searchTerm
-  //           ? persons
-  //           : persons.filter(person => 
-  //               person.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //           )
 
   return (
     <div>

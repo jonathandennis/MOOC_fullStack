@@ -1,16 +1,10 @@
-//////////////////////////////////////////////////
-//////   My solution with corrections
-//////////////////////////////////////////////////
- 
+
 import React from 'react'
 
 const Notification = ({ notice }) => {
  if (notice === null) {
      return null
    }
-   
-   console.log('message in Notification:', notice.message)
-   console.log('type in Notification:', notice.type)
 
    const notificationStyle = {
     background: 'lightgrey',
@@ -29,60 +23,4 @@ const Notification = ({ notice }) => {
   )
 }
 
-
 export default Notification 
-
-//////////////////////////////////////////////////
-//////   suggested solution
-//////////////////////////////////////////////////
-/* 
-import React from 'react'
-
-const Notification = ({ notification }) => {
-  if (notification === null) {
-    return null
-  }
-
-  return (
-    <div className={notification.type}>
-      {notification.message}
-    </div>
-  )
-}
-
-export default Notification
-
- *///////////////////////////////////////////////////
-//////   2.20: The Phonebook Step11
-//////////////////////////////////////////////////
-/* 
-import React from 'react'
-
-const Notification = ({ notice }) => {
- if (notice === null) {
-     return null
-   }
-   
-   console.log('message in Notification:', notice.message)
-   console.log('type in Notification:', notice.type)
-
-   const notificationStyle = {
-    background: 'lightgrey',
-    color: notice.type ==='ok' ? 'green' : 'red',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 5,
-    marginBottom: 10
-   }
-
-   return (
-    <div style={notificationStyle}>
-       {notice.message}
-    </div>
-  )
-}
-
-
-export default Notification 
-*/

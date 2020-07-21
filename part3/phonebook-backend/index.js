@@ -2,17 +2,16 @@
 //////   3.20: Phonebook database, step8
 //////////////////////////////////////////////////
 
+require('dotenv').config()
 const express = require('express')
 const app = express()
-require('dotenv').config()
+const Entry = require('../phonebook-backend/models/entry')
 
 const morgan = require('morgan')
 
 morgan.token('log-body', function (req, res) {
   return JSON.stringify(req.body)}
 )
-
-const Entry = require('../phonebook-backend/models/entry')
 
 const cors = require('cors')
 

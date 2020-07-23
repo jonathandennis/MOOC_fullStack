@@ -3,41 +3,26 @@ const http = require('http')
 const express = require('express')
 const app = express()
 const Blog = require('./models/blog')
+const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
+
 const cors = require('cors')
-const mongoose = require('mongoose')
 
-// const blogSchema = mongoose.Schema({
-//   title: String,
-//   author: String,
-//   url: String,
-//   likes: Number
-// })
-
-//  const Blog = mongoose.model('Blog', blogSchema)
-
-// let url = process.env.MONGODB_URI
-// console.log('connecting to', url)
-
-// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(result => {
-//     console.log('connected to MongoDB')
-//   })
-//   .catch((error) => {
-//     console.log('error connection to MongoDB:', error.message)
-//   })
 
 app.use(cors())
 app.use(express.json())
+app.use(middleware.requestLogger)
 
-app.get('/api/blogs', (request, response) => {
+app.get('/api/blogs', (request, response, next) => {
   Blog
     .find({})
     .then(blogs => {
       response.json(blogs)
     })
+    .catch(error => next(error))
 })
 
-app.post('/api/blogs', (request, response) => {
+app.post('/api/blogs', (request, response, next) => {
   const blog = new Blog(request.body)
 
   blog
@@ -45,15 +30,13 @@ app.post('/api/blogs', (request, response) => {
     .then(result => {
       response.status(201).json(result)
     })
+    .catch(error => next(error))
 })
 
-const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
-    }
-    
-    app.use(unknownEndpoint)
+app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  logger.info(`Server running on port ${PORT}`)
 }) 

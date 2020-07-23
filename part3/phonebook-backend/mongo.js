@@ -31,12 +31,12 @@ const entry = new Entry({
 })
 
 if (process.argv.length === 3) {
-    Entry.find({}).then(result => {
-        result.forEach(entry => {
-        console.log(entry) 
-        }) 
-        process.exit(0) 
+  Entry.find({}).then(result => {
+    result.forEach(entry => {
+      console.log(entry)
     })
+    process.exit(0)
+  })
 }
 
 entry.save().then(result => {

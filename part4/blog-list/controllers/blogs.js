@@ -7,14 +7,14 @@ blogsRouter.get('/', (request, response) => {
   })
 })
 
-  blogsRouter.post('/', (request, response, next) => {
-    const blog = new Blog(request.body)
-  
-    blog.save()
-      .then(savedBlog => {
-        response.status(201).json(savedBlog)
-      })
-      .catch(error => next(error))
-  })
+blogsRouter.post('/', (request, response, next) => {
+  const blog = new Blog(request.body)
 
-  module.exports = blogsRouter
+  blog.save()
+    .then(savedBlog => {
+      response.status(201).json(savedBlog)
+    })
+    .catch(error => next(error))
+})
+
+module.exports = blogsRouter

@@ -1,4 +1,9 @@
 const logger = require('./logger')
+const morgan = require('morgan')
+
+morgan.token('log-body', function (request, response) {
+  return JSON.stringify(request.body)}
+)
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -10,17 +15,16 @@ const requestLogger = (request, response, next) => {
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
-  logger.error('logger ukEndpoint:', error.message)
 }
 
 const errorHandler = (error, request, response, next) => {
   logger.error('logger errorHandler:', error.message)
 
-//   if (error.name === 'CastError') {
-//     return response.status(400).send({ error: 'malformatted id' })
-//   } else if (error.name === 'ValidationError') {
-//     return response.status(400).json({ error: error.message })
-//   }
+  //   if (error.name === 'CastError') {
+  //     return response.status(400).send({ error: 'malformatted id' })
+  //   } else if (error.name === 'ValidationError') {
+  //     return response.status(400).json({ error: error.message })
+  //   }
 
   next(error)
 }

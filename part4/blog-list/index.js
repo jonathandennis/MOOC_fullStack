@@ -2,28 +2,29 @@ require('dotenv').config()
 const http = require('http')
 const express = require('express')
 const app = express()
+const Blog = require('./models/blog')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
+// const blogSchema = mongoose.Schema({
+//   title: String,
+//   author: String,
+//   url: String,
+//   likes: Number
+// })
 
-const Blog = mongoose.model('Blog', blogSchema)
+//  const Blog = mongoose.model('Blog', blogSchema)
 
-let url = process.env.MONGODB_URI
-console.log('connecting to', url)
+// let url = process.env.MONGODB_URI
+// console.log('connecting to', url)
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(result => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connection to MongoDB:', error.message)
-  })
+// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(result => {
+//     console.log('connected to MongoDB')
+//   })
+//   .catch((error) => {
+//     console.log('error connection to MongoDB:', error.message)
+//   })
 
 app.use(cors())
 app.use(express.json())
@@ -45,6 +46,12 @@ app.post('/api/blogs', (request, response) => {
       response.status(201).json(result)
     })
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+    }
+    
+    app.use(unknownEndpoint)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

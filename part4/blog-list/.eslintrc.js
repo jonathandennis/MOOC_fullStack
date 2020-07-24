@@ -4,7 +4,8 @@ module.exports = {
     'commonjs': true,
     'es2020': true,
     'node' : true,
-    'mongo' : true
+    'mongo' : true,
+    'jest': true,
   },
   'extends': 'eslint:recommended',
   'parserOptions': {

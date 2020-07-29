@@ -1,55 +1,63 @@
-const mongoose = require('mongoose')
 const supertest = require('supertest')
+const mongoose = require('mongoose')
+const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
 
-const initialBlogs = [
-  {
-    title: 'React patterns',
-    author: 'Michael Chan',
-    url: 'https://reactpatterns.com/',
-    likes: 7,
-    id: '5f202454aa1bcb3946a58e4f',
-  },
-  {
-    title: 'Go To Statement Considered Harmful',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-    likes: 5,
-    id: '5f20249805551f39b2e8a622',
-  },
-]
-
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  let blogObject = new Blog(initialBlogs[0])
+  let blogObject = new Blog(helper.initialBlogs[0])
   await blogObject.save()
 
-  blogObject = new Blog(initialBlogs[1])
+  blogObject = new Blog(helper.initialBlogs[1])
   await blogObject.save()
 })
 
 describe('blog api', () => {
   test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
   })
 
   test('there are two notes', async () => {
-    const response = await api.get('/api/blogs')
+    const blogsAtEnd = await helper.blogsInDb()
 
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
   test('there is an id', async () => {
-    const response = await api.get('/api/blogs')
-    console.log('Response.body[0].id: ', response.body[0])
-    expect(response.body[0].id).toBeDefined()
+    const blogsAtEnd = await helper.blogsInDb()
+    console.log('blogsAtEnd[0]: ', blogsAtEnd[0])
+    expect(blogsAtEnd[0].id).toBeDefined()
+  })
+
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+      likes: 12,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    console.log('titles: ', titles)
+    expect(titles).toContain(
+      'Canonical string reduction'
+    )
   })
 
   afterAll(() => {

@@ -9,11 +9,10 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
+  const blogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 describe('blog api', () => {
@@ -58,6 +57,25 @@ describe('blog api', () => {
     expect(titles).toContain(
       'Canonical string reduction'
     )
+  })
+
+  test('a new blog added without likes property defaults to likes:0', async () => {
+    const newBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const likes = blogsAtEnd.map(b => b.likes)
+    console.log('likes: ', likes)
+    expect(likes).toContain(0)
   })
 
   afterAll(() => {

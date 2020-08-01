@@ -23,7 +23,7 @@ describe('blog api', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test('there are two notes', async () => {
+  test('there are two blogs', async () => {
     const blogsAtEnd = await helper.blogsInDb()
 
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
@@ -76,6 +76,27 @@ describe('blog api', () => {
     const likes = blogsAtEnd.map(b => b.likes)
     console.log('likes: ', likes)
     expect(likes).toContain(0)
+  })
+
+  test('a blog with no title or url returns 400 Bad Request', async () => {
+    const newBlog1 = {
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.someurlhere.com',
+      likes: 12,
+    }
+    const newBlog2 = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog1, newBlog2)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
   afterAll(() => {

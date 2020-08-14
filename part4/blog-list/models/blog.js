@@ -12,14 +12,14 @@ const blogSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   likes: {
     type: Number,
     required: false,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }
 })
 
 blogSchema.set('toJSON', {

@@ -173,6 +173,44 @@ describe('blog api', () => {
       const usersAtEnd = await helper.usersInDb()
       expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
+
+    test('creation fails with invalid username', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'jd',
+        name: 'jon Dennis',
+        password: 'frankie'
+      }
+
+      await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
+
+    test('creation fails with invalid password', async () => {
+      const usersAtStart = await helper.usersInDb()
+
+      const newUser = {
+        username: 'jdfoto',
+        name: 'jon Dennis',
+        password: 'fr'
+      }
+
+      await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+      const usersAtEnd = await helper.usersInDb()
+      expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    })
   })
 
   afterAll(() => {

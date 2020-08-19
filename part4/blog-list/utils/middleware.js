@@ -30,6 +30,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'ValidationError') {
     return response.status(400).send({ error: 'Bad Request' })
+  } else if (error.message === 'jwt must be provided') {
+    return response.status(401).send({ error: 'Unauthorized' })
   }
 
   //   if (error.name === 'CastError') {

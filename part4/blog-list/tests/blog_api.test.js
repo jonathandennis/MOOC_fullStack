@@ -38,6 +38,23 @@ describe('blog api', () => {
   })
 
   test('a valid blog can be added', async () => {
+    const usersAtStart = await helper.usersInDb()
+    console.log('usersAtStart: ', usersAtStart)
+
+    const user = {
+      username: 'root',
+      password: 'sekret'
+    }
+
+    const res = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = res.body.token
+    console.log('token: ', token)
+
     const newBlog = {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
@@ -48,6 +65,7 @@ describe('blog api', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -62,6 +80,21 @@ describe('blog api', () => {
   })
 
   test('a new blog added without likes property defaults to likes:0', async () => {
+
+    const user = {
+      username: 'root',
+      password: 'sekret'
+    }
+
+    const res = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = res.body.token
+    //console.log('token: ', token)
+
     const newBlog = {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
@@ -71,6 +104,7 @@ describe('blog api', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -81,6 +115,21 @@ describe('blog api', () => {
   })
 
   test('a blog with no title or url returns 400 Bad Request', async () => {
+
+    const user = {
+      username: 'root',
+      password: 'sekret'
+    }
+
+    const res = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = res.body.token
+    //console.log('token: ', token)
+
     const newBlog1 = {
       author: 'Edsger W. Dijkstra',
       url: 'http://www.someurlhere.com',
@@ -95,24 +144,75 @@ describe('blog api', () => {
     await api
       .post('/api/blogs')
       .send(newBlog1, newBlog2)
+      .set('Authorization', `bearer ${token}`)
       .expect(400)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 
+  test('a blog post request with no token returns 401', async () => {
+
+    const newBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+      likes: 12,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      // .set('Authorization', 'bearer')
+      .expect(401)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+
   test('a blog can be deleted', async () => {
+
+    const user = {
+      username: 'root',
+      password: 'sekret'
+    }
+
+    const res = await api
+      .post('/api/login')
+      .send(user)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const token = res.body.token
+    //console.log('token: ', token)
+
+    const newBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+      likes: 12,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .set('Authorization', `bearer ${token}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
     const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart[0]
+    const blogToDelete = blogsAtStart[2]
+    console.log('blogsAtStart in delete: ', blogsAtStart)
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
 
     expect (blogsAtEnd).toHaveLength(
-      helper.initialBlogs.length - 1
+      blogsAtStart.length - 1
     )
 
     const contents = blogsAtEnd.map(r => r.content)

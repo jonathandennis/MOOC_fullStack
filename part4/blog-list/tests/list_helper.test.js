@@ -1,5 +1,6 @@
 const listHelper = require('../utils/list_helper')
-//const mostBlogs = require('../utils/list_helper').mostBlogs
+const mostBlogs = require('../utils/list_helper').mostBlogs
+const mostLikes = require('../utils/list_helper').mostLikes
 const totalLikes = require('../utils/list_helper').totalLikes
 const favoriteBlog = require('../utils/list_helper').favoriteBlog
 
@@ -46,12 +47,17 @@ describe('favorites', () => {
     console.log('favoriteBlog: ', result)
   })
 
-  // test('the author with the most blogs', () => {
-  //   const result = mostBlogs(blogs)
-  //   expect(result).toEqual({ 'author': 'Robert C. Martin', 'blogs': 3 })
-  //   console.log('most blogs: ', result)
+  test('the author with the most blogs', () => {
+    const result = mostBlogs(blogs)
+    expect(result).toEqual({ 'author': 'Robert C. Martin', 'blogs': 3 })
+    console.log('most blogs: ', result)
+  })
 
-  // })
+  test('the author with the most likes', () => {
+    const result = mostLikes(blogs)
+    expect(result).toEqual({ 'author': 'Edsger W. Dijkstra', 'likes': 17 })
+    console.log('most likes: ', result)
+  })
 
 
 })

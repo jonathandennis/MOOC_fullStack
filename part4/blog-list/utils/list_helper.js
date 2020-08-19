@@ -22,15 +22,46 @@ const favoriteBlog = (blogs) => {
   return { title, author, likes }
 }
 
-// const mostBlogs =(blogs) => {
-//   const result = Object.entries(blogs).reduce((a, b) => {
-//     console.log('a', a)
-//     console.log('b', b)
-//     return a[1] > b[1] ? a : b
-//   })
-//   console.log('result', result)
-//   console.log('number of blogs', result[0])
-//   console.log('author of blogs', result.author)
-// }
+const mostBlogs = (blogs) => {
+  const uniqueAuthors = {}
 
-module.exports = { dummy, totalLikes, favoriteBlog }
+  for (let i = 0; i < blogs.length; i++) {
+    uniqueAuthors[blogs[i].author]
+      ? (uniqueAuthors[blogs[i].author].blogs += 1)
+      : (uniqueAuthors[blogs[i].author] = {
+        author: blogs[i].author,
+        blogs: 1,
+      })
+  }
+
+  const sortedAuthors = Object.values(uniqueAuthors)
+  return sortedAuthors.length > 0
+    ? sortedAuthors.find(
+      (obj) =>
+        obj.blogs === Math.max(...sortedAuthors.map((obj) => obj.blogs))
+    )
+    : undefined
+}
+
+const mostLikes = (blogs) => {
+  const uniqueAuthors = {}
+
+  for (let i = 0; i < blogs.length; i++) {
+    uniqueAuthors[blogs[i].author]
+      ? (uniqueAuthors[blogs[i].author].likes += blogs[i].likes)
+      : (uniqueAuthors[blogs[i].author] = {
+        author: blogs[i].author,
+        likes: blogs[i].likes,
+      })
+  }
+
+  const sortedAuthors = Object.values(uniqueAuthors)
+  return sortedAuthors.length > 0
+    ? sortedAuthors.find(
+      (obj) =>
+        obj.likes === Math.max(...sortedAuthors.map((obj) => obj.likes))
+    )
+    : undefined
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }

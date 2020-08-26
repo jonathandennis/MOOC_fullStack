@@ -48,6 +48,8 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+      setUsername('')
+      setPassword('')
     }
   }
 
@@ -94,21 +96,26 @@ const App = () => {
   //   </form>  
   // )
 
+  if (user === null) {
+    return (
+      <div>
+      <Notification message={errorMessage} />
+      {loginForm()}
+      </div>
+    )
+  }
 
   return (
     <div>
       <Notification message={errorMessage} />
 
-      {user === null ?
-        loginForm() :
-        <div>
           <h2>blogs</h2>
+          
           <p>{user.name} logged-in <button type="submit" onClick={handleLogout}>logout</button></p>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
-        </div>
-      }
+
     </div>
   )
 }

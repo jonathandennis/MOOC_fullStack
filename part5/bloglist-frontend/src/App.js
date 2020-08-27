@@ -9,10 +9,10 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -29,6 +29,13 @@ const App = () => {
     }
   }, [])
 
+  const notify = (message, type='error') => {
+    setNotification({ type,message })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   const addBlog = event => {
     event.preventDefault()
     const blogObject = {
@@ -41,6 +48,7 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
+        notify(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'ok')
       })
     setNewTitle('')
     setNewAuthor('')
@@ -59,16 +67,12 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-      console.log('window.localStorage: ', window.localStorage)
       blogService.setToken(user.token) 
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+    } catch (error) {
+      notify('Wrong username or password')
       setUsername('')
       setPassword('')
     }
@@ -78,21 +82,19 @@ const App = () => {
     window.localStorage.removeItem(
       'loggedBlogappUser', JSON.stringify(user)
     )
-    window.location.reload(false)
+    setUser(null)
+    notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
 
   const handleTitleChange = (event) => {
-    //console.log(event.target.value)
     setNewTitle(event.target.value)
   }
 
   const handleAuthorChange = (event) => {
-    //console.log(event.target.value)
     setNewAuthor(event.target.value)
   }
 
   const handleUrlChange = (event) => {
-    //console.log(event.target.value)
     setNewUrl(event.target.value)
   }
 
@@ -127,7 +129,7 @@ const App = () => {
     <form onSubmit={addBlog}>
 
         <h2>Create new blog</h2>
-        
+
       <div>
         Title: <input
                 type="text"
@@ -156,7 +158,7 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-      <Notification message={errorMessage} />
+      <Notification message={notification} />
       {loginForm()}
       </div>
     )
@@ -164,11 +166,11 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={notification} />
 
       <h2>blogs</h2>
           
-      <p>{user.name} logged-in <button type="submit" onClick={handleLogout}>logout</button></p>
+      <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
       {blogForm()}
 

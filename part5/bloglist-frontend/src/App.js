@@ -9,9 +9,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -39,13 +36,8 @@ const App = () => {
     }, 5000)
   }
 
-  const addBlog = event => {
-    event.preventDefault()
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    }
+  const addBlog = (blogObject) => {
+    console.log('blogObject: ', blogObject)
 
     blogService
       .create(blogObject)
@@ -53,9 +45,6 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         notify(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'ok')
       })
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
   }
 
   const handleLogin = async (event) => {
@@ -89,18 +78,6 @@ const App = () => {
     notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
 
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
-  }
-
   const loginForm = () => (
     //<Togglable buttonLabel='login'>
       <LoginForm
@@ -115,15 +92,7 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable buttonLabel='new blog'>
-      <BlogForm
-        addBlog={addBlog}
-        newTitle={newTitle}
-        newAuthor={newAuthor}
-        newUrl={newUrl}
-        handleTitleChange={handleTitleChange}
-        handleAuthorChange={handleAuthorChange}
-        handleUrlChange={handleUrlChange}
-      />
+      <BlogForm createBlog={addBlog} />
     </Togglable>
   )
 

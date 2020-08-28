@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login' 
 
@@ -99,60 +102,29 @@ const App = () => {
   }
 
   const loginForm = () => (
-
-    <form onSubmit={handleLogin}>
-      <div>
-        <h2>Log in to application</h2>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-      </div>
-      <button type="submit">login</button>
-    </form>      
+    //<Togglable buttonLabel='login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    //</Togglable>
   )
 
   const blogForm = () => (
-
-    <form onSubmit={addBlog}>
-
-        <h2>Create new blog</h2>
-
-      <div>
-        Title: <input
-                type="text"
-                value={newTitle}
-                onChange={handleTitleChange}
-              />
-      </div>
-      <div>
-        Author: <input
-                  type="text"
-                  value={newAuthor}
-                  onChange={handleAuthorChange}
-                />
-      </div>
-      <div>
-        Url: <input
-              type="text"
-              value={newUrl}
-              onChange={handleUrlChange}
-             />
-      </div>
-      <button type="submit">create</button>
-    </form>  
+    <Togglable buttonLabel='new blog'>
+      <BlogForm
+        addBlog={addBlog}
+        newTitle={newTitle}
+        newAuthor={newAuthor}
+        newUrl={newUrl}
+        handleTitleChange={handleTitleChange}
+        handleAuthorChange={handleAuthorChange}
+        handleUrlChange={handleUrlChange}
+      />
+    </Togglable>
   )
 
   if (user === null) {

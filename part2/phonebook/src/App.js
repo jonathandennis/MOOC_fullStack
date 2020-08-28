@@ -22,7 +22,7 @@ useEffect(() => {
 }, [])
 
 const notify = (message, type='error') => {
-  setNotification({type,message})
+  setNotification({ type, message })
   setTimeout(() => {
     setNotification(null)
   }, 5000)

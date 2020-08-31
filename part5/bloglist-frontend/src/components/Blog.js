@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
 
-const Blog = ({ blogs, setBlogs, blog, notify }) => {
+const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
 
   const [visibility, setVisibility] = useState(false)
   
@@ -16,6 +16,16 @@ const Blog = ({ blogs, setBlogs, blog, notify }) => {
 
   const hideWhenVisible = { display: visibility ? 'none': ''}
   const showWhenVisibile = { display: visibility ? '' : 'none'}
+
+  // Allow blogs to be deleted only if blog post created by user
+  const showDeleteButton = () => {
+
+    if (user.username === blog.user['username']) {
+      return (
+        <button onClick={() => deleteBlog(blog.id)}>Remove</button>
+      )
+    }
+  }
 
   const likeBlog = async () => {
   
@@ -61,6 +71,7 @@ const Blog = ({ blogs, setBlogs, blog, notify }) => {
         <br/>
         {blog.user.name}
       </div>
+      {showDeleteButton()}
     </div>
   )
 }

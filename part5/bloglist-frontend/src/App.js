@@ -49,6 +49,34 @@ const App = () => {
       })
   }
 
+  // const removePersonOf = (id) => {
+  //   const toDelete = persons.find(person => person.id === id)
+  //   const ok = window.confirm(`Delete ${toDelete.name}?`)
+  //   if (ok) {
+  //     personService
+  //       .remove(id)
+  //       .then(response => {
+  //         setPersons(persons.filter(person => person.id !== id))
+  //         notify(`${toDelete.name}'s number was sucessfully deleted!`, 'ok')
+  //       }).catch(() => {
+  //         setPersons(persons.filter(person => person.id !== id))
+  //         notify(`${toDelete.name} had already been removed`)
+  //       })
+  //   }
+  // }
+
+  const deleteBlog = (id) => {
+    const toDelete = blogs.find(blog => blog.id === id)
+
+      if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
+
+        blogService
+          .remove(id)
+          setBlogs(blogs.filter(blog => blog.id !== id))
+          notify(`${toDelete.title} by ${toDelete.author} was sucessfully deleted!`, 'ok')        
+      }
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
@@ -99,10 +127,12 @@ const App = () => {
   // Display list of blogs
   const bloglist = () => blogs.map(blog =>
     <Blog 
-      key={blog.id} 
+      key={blog.id}
+      user={user} 
       blog={blog}
       blogs={blogs}
       setBlogs={setBlogs}
+      deleteBlog={deleteBlog}
       notify={notify} 
     />
   )

@@ -96,6 +96,22 @@ const App = () => {
     </Togglable>
   )
 
+  // Display list of blogs
+  const bloglist = () => blogs.map(blog =>
+    <Blog 
+      key={blog.id} 
+      blog={blog}
+      blogs={blogs}
+      setBlogs={setBlogs}
+      notify={notify} 
+    />
+  )
+
+  // Sort blogs by number of likes
+  const sortBlogs = (blogs) => {
+    blogs.sort((a, b) => {return b.likes - a.likes})
+  }
+
   if (user === null) {
     return (
       <div>
@@ -114,16 +130,8 @@ const App = () => {
       <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
       {blogForm()}
-
-      {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          notify={notify} 
-        />
-      )}
+      {sortBlogs(blogs)}
+      {bloglist()}
 
     </div>
   )

@@ -70,8 +70,9 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
         <button onClick={likeBlog}>like</button>
         <br/>
         {blog.user.name}
+        <br/>
+        {showDeleteButton()}
       </div>
-      {showDeleteButton()}
     </div>
   )
 }

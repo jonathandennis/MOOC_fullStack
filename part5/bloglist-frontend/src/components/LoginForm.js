@@ -2,39 +2,39 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
-    handleSubmit,
-    username,
-    password,
-    handleUsernameChange,
-    handlePasswordChange
+  handleSubmit,
+  username,
+  password,
+  handleUsernameChange,
+  handlePasswordChange
 }) => {
-    return (
+  return (
+    <div>
+
+      <form onSubmit={handleSubmit}>
         <div>
-            
-            <form onSubmit={handleSubmit}>
-                <div>
-                  <h2>Log in to application</h2>
-                    username
-                      <input
-                      type="text"
-                      value={username}
-                      name="Username"
-                      onChange={handleUsernameChange}
-                    />
-                  </div>
-                  <div>
-                    password
-                      <input
-                      type="password"
-                      value={password}
-                      name="Password"
-                      onChange={handlePasswordChange}
-                    />
-                </div>
-                <button type="submit">login</button>
-            </form>      
+          <h2>Log in to application</h2>
+          username
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={handleUsernameChange}
+          />
         </div>
-    )
+        <div>
+          password
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={handlePasswordChange}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </div>
+  )
 }
 
 LoginForm.propTypes = {

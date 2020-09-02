@@ -12,11 +12,11 @@ const Notification = ({ message }) => {
     borderRadius: 5,
     padding: 5,
     marginBottom: 10
-   }
+  }
 
   return (
     <div
-         style={notificationStyle}>
+      style={notificationStyle}>
       {message.message}
     </div>
   )

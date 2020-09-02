@@ -5,11 +5,11 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
-import loginService from './services/login' 
+import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -49,32 +49,16 @@ const App = () => {
       })
   }
 
-  // const removePersonOf = (id) => {
-  //   const toDelete = persons.find(person => person.id === id)
-  //   const ok = window.confirm(`Delete ${toDelete.name}?`)
-  //   if (ok) {
-  //     personService
-  //       .remove(id)
-  //       .then(response => {
-  //         setPersons(persons.filter(person => person.id !== id))
-  //         notify(`${toDelete.name}'s number was sucessfully deleted!`, 'ok')
-  //       }).catch(() => {
-  //         setPersons(persons.filter(person => person.id !== id))
-  //         notify(`${toDelete.name} had already been removed`)
-  //       })
-  //   }
-  // }
-
   const deleteBlog = (id) => {
     const toDelete = blogs.find(blog => blog.id === id)
 
-      if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
+    if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
 
-        blogService
-          .remove(id)
-          setBlogs(blogs.filter(blog => blog.id !== id))
-          notify(`${toDelete.title} by ${toDelete.author} was sucessfully deleted!`, 'ok')        
-      }
+      blogService
+        .remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      notify(`${toDelete.title} by ${toDelete.author} was sucessfully deleted!`, 'ok')
+    }
   }
 
   const handleLogin = async (event) => {
@@ -89,7 +73,7 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-      blogService.setToken(user.token) 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -109,13 +93,13 @@ const App = () => {
   }
 
   const loginForm = () => (
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
   )
 
   const blogForm = () => (
@@ -126,14 +110,14 @@ const App = () => {
 
   // Display list of blogs
   const bloglist = () => blogs.map(blog =>
-    <Blog 
+    <Blog
       key={blog.id}
-      user={user} 
+      user={user}
       blog={blog}
       blogs={blogs}
       setBlogs={setBlogs}
       deleteBlog={deleteBlog}
-      notify={notify} 
+      notify={notify}
     />
   )
 
@@ -145,8 +129,8 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-      <Notification message={notification} />
-      {loginForm()}
+        <Notification message={notification} />
+        {loginForm()}
       </div>
     )
   }
@@ -156,7 +140,7 @@ const App = () => {
       <Notification message={notification} />
 
       <h2>blogs</h2>
-          
+
       <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
       {blogForm()}

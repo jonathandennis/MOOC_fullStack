@@ -13,7 +13,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -24,7 +24,7 @@ const App = () => {
       .getAll()
       .then(initialNotes => {
         setNotes(initialNotes)
-    })
+      })
   }, [])
   //console.log('render', notes.length, 'notes')
 
@@ -64,7 +64,6 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
-        //setNotes(notes.filter(n => n.id !== id))
       })
   }
 
@@ -109,7 +108,7 @@ const App = () => {
       <NoteForm createNote={addNote} />
     </Togglable>
   )
-  
+
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
@@ -119,7 +118,7 @@ const App = () => {
       <h1>Notes</h1>
       <Notification message={errorMessage} />
 
-      {user === null ? 
+      {user === null ?
         loginForm() :
         <div>
           <p>{user.name} logged in</p>
@@ -133,9 +132,9 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notesToShow.map((note, i) => 
-          <Note 
-            key={i} 
+        {notesToShow.map((note, i) =>
+          <Note
+            key={i}
             note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />

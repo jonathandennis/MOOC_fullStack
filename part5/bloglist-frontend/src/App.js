@@ -92,6 +92,40 @@ const App = () => {
     notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
 
+  // const handleLikes = (id) => {
+  //   const likeBlog = blogs.find(blog => blog.id === id)
+  //   console.log('blog: ', likeBlog)
+  //   const updateLike = { ...likeBlog, likes: likeBlog.likes + 1 }
+  //   blogService
+  //     .update(id, updateLike)
+  //     .then(response =>
+  //       setBlogs(blogs.map(blog => blog.id !== id ? blog : response))
+  //     )
+  // }
+
+  // const handleLikes = async ( blog ) => {
+
+  //   const likedBlog = {
+  //     title: blog.title,
+  //     likes: blog.likes + 1,
+  //     author: blog.author,
+  //     url: blog.url,
+  //     id: blog.id,
+  //     user: blog.user.id
+  //   }
+  //   console.log('liked blog: ', likedBlog)
+
+  //   try {
+  //     await blogService.update(blog.id, likedBlog)
+  //     console.log('blog.id: ', blog.id)
+  //     setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
+  //     console.log('likedBlog in try: ', likedBlog)
+  //     notify(`Like added to: ${blog.title}`, 'ok')
+  //   } catch (exception){
+  //     notify('Error! No like added')
+  //   }
+  // }
+
   const loginForm = () => (
     <LoginForm
       username={username}
@@ -117,6 +151,7 @@ const App = () => {
       blogs={blogs}
       setBlogs={setBlogs}
       deleteBlog={deleteBlog}
+      //likeBlog={handleLikes}
       notify={notify}
     />
   )

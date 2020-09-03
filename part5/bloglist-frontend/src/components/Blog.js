@@ -26,6 +26,16 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
     }
   }
 
+  // const handleLikes = (id) => {
+  //   const likeBlog = blogs.find(blog => blog.id === id)
+  //   console.log('blog: ', likeBlog)
+  //   const updateLike = { ...likeBlog, likes: likeBlog.likes + 1 }
+  //   blogService
+  //     .update(id, updateLike)
+  //     .then(response =>
+  //       setBlogs(blogs.map(blog => blog.id !== id ? blog : response))
+  //     )
+  // }
   const likeBlog = async () => {
 
     const likedBlog = {
@@ -34,23 +44,27 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
       author: blog.author,
       url: blog.url,
       id: blog.id,
-      user: blog.user.id
+      user: blog.user
     }
     console.log('liked blog: ', likedBlog)
+    console.log('blog.user: ', blog.user)
 
     try {
-      await blogService.update(blog.id, likedBlog)
+      await blogService
+        .update(blog.id, likedBlog)
+      console.log('blog.id: ', blog.id)
       setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
+      console.log('likedBlog in try: ', likedBlog)
       notify(`Like added to: ${blog.title}`, 'ok')
     } catch (exception){
-      notify('Error! No like added')
+      notify('Error!')
     }
   }
 
   const toggle = () => {
     setVisibility(!visibility)
   }
-
+  
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} className='blog'>
@@ -58,7 +72,7 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
         {blog.author}
         <button onClick={toggle}>view</button>
       </div>
-      <div style={showWhenVisibile}>
+      <div style={showWhenVisibile} className='blogView'>
         {blog.title}
         {blog.author}
         <button onClick={toggle}>hide</button>

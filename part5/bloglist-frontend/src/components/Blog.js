@@ -26,16 +26,6 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
     }
   }
 
-  // const handleLikes = (id) => {
-  //   const likeBlog = blogs.find(blog => blog.id === id)
-  //   console.log('blog: ', likeBlog)
-  //   const updateLike = { ...likeBlog, likes: likeBlog.likes + 1 }
-  //   blogService
-  //     .update(id, updateLike)
-  //     .then(response =>
-  //       setBlogs(blogs.map(blog => blog.id !== id ? blog : response))
-  //     )
-  // }
   const likeBlog = async () => {
 
     const likedBlog = {
@@ -46,8 +36,8 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
       id: blog.id,
       user: blog.user
     }
-    console.log('liked blog: ', likedBlog)
-    console.log('blog.user: ', blog.user)
+    //console.log('liked blog: ', likedBlog)
+    //console.log('blog.user: ', blog.user)
 
     try {
       await blogService
@@ -64,7 +54,7 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
   const toggle = () => {
     setVisibility(!visibility)
   }
-  
+
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} className='blog'>

@@ -2,7 +2,10 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
+import BlogForm from './BlogForm'
 import blogService from '../services/blogs'
+
+jest.mock('../services/blogs')
 
 test('renders blog title and author', () => {
   const blog = {
@@ -63,7 +66,8 @@ test('renders entire blog when click view', () => {
   )
 })
 
-test('when like button is clicked twice event handler is called twice', ( setBlogs, blogs ) => {
+test('when like button is clicked twice event handler is called twice', () => {
+
   const blog = {
     title: 'Component testing is done with react-testing-library',
     author: 'Matti Luikkannen',
@@ -90,22 +94,53 @@ test('when like button is clicked twice event handler is called twice', ( setBlo
     username: 'jdfoto'
   }
 
-  const mockHandler = jest.fn()
-  blogService
-    .update(blog.id, likedBlog)
-  setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
+  const mockSetBlogs = jest.fn()
+  blogService.update.mockReturnValueOnce('first call')
+  blogService.update.mockReturnValueOnce('second call')
 
   const component = render(
-    <Blog blog={blog} user={user} likeBlog={mockHandler} setBlogs={setBlogs} blogs={blogs} />
+    <Blog blog={blog} user={user} likeblog={mockSetBlogs} />
   )
 
   const button = component.getByText('like')
+
+  fireEvent.click(button)
   fireEvent.click(button)
 
-  //expect(mockHandler.mock.calls).toHaveLength(1)
-  const div = component.container.querySelector('.blogView')
-  expect(div).toHaveTextContent(
-    '4'
-  )
+  //component.debug()
 
+  expect(blogService.update).toHaveBeenCalledWith(blog.id, likedBlog)
+
+})
+
+test('BlogForm, form calls proper handler with right details when new blog called', () => {
+
+  const mockCreateBlog = jest.fn()
+
+  const component = render(
+    <BlogForm createBlog={mockCreateBlog} />
+  )
+  const newTitle = component.container.querySelector('#title')
+  const newAuthor = component.container.querySelector('#author')
+  const newUrl = component.container.querySelector('#url')
+
+  const form = component.container.querySelector('form')
+
+  fireEvent.change(newTitle, {
+    target: { value: 'testtitle' }
+  })
+  fireEvent.change(newAuthor, {
+    target: { value: 'testauthor' }
+  })
+  fireEvent.change(newUrl, {
+    target: { value:'www.testurl.com' }
+  })
+
+  fireEvent.submit(form)
+
+  component.debug()
+  //console.log('mockCreateBlog.mock.calls[0][0]: ', mockCreateBlog.mock.calls[0][0])
+
+  expect(mockCreateBlog.mock.calls).toHaveLength(1)
+  expect(mockCreateBlog.mock.calls[0][0].author).toBe('testauthor')
 })

@@ -36,18 +36,14 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
       id: blog.id,
       user: blog.user
     }
-    //console.log('liked blog: ', likedBlog)
-    //console.log('blog.user: ', blog.user)
 
     try {
       await blogService
         .update(blog.id, likedBlog)
-      console.log('blog.id: ', blog.id)
       setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
-      console.log('likedBlog in try: ', likedBlog)
       notify(`Like added to: ${blog.title}`, 'ok')
     } catch (exception){
-      notify('Error!')
+      //notify('Error!')
     }
   }
 

@@ -138,7 +138,7 @@ test('BlogForm, form calls proper handler with right details when new blog calle
 
   fireEvent.submit(form)
 
-  component.debug()
+  //component.debug()
   //console.log('mockCreateBlog.mock.calls[0][0]: ', mockCreateBlog.mock.calls[0][0])
 
   expect(mockCreateBlog.mock.calls).toHaveLength(1)

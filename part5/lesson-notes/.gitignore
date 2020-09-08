@@ -7,11 +7,11 @@
 
 # testing
 /coverage
+cypress/videos/
 
 # production
 /build
-# is this frontend folder??
-# we need to see only the backend .gitignore file only
+
 # misc
 .DS_Store
 .env.local
@@ -22,6 +22,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# // Confusing as this was not here before.. Am i foolish thinking that was the fix??
-# // yes

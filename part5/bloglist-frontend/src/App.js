@@ -4,6 +4,7 @@ import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -166,6 +167,7 @@ const App = () => {
       <div>
         <Notification message={notification} />
         {loginForm()}
+        <Footer />
       </div>
     )
   }
@@ -181,7 +183,7 @@ const App = () => {
       {blogForm()}
       {sortBlogs(blogs)}
       {bloglist()}
-
+      <Footer />
     </div>
   )
 }

@@ -45,4 +45,31 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'Jon Dennis logged in')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'jdfoto', password: 'jdfoto' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('new blog')
+        .click()
+      cy.get('#title')
+        .type('a blog created by cypress')
+      cy.get('#author')
+        .type('James Joyce')
+      cy.get('#url')
+        .type('http://www.website.com')
+
+      cy.contains('create')
+        .click()
+
+      cy.get('.notification')
+        .should('contain', 'a new blog a blog created by cypress by James Joyce added')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+        .and('have.css', 'border-style', 'solid')
+
+      cy.contains('a blog created by cypress')
+    })
+  })
 })

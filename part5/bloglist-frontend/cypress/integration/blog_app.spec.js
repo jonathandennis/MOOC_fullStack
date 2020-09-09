@@ -71,5 +71,27 @@ describe('Blog app', function() {
 
       cy.contains('a blog created by cypress')
     })
+    describe.only('and a blog exists', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'initial cypress beforeEach blog',
+          author: 'Joe Blow',
+          url: 'http://www.initialurl.com'
+        })
+      })
+
+      it('User can like a blog', function() {
+        cy.contains('view')
+          .click()
+        cy.contains('like')
+          .click()
+
+        cy.get('.notification')
+          .should('contain', 'Like added to: initial cypress beforeEach blog')
+          .and('have.css', 'color', 'rgb(0, 128, 0)')
+          .and('have.css', 'border-style', 'solid')
+      })
+
+    })
   })
 })

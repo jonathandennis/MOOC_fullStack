@@ -54,9 +54,11 @@ const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} className='blog'>
-        {blog.title}
-        {blog.author}
-        <button onClick={toggle}>view</button>
+        <li>
+          {blog.title}
+          {blog.author}
+          <button onClick={toggle}>view</button>
+        </li>
       </div>
       <div style={showWhenVisibile} className='blogView'>
         {blog.title}

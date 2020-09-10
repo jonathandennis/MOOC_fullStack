@@ -71,11 +71,12 @@ describe('Blog app', function() {
 
       cy.contains('a blog created by cypress')
     })
-    describe.only('and a blog exists', function () {
+    describe('and a blog exists', function () {
       beforeEach(function () {
         cy.createBlog({
           title: 'initial cypress beforeEach blog',
           author: 'Joe Blow',
+          likes: 0,
           url: 'http://www.initialurl.com'
         })
       })
@@ -92,6 +93,62 @@ describe('Blog app', function() {
           .and('have.css', 'border-style', 'solid')
       })
 
+      it('User can delete a blog', function() {
+        cy.contains('view')
+          .click()
+        cy.contains('Remove')
+          .click()
+
+        cy.get('.notification')
+          .should('contain', 'initial cypress beforeEach blog by Joe Blow was successfully deleted!')
+          .and('have.css', 'color', 'rgb(0, 128, 0)')
+          .and('have.css', 'border-style', 'solid')
+      })
+      describe.only('multiple blogs and another user exists', function () {
+        beforeEach(function () {
+          const anotherUser = {
+            name: 'Lara Junod',
+            username: 'lmjunod',
+            password: 'lmjunod'
+          }
+          cy.request('POST', 'http://localhost:3001/api/users/', anotherUser)
+
+          cy.createBlog({
+            title: 'Another blog',
+            author: 'Mick Jagger',
+            likes: 3,
+            url: 'http://www.anotherurl.com'
+          })
+          cy.createBlog({
+            title: 'And another blog',
+            author: 'Frank Zappa',
+            likes: 1,
+            url: 'http://www.andanotherurl.com'
+          })
+        })
+
+        it('another user cannot delete blogs', function () {
+          cy.contains('logout')
+            .click()
+          cy.contains('login')
+            .click()
+          cy.get('#username')
+            .type('lmjunod')
+          cy.get('#password')
+            .type('lmjunod')
+          cy.get('#login-button')
+            .click()
+          cy.contains('view')
+            .click()
+            .get('html').should('not.contain', 'Remove')
+        })
+
+        it('blogs are ordered according to likes', function () {
+          cy.get('li').eq(0).should('contain', 'Mick Jagger')
+          cy.get('li').eq(1).should('contain', 'Frank Zappa')
+          cy.get('li').eq(2).should('contain', 'Joe Blow')
+        })
+      })
     })
   })
 })

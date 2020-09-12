@@ -16,7 +16,7 @@ const asObject = (anecdote) => {
     votes: 0
   }
 }
-
+//Action Creator
 export const createAnecdote = (content) => {
   return {
     type: 'NEW_ANECDOTE',
@@ -25,6 +25,15 @@ export const createAnecdote = (content) => {
       id: getId(),
       votes: 0
     }
+  }
+}
+
+//Action Creator
+export const vote = (id) => {
+  console.log('vote', id)
+  return {
+    type: 'VOTE',
+    data: { id }
   }
 }
 

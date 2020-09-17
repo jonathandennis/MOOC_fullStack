@@ -9,6 +9,7 @@ const Filter = () => {
     const handleChange = (event) => {
       event.preventDefault()
       dispatch(setSearchTerm(event.target.value))
+      
     }
     const style = {
       marginBottom: 10

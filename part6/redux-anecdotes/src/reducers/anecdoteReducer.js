@@ -57,11 +57,11 @@ const anecdoteReducer = (state = initialState, action) => {
       return state.map(anecdote =>
         anecdote.id !== id ? anecdote : changedAnecdote)
     }
-    // case 'SET_FILTER': {
-    //   console.log('action.data in SET_FILTER: ', action.data)
-    //   const anecdotesToShow = state.filter(a => a.content.toLowerCase().includes(action.data.value.toLowerCase()))
-    //     return anecdotesToShow
-    // }
+    case 'SET_FILTER': {
+      console.log('action.data in SET_FILTER: ', action.data)
+      const anecdotesToShow = state.filter(a => a.content.toLowerCase().includes(action.data.value.toLowerCase()))
+        return anecdotesToShow
+    }
     
     default:
       return state

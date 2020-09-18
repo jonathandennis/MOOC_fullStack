@@ -25,12 +25,18 @@ const Anecdote = ({ anecdote, handleClick }) => {
 const AnecdoteList = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(state => state.anecdotes)
+  const searchTerm = useSelector(state => state.filter)
   console.log('anecdotes: ', anecdotes)
+  console.log('searchTerm in AnecdoteList: ', searchTerm)
+
+  const anecdotesToShow = searchTerm.length === 0 ?
+    anecdotes : 
+    anecdotes.filter(a => a.content.toLowerCase().includes(searchTerm.value.toLowerCase()))
 
   return(
       <div>
-        {sortAnecdotes(anecdotes)}
-        {anecdotes.map(anecdote =>
+        {sortAnecdotes(anecdotesToShow)}
+        {anecdotesToShow.map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}

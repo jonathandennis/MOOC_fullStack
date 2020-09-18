@@ -10,8 +10,6 @@ const Filter = ( anecdotes ) => {
     const handleChange = (event) => {
       event.preventDefault()
       dispatch(setSearchTerm(event.target.value))
-    //   const anecdotesToShow = anecdotes.content.filter(a => a.content.toLowerCase().includes(searchTerm.toLowerCase()))
-    //      return anecdotesToShow
     }
 
 

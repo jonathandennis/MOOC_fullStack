@@ -15,6 +15,7 @@ const anecdoteReducer = (state = [], action) => {
         ...anecdoteToChange, 
         votes: anecdoteToChange.votes + 1 
       }
+      anecdoteService.update(id, changedAnecdote)
       console.log('anecdoteToChange: ', anecdoteToChange)
       console.log('changedAnecdote: ', changedAnecdote)
       return state.map(anecdote =>

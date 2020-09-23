@@ -1,15 +1,14 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { setSearchTerm } from '../reducers/filterReducer'
 
-const Filter = ( anecdotes ) => {
-    const searchTerm = useSelector(state => state.filter)
-    const dispatch = useDispatch()
-    console.log('setSearchTerm: ', searchTerm)
-    console.log('anecdotes in filter: ', anecdotes)
+const Filter = (props) => {
+    
+    console.log('setSearchTerm: ', props.searchTerm)
+    //console.log('anecdotes in filter: ', props.anecdotes)
     const handleChange = (event) => {
       event.preventDefault()
-      dispatch(setSearchTerm(event.target.value))
+      props.setSearchTerm(event.target.value)
     }
 
 
@@ -23,5 +22,18 @@ const Filter = ( anecdotes ) => {
       </div>
     )
   }
+
+  const mapStateToProps = (state) => {
+    return {
+      searchTerm: state.filter
+    }
+  }
+
+  const mapDispatchToProps = {
+    setSearchTerm,
+  }
   
-  export default Filter
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Filter)

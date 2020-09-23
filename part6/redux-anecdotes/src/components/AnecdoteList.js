@@ -25,12 +25,7 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const AnecdoteList = (props) => {
   console.log('props.anecdotes in AnecdoteList: ', props.anecdotes)
-  //const dispatch = useDispatch()
-  //const anecdotes = useSelector(state => state.anecdotes)
-  //const searchTerm = useSelector(state => state.filter)
-  //console.log('anecdotes: ', anecdotes)
-  //console.log('searchTerm in AnecdoteList: ', searchTerm)
-
+  
   const anecdotesToShow = () => {
     if ( props.searchTerm.length === 0 ) {
       return props.anecdotes
@@ -46,10 +41,10 @@ const AnecdoteList = (props) => {
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
-          //handleClick={() => {
-            //dispatch(vote(anecdote))
-            //dispatch(setNotification(`You voted for: '${anecdote.content}'`, 5))}
-          //}
+          handleClick={() => {
+            props.vote(anecdote)
+            props.setNotification(`You voted for: '${anecdote.content}'`, 5)}
+          }
         />
       )} 
       </div>
@@ -65,5 +60,12 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedAnecdoteList = connect(mapStateToProps)(AnecdoteList)
-export default ConnectedAnecdoteList
+const mapDispatchToProps = {
+  vote,
+  setNotification
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)

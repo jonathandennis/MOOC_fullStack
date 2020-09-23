@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { toggleImportanceOf } from '../reducers/noteReducer'
 
 const Note = ({ note, handleClick }) => {
@@ -11,27 +11,16 @@ const Note = ({ note, handleClick }) => {
   )
 }
 
-const Notes = () => {
-    /* using hooks to dispatch actions. The useDispatch-hook provides any React component access to the dispatch-function of the redux-store defined in index.js. This allows all components to make changes to the state of the redux-store. */
-  const dispatch = useDispatch()
-  /* The component can access the notes stored in the store with the useSelector-hook of the react-redux library. useSelector receives a function as a parameter. The function either searches for or selects data from the redux-store. Here we need all of the notes, so our selector function returns the whole state: */
-  const notes = useSelector(({ filter, notes }) => {
-    if ( filter === 'ALL' ) {
-      return notes
-    }
-    return filter === 'IMPORTANT'
-    ? notes.filter(note => note.important)
-    : notes.filter(note => !note.important)
-  })
-
+const Notes = (props) => {
+  
   return(
     <ul>
-      {notes.map(note =>
+      {props.notes.map(note =>
         <Note
           key={note.id}
           note={note}
           handleClick={() => 
-            dispatch(toggleImportanceOf(note.id))
+            props.toggleImportanceOf(note.id)
           }
         />
       )}
@@ -39,4 +28,25 @@ const Notes = () => {
   )
 }
 
-export default Notes
+const mapStateToProps = (state) => {
+  if ( state.filter === 'ALL' ) {
+    return {
+      notes: state.notes
+    }
+  }
+  return {
+    notes: (state.filter  === 'IMPORTANT' 
+      ? state.notes.filter(note => note.important)
+      : state.notes.filter(note => !note.important)
+    )
+  }
+}
+
+const mapDispatchToProps = {
+  toggleImportanceOf
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Notes)

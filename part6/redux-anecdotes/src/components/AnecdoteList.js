@@ -1,10 +1,11 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 // Sort anecdotes by number of likes
 const sortAnecdotes = (anecdotes) => {
+  console.log('anecdotes in sortAnecdotes: ', anecdotes)
   anecdotes.sort((a, b) => {return b.votes - a.votes})
 }
 
@@ -22,32 +23,47 @@ const Anecdote = ({ anecdote, handleClick }) => {
   )
 }
 
-const AnecdoteList = () => {
-  const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state.anecdotes)
-  const searchTerm = useSelector(state => state.filter)
-  console.log('anecdotes: ', anecdotes)
-  console.log('searchTerm in AnecdoteList: ', searchTerm)
+const AnecdoteList = (props) => {
+  console.log('props.anecdotes in AnecdoteList: ', props.anecdotes)
+  //const dispatch = useDispatch()
+  //const anecdotes = useSelector(state => state.anecdotes)
+  //const searchTerm = useSelector(state => state.filter)
+  //console.log('anecdotes: ', anecdotes)
+  //console.log('searchTerm in AnecdoteList: ', searchTerm)
 
-  const anecdotesToShow = searchTerm.length === 0 ?
-    anecdotes : 
-    anecdotes.filter(a => a.content.toLowerCase().includes(searchTerm.value.toLowerCase()))
+  const anecdotesToShow = () => {
+    if ( props.searchTerm.length === 0 ) {
+      return props.anecdotes
+    }
+     
+    return props.anecdotes.filter(a => a.content.toLowerCase().includes(props.searchTerm.value.toLowerCase()))
+  }
 
   return(
       <div>
-        {sortAnecdotes(anecdotesToShow)}
-        {anecdotesToShow.map(anecdote =>
+        {sortAnecdotes(anecdotesToShow())}
+        {anecdotesToShow().map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
-          handleClick={() => {
-            dispatch(vote(anecdote))
-            dispatch(setNotification(`You voted for: '${anecdote.content}'`, 5))}
-          }
+          //handleClick={() => {
+            //dispatch(vote(anecdote))
+            //dispatch(setNotification(`You voted for: '${anecdote.content}'`, 5))}
+          //}
         />
       )} 
       </div>
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  // sometimes it is useful to console log from mapStateToProps
+  console.log('state in mapStateToProps: ', state)
+  return {
+    anecdotes: state.anecdotes,
+    searchTerm: state.filter
+  }
+}
+
+const ConnectedAnecdoteList = connect(mapStateToProps)(AnecdoteList)
+export default ConnectedAnecdoteList

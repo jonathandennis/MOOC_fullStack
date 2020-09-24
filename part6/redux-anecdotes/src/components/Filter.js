@@ -11,7 +11,6 @@ const Filter = (props) => {
       props.setSearchTerm(event.target.value)
     }
 
-
     const style = {
       marginBottom: 10
     }

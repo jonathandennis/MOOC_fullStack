@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const notificationReducer = (state = null, action) => {
     switch (action.type) {
       case 'NOTIFY':
@@ -17,15 +19,24 @@ const notificationReducer = (state = null, action) => {
   }
 
   export const setNotification = (message, seconds) => {
-    return(dispatch) => {
+    const [timeID, setTimeID] = useState(null)
+
+    let timeoutID
+    // let ss = setTimeout( clearNotification, 5)
+    console.log("timeoutID: ", timeoutID)
+    console.log("timeID: ", timeID)
+  
+    return (dispatch) => {   
+      clearTimeout(timeID)
       dispatch({
-        type: 'NOTIFY',
-        data: {message},
+      type: 'NOTIFY',
+      data: {message},
       })
-      setTimeout(() => {
-        dispatch(clearNotification())
+      timeoutID = setTimeout(() => {
+      dispatch(clearNotification())
       }, seconds * 1000)
+      setTimeID(timeoutID)
     }
-  }
+ }
 
   export default notificationReducer

@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 
 import {
   BrowserRouter as
+  Router,
   Switch,
   Route,
   Link,
-  useRouteMatch
+  useParams
 } from "react-router-dom"
 
 const Menu = () => {
@@ -21,8 +22,10 @@ const Menu = () => {
   )
 }
 
-const Anecdote = ({ anecdote }) => {
-  console.log('anecdote: ', anecdote)
+const Anecdote = ({ anecdotes }) => {
+  console.log('anecdote: ', anecdotes)
+  const id = useParams().id
+  const anecdote = anecdotes.find(a => a.id === Number(id))
   return (
     <div>
       <h2>{anecdote.content} by {anecdote.author}</h2>
@@ -32,7 +35,7 @@ const Anecdote = ({ anecdote }) => {
   )
 }
 
-const AnecdoteList = ({anecdotes}) => (
+const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
@@ -114,14 +117,14 @@ const App = () => {
       author: 'Jez Humble',
       info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: '1'
+      id: 1
     },
     {
       content: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: '2'
+      id: 2
     }
   ])
 
@@ -146,14 +149,9 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  const match = useRouteMatch('/anecdotes/:id')
-  console.log('match: ', match)
-  const anecdote = match
-    ? anecdotes.find(a => a.id === Number(match.params.id))
-    : null
-
   return (
     <div>
+      <Router>
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
@@ -161,7 +159,7 @@ const App = () => {
 
       <Switch>
         <Route path="/anecdotes/:id">
-          <Anecdote anecdote={anecdote} />
+          <Anecdote anecdotes={anecdotes} />
         </Route>
         <Route path="/about">
           <About />
@@ -177,6 +175,7 @@ const App = () => {
       <div>
         <Footer />
       </div>
+      </Router>
     </div>
   )
 }

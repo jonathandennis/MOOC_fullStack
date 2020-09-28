@@ -26,6 +26,9 @@ const Anecdote = ({ anecdotes }) => {
   console.log('anecdote: ', anecdotes)
   const id = useParams().id
   const anecdote = anecdotes.find(a => a.id === Number(id))
+
+  if (!anecdote) return <div>anecdote loading...</div>
+
   return (
     <div>
       <h2>{anecdote.content} by {anecdote.author}</h2>

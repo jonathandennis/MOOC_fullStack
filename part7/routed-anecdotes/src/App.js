@@ -6,7 +6,8 @@ import {
   Switch,
   Route,
   Link,
-  useParams
+  useParams,
+  useHistory
 } from "react-router-dom"
 
 const Menu = () => {
@@ -25,7 +26,7 @@ const Menu = () => {
 const Anecdote = ({ anecdotes }) => {
   console.log('anecdote: ', anecdotes)
   const id = useParams().id
-  const anecdote = anecdotes.find(a => a.id === Number(id))
+  const anecdote = anecdotes.find(a => a.id === String(id))
 
   if (!anecdote) return <div>anecdote loading...</div>
 
@@ -79,6 +80,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -88,6 +90,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/')
   }
 
   return (
@@ -110,7 +113,6 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -120,22 +122,44 @@ const App = () => {
       author: 'Jez Humble',
       info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: 1
+      id: '1'
     },
     {
       content: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: 2
+      id: '2'
     }
   ])
+  const [notification, setNotification] = useState(null)
 
-  const [notification, setNotification] = useState('')
+  const Notification = () => {
+    console.log('notification: ', notification)
+  
+    if (notification === null) {
+      return null
+    }
+  
+    const style = {
+      border: 'solid',
+      padding: 5,
+      borderWidth: 1
+    }
+    return (
+      <div style={style}>
+        {notification}
+      </div>
+    )
+  }
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote: ${anecdote.content}! created`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -158,6 +182,7 @@ const App = () => {
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        <Notification />
       </div>
 
       <Switch>

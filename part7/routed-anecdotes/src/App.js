@@ -101,12 +101,10 @@ const CreateNew = (props) => {
   const handleReset = (e) => {
     e.preventDefault()
     console.log('reset')
-    console.log('document: ', document.getElementById('form'))
-    document.getElementById('form')
     return (
-      otherContent.reset(),
-      otherAuthor.reset(),
-      otherInfo.reset()
+      reset1(),
+      reset2(),
+      reset3()
     )
   } 
 

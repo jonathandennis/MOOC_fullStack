@@ -19,7 +19,6 @@ const useField = (type) => {
 
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
-  console.log('name in useCountry: ', name)
 
   useEffect(() => {
     if (name) {
@@ -28,48 +27,41 @@ const useCountry = (name) => {
       .get(`http://restcountries.eu/rest/v2/name/${name}?fullText=true`)
       .then(response => {
         console.log('promise fulfilled')
-        setCountry(response.data[0])
-        console.log('response.data[0]: ', response.data[0])
-        console.log('render', response.data.length, 'country')
+        setCountry({ country: response.data[0], found: true })
       })
       .catch(error => {
         if (error.response.status === 404)
-        setCountry('none')
+        setCountry({found: false})
       })
   }}, [name])
-  console.log('country in useEffect: ', country)
   
   return country
 }
 
 const Country = ({ country }) => {
-  console.log('country in Country: ', country)
-  console.log('!country', !country)
+
   if (!country) {
     return null
-  } else if (country === 'none') {
-    console.log('!country.found: ', !country.found)
+  } else if (!country.found) {
     return (
       <div>
         not found...
       </div>
+    )} 
+    return (
+      <div>
+        <h3>{country.country.name} </h3>
+        <div>capital {country.country.capital} </div>
+        <div>population {country.country.population}</div> 
+        <img src={country.country.flag} height='100' alt={`flag of ${country.country.name}`}/>  
+      </div>
     )
-  } return (
-    <div>
-      <h3>{country.name} </h3>
-      <div>capital {country.capital} </div>
-      <div>population {country.population}</div> 
-      <img src={country.flag} height='100' alt={`flag of ${country.name}`}/>  
-    </div>
-  )
 }
 
 const App = () => {
   const nameInput = useField('text')
   const [name, setName] = useState('')
   const country = useCountry(name)
-
-  console.log('nameInput: ', nameInput)
 
   const fetch = (e) => {
     e.preventDefault()

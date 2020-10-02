@@ -20,14 +20,29 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  useEffect(() => {
+    axios
+    .get(baseUrl)
+    .then(response => {
+      setResources(response.data)
+    })
+  }, [baseUrl])
 
   const create = (resource) => {
-    // ...
+   axios.post(baseUrl, resource)
+  }
+
+  const display = () => {
+    axios
+      .get(baseUrl)
+      .then(response => {
+        setResources(response.data)
+      })
   }
 
   const service = {
-    create
+    create,
+    display
   }
 
   return [
@@ -46,11 +61,13 @@ const App = () => {
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
+    noteService.display()
   }
  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
     personService.create({ name: name.value, number: number.value})
+    personService.display()
   }
 
   return (

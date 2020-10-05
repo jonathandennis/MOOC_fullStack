@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
 import {
-  BrowserRouter as Router,
+  BrowserRouter as 
   Switch,
   Route,
   Link,
   Redirect,
-  useHistory,
   useRouteMatch,
+  useHistory,
 } from "react-router-dom"
 
 const Home = () => (

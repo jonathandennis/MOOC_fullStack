@@ -1,7 +1,5 @@
-  
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -10,10 +8,15 @@ const useField = (type) => {
     setValue(event.target.value)
   }
 
+  const reset = (event) => {
+    setValue('')
+}
+
   return {
     type,
     value,
-    onChange
+    onChange,
+    reset
   }
 }
 
@@ -32,7 +35,7 @@ const useResource = (baseUrl) => {
    axios.post(baseUrl, resource)
   }
 
-  const display = () => {
+  const getAll = () => {
     axios
       .get(baseUrl)
       .then(response => {
@@ -42,47 +45,51 @@ const useResource = (baseUrl) => {
 
   const service = {
     create,
-    display
+    getAll
   }
-
+  console.log('service:', service)
+  console.log('resources:', resources)
   return [
     resources, service
   ]
 }
 
 const App = () => {
-  const content = useField('text')
-  const name = useField('text')
-  const number = useField('text')
+  const { reset: reset1, ...otherContent } = useField('text')
+  const { reset: reset2, ...otherName } = useField('text')
+  const { reset: reset3, ...otherNumber } = useField('text')
 
   const [notes, noteService] = useResource('http://localhost:3005/notes')
   const [persons, personService] = useResource('http://localhost:3005/persons')
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
-    noteService.create({ content: content.value })
-    noteService.display()
+    noteService.create({ content: otherContent.value })
+    noteService.getAll()
+    reset1()
   }
  
   const handlePersonSubmit = (event) => {
     event.preventDefault()
-    personService.create({ name: name.value, number: number.value})
-    personService.display()
+    personService.create({ name: otherName.value, number: otherNumber.value})
+    personService.getAll()
+    reset2()
+    reset3()
   }
 
   return (
     <div>
       <h2>notes</h2>
-      <form onSubmit={handleNoteSubmit}>
-        <input {...content} />
+      <form id="form" onSubmit={handleNoteSubmit}>
+        <input {...otherContent} />
         <button type="submit">create</button> 
       </form>
       {notes.map(n => <p key={n.id}>{n.content}</p>)}
 
       <h2>persons</h2>
-      <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br/>
-        number <input {...number} />
+      <form id="form" onSubmit={handlePersonSubmit}>
+        name <input {...otherName} /> <br/>
+        number <input {...otherNumber} />
         <button type="submit">create</button>
       </form>
       {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}

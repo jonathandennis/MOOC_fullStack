@@ -8,20 +8,30 @@ import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import { initializeBlogs } from './reducers/blogReducer'
+import { useDispatch, useSelector } from 'react-redux'
+
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  //const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
 
+  const dispatch = useDispatch()
+  const blogs = useSelector(state => state)
+
   const blogFormRef = useRef()
 
+  // useEffect(() => {
+  //   blogService.getAll().then(blogs =>
+  //     setBlogs( blogs )
+  //   )
+  // }, [])
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -39,16 +49,16 @@ const App = () => {
     }, 5000)
   }
 
-  const addBlog = (blogObject) => {
-    console.log('blogObject: ', blogObject)
-    blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        notify(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'ok')
-      })
-  }
+  // const addBlog = (blogObject) => {
+  //   console.log('blogObject: ', blogObject)
+  //   blogFormRef.current.toggleVisibility()
+  //   blogService
+  //     .create(blogObject)
+  //     .then(returnedBlog => {
+  //       //setBlogs(blogs.concat(returnedBlog))
+  //       notify(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'ok')
+  //     })
+  // }
 
   const deleteBlog = (id) => {
     const toDelete = blogs.find(blog => blog.id === id)
@@ -57,7 +67,7 @@ const App = () => {
 
       blogService
         .remove(id)
-      setBlogs(blogs.filter(blog => blog.id !== id))
+      //setBlogs(blogs.filter(blog => blog.id !== id))
       notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
     }
   }
@@ -105,7 +115,7 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable buttonLabel='new blog' ref={blogFormRef}>
-      <BlogForm createBlog={addBlog} />
+      <BlogForm  /* createBlog={addBlog} */ />
     </Togglable>
   )
 
@@ -115,8 +125,8 @@ const App = () => {
       key={blog.id}
       user={user}
       blog={blog}
-      blogs={blogs}
-      setBlogs={setBlogs}
+      //blogs={blogs}
+      //setBlogs={setBlogs}
       deleteBlog={deleteBlog}
       notify={notify}
     />

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import blogService from '../services/blogs'
 
-const Blog = ({ user, blogs, setBlogs, blog, notify, deleteBlog }) => {
+const Blog = ({ user, setBlogs, blog, notify, deleteBlog }) => {
+
+  const blogs = useSelector(state => state)
 
   const [ visibility, setVisibility ] = useState(false)
 

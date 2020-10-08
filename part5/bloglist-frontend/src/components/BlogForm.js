@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
+import Togglable from '../components/Togglable'
+
 
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const blogFormRef = useRef()
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -21,38 +24,41 @@ const BlogForm = () => {
     event.target.url.value = ''
     console.log('url: ', url)
 
+    blogFormRef.current.toggleVisibility()
     dispatch(createBlog(title, author, url))
   }
 
   return (
-    <div className="formDiv">
-      <h2>Create new</h2>
+    <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <div className="formDiv">
+        <h2>Create new</h2>
 
-      <form onSubmit={addBlog}>
-        <div>
-          Title: <input
-            id="title"
-            name="title"
-            type="text"
-          />
-        </div>
-        <div>
-          Author: <input
-            id="author"
-            name="author"
-            type="text"
-          />
-        </div>
-        <div>
-          Url: <input
-            id="url"
-            name="url"
-            type="text"
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
+        <form onSubmit={addBlog}>
+          <div>
+            Title: <input
+              id="title"
+              name="title"
+              type="text"
+            />
+          </div>
+          <div>
+            Author: <input
+              id="author"
+              name="author"
+              type="text"
+            />
+          </div>
+          <div>
+            Url: <input
+              id="url"
+              name="url"
+              type="text"
+            />
+          </div>
+          <button type="submit">create</button>
+        </form>
+      </div>
+    </Togglable>
   )
 }
 

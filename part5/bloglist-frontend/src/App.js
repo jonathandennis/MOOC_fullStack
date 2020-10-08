@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
-import Togglable from './components/Togglable'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,7 +11,6 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
-  //const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -20,8 +18,6 @@ const App = () => {
 
   const dispatch = useDispatch()
   const blogs = useSelector(state => state)
-
-  const blogFormRef = useRef()
 
 
   useEffect(() => {
@@ -44,17 +40,6 @@ const App = () => {
       setNotification(null)
     }, 5000)
   }
-
-  // const addBlog = (blogObject) => {
-  //   console.log('blogObject: ', blogObject)
-  //   blogFormRef.current.toggleVisibility()
-  //   blogService
-  //     .create(blogObject)
-  //     .then(returnedBlog => {
-  //       //setBlogs(blogs.concat(returnedBlog))
-  //       notify(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'ok')
-  //     })
-  // }
 
   const deleteBlog = (id) => {
     const toDelete = blogs.find(blog => blog.id === id)
@@ -109,11 +94,9 @@ const App = () => {
     />
   )
 
-  const blogForm = () => (
-    <Togglable buttonLabel='new blog' ref={blogFormRef}>
-      <BlogForm />
-    </Togglable>
-  )
+  // const blogForm = () => (
+  //   <BlogForm />
+  // )
 
   // Display list of blogs
   const bloglist = () => blogs.map(blog =>
@@ -149,7 +132,7 @@ const App = () => {
 
       <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
-      {blogForm()}
+      <BlogForm />
       {sortBlogs(blogs)}
       <ul>
         {bloglist()}

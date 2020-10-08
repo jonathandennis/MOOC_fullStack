@@ -14,19 +14,6 @@ const blogReducer = (state = [], action) => {
   }
 }
 
-// export const createBlog = (title, author, url, user) => {
-//   return {
-//     type: 'NEW_BLOG',
-//     data: {
-//       title,
-//       author,
-//       user,
-//       url,
-//       likes: 0,
-//     }
-//   }
-// }
-
 export const createBlog = (title, author, url) => {
   return async (dispatch) => {
     const newBlog = await blogService.create(title, author, url)
@@ -37,14 +24,6 @@ export const createBlog = (title, author, url) => {
     })
   }
 }
-
-// export const createBlog = (data) => {
-//   console.log('data in reducer: ', data)
-//   return {
-//     type: 'NEW_BLOG',
-//     data,
-//   }
-// }
 
 export const initializeBlogs = () => {
   return async dispatch => {

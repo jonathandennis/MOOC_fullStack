@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 
-const Blog = ({ user, setBlogs, blog, notify, deleteBlog }) => {
+import { setNotification } from '../reducers/notificationReducer'
 
-  const blogs = useSelector(state => state)
-
+const Blog = ({ user, setBlogs, blog, deleteBlog }) => {
   const [ visibility, setVisibility ] = useState(false)
+
+  const blogs = useSelector(state => state.blogs)
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 10,
@@ -44,8 +46,10 @@ const Blog = ({ user, setBlogs, blog, notify, deleteBlog }) => {
       await blogService
         .update(blog.id, likedBlog)
       setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
-      notify(`Like added to: ${blog.title}`, 'ok')
+      dispatch(setNotification(`Like added to: ${blog.title}`, 5))
+      //notify(`Like added to: ${blog.title}`, 'ok')
     } catch (exception){
+      dispatch(setNotification('Error!', 5))
       //notify('Error!')
     }
   }

@@ -8,16 +8,16 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { initializeBlogs } from './reducers/blogReducer'
+import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state)
+  const blogs = useSelector(state => state.blogs)
 
 
   useEffect(() => {
@@ -33,14 +33,6 @@ const App = () => {
     }
   }, [])
 
-
-  const notify = (message, type='error') => {
-    setNotification({ type,message })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
-
   const deleteBlog = (id) => {
     const toDelete = blogs.find(blog => blog.id === id)
 
@@ -49,7 +41,8 @@ const App = () => {
       blogService
         .remove(id)
       //setBlogs(blogs.filter(blog => blog.id !== id))
-      notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
+      dispatch(setNotification(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 5))
+      //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
     }
   }
 
@@ -70,7 +63,8 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      notify('Wrong username or password')
+      dispatch(setNotification('Wrong username or password', 5))
+      //notify('Wrong username or password')
       setUsername('')
       setPassword('')
     }
@@ -81,7 +75,8 @@ const App = () => {
       'loggedBlogappUser', JSON.stringify(user)
     )
     setUser(null)
-    notify(`${user.name} has been sucessfully logged out.`, 'ok')
+    dispatch(setNotification(`${user.name} has been sucessfully logged out.`, 5))
+    //notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
 
   const loginForm = () => (
@@ -97,7 +92,7 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-        <Notification message={notification} />
+        <Notification />
         {loginForm()}
         <Footer />
       </div>
@@ -110,7 +105,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      <Notification message={notification} />
+      <Notification />
 
       <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
@@ -121,7 +116,6 @@ const App = () => {
           user={user}
           blog={blog}
           deleteBlog={deleteBlog}
-          notify={notify}
         />
       )}
       <Footer />

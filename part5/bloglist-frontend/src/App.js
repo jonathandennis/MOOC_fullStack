@@ -23,11 +23,6 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  // useEffect(() => {
-  //   blogService.getAll().then(blogs =>
-  //     setBlogs( blogs )
-  //   )
-  // }, [])
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -41,6 +36,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
 
   const notify = (message, type='error') => {
     setNotification({ type,message })
@@ -115,7 +111,7 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable buttonLabel='new blog' ref={blogFormRef}>
-      <BlogForm  /* createBlog={addBlog} */ />
+      <BlogForm />
     </Togglable>
   )
 
@@ -125,8 +121,6 @@ const App = () => {
       key={blog.id}
       user={user}
       blog={blog}
-      //blogs={blogs}
-      //setBlogs={setBlogs}
       deleteBlog={deleteBlog}
       notify={notify}
     />

@@ -25,7 +25,7 @@ const create =  async (title, author, url) => {
   const config = {
     headers: { Authorization: token },
   }
-  const object = { title, author, url, likes: 0}
+  const object = { title, author, url, likes: 0 }
 
   const response = await axios.post(baseUrl, object, config)
   return response.data

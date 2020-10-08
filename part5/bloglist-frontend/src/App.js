@@ -94,26 +94,6 @@ const App = () => {
     />
   )
 
-  // const blogForm = () => (
-  //   <BlogForm />
-  // )
-
-  // Display list of blogs
-  const bloglist = () => blogs.map(blog =>
-    <Blog
-      key={blog.id}
-      user={user}
-      blog={blog}
-      deleteBlog={deleteBlog}
-      notify={notify}
-    />
-  )
-
-  // Sort blogs by number of likes
-  const sortBlogs = (blogs) => {
-    blogs.sort((a, b) => {return b.likes - a.likes})
-  }
-
   if (user === null) {
     return (
       <div>
@@ -124,19 +104,26 @@ const App = () => {
     )
   }
 
+  const byLikes = (b1, b2) => b2.likes - b1.likes
+
   return (
     <div>
-      <Notification message={notification} />
-
       <h2>blogs</h2>
+
+      <Notification message={notification} />
 
       <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
       <BlogForm />
-      {sortBlogs(blogs)}
-      <ul>
-        {bloglist()}
-      </ul>
+      {blogs.sort(byLikes).map(blog =>
+        <Blog
+          key={blog.id}
+          user={user}
+          blog={blog}
+          deleteBlog={deleteBlog}
+          notify={notify}
+        />
+      )}
       <Footer />
     </div>
   )

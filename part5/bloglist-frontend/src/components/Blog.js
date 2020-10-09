@@ -37,7 +37,7 @@ const Blog = ({ user, setBlogs, blog, deleteBlog }) => {
       title: blog.title,
       likes: blog.likes + 1,
       author: blog.author,
-      url: blog.url,
+      url: blog.url, 
       id: blog.id,
       user: blog.user
     }

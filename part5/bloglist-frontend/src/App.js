@@ -33,18 +33,18 @@ const App = () => {
     }
   }, [])
 
-  const deleteBlog = (id) => {
-    const toDelete = blogs.find(blog => blog.id === id)
+  // const deleteBlog = (id) => {
+  //   const toDelete = blogs.find(blog => blog.id === id)
 
-    if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
+  //   if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
 
-      blogService
-        .remove(id)
-      //setBlogs(blogs.filter(blog => blog.id !== id))
-      dispatch(setNotification(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 5))
-      //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
-    }
-  }
+  //     blogService
+  //       .remove(id)
+  //     //setBlogs(blogs.filter(blog => blog.id !== id))
+  //     dispatch(setNotification(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 5))
+  //     //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
+  //   }
+  // }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -115,7 +115,7 @@ const App = () => {
           key={blog.id}
           user={user}
           blog={blog}
-          deleteBlog={deleteBlog}
+          //deleteBlog={deleteBlog}
         />
       )}
       <Footer />

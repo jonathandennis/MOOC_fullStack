@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
 
+import { deleteBlog, likeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ user, setBlogs, blog, deleteBlog }) => {
+const Blog = ({ user, blog }) => {
   const [ visibility, setVisibility ] = useState(false)
 
   const blogs = useSelector(state => state.blogs)
@@ -26,27 +27,43 @@ const Blog = ({ user, setBlogs, blog, deleteBlog }) => {
 
     if (user.username === blog.user['username']) {
       return (
-        <button onClick={() => deleteBlog(blog.id)}>Remove</button>
+        <button onClick={() => toDeleteBlog(blog.id)}>Remove</button>
       )
     }
   }
 
-  const likeBlog = async () => {
+  const toDeleteBlog = (id) => {
+    const toDelete = blogs.find(blog => blog.id === id)
 
-    const likedBlog = {
-      title: blog.title,
-      likes: blog.likes + 1,
-      author: blog.author,
-      url: blog.url, 
-      id: blog.id,
-      user: blog.user
+    if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
+
+      dispatch(deleteBlog(id))
+      blogService
+        .remove(id)
+      //setBlogs(blogs.filter(blog => blog.id !== id))
+      dispatch(setNotification(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 5))
+      //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
     }
+  }
+
+  const handleLike = async () => {
+    console.log('blog in handleLike: ', blog)
+    // const likedBlog = {
+    //   title: blog.title,
+    //   likes: blog.likes + 1,
+    //   author: blog.author,
+    //   url: blog.url,
+    //   id: blog.id,
+    //   user: blog.user
+    // }
 
     try {
-      await blogService
-        .update(blog.id, likedBlog)
-      setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
+      dispatch(likeBlog(blog))
       dispatch(setNotification(`Like added to: ${blog.title}`, 5))
+      // await blogService
+      //   .update(blog.id, likedBlog)
+      // setBlogs(blogs.map(blog => blog.id !== likedBlog.id ? blog : likedBlog))
+      // dispatch(setNotification(`Like added to: ${blog.title}`, 5))
       //notify(`Like added to: ${blog.title}`, 'ok')
     } catch (exception){
       dispatch(setNotification('Error!', 5))
@@ -75,7 +92,7 @@ const Blog = ({ user, setBlogs, blog, deleteBlog }) => {
         {blog.url}
         <br/>
         {blog.likes}
-        <button onClick={likeBlog}>like</button>
+        <button onClick={handleLike}>like</button>
         <br/>
         {blog.user.name}
         <br/>

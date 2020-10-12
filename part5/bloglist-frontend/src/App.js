@@ -9,8 +9,10 @@ import loginService from './services/login'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUser, setUser, setUserNull } from './reducers/userReducer'
+import { initializeUsers } from './reducers/usersReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
+
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -18,6 +20,7 @@ const App = () => {
 
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
+  //const users = useSelector(state => state.users)
 
   const dispatch = useDispatch()
 
@@ -27,6 +30,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeUser())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(initializeUsers())
   }, [dispatch])
 
 

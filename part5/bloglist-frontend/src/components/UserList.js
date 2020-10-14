@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Link } from 'react-router-dom'
 
 
 const UserList = ({ users }) => {
-  //const users = useSelector(state => state.users)
   console.log('users in UserList: ', users)
 
 

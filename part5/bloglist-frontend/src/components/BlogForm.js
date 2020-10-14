@@ -4,14 +4,12 @@ import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Togglable from '../components/Togglable'
 
-
-
 const BlogForm = () => {
   const dispatch = useDispatch()
   const blogFormRef = useRef()
 
   const addBlog = async (event) => {
-    event.preventDefault()
+    //event.preventDefault()
 
     const title = event.target.title.value
     event.target.title.value = ''

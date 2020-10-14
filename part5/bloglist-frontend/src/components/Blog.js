@@ -1,25 +1,16 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
-import { deleteBlog, likeBlog } from '../reducers/blogReducer'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ loggedUser, blog }) => {
-  const [ visibility, setVisibility ] = useState(false)
+import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 
-  const blogs = useSelector(state => state.blogs)
+const Blog = ({ blog, loggedUser }) => {
+  console.log('blog in Blog: ', blog)
+
   const dispatch = useDispatch()
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  const hideWhenVisible = { display: visibility ? 'none': '' }
-  const showWhenVisibile = { display: visibility ? '' : 'none' }
+  const history = useHistory()
 
   // Allow blogs to be deleted only if blog post created by user
   const showDeleteButton = () => {
@@ -32,11 +23,13 @@ const Blog = ({ loggedUser, blog }) => {
   }
 
   const handleDeleteBlog = (id) => {
-    const toDelete = blogs.find(blog => blog.id === id)
+    //const toDelete = blogs.find(blog => blog.id === id)
+    const toDelete = blog
 
     if (window.confirm(`Remove: ${toDelete.title} By: ${toDelete.author}?`)) {
 
       dispatch(deleteBlog(id))
+      history.push('/')
       dispatch(setNotification(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 5))
       //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
     }
@@ -55,28 +48,24 @@ const Blog = ({ loggedUser, blog }) => {
     }
   }
 
-  const toggle = () => {
-    setVisibility(!visibility)
+  if (!blog) {
+    return null
   }
 
-  return (
-    <div style={blogStyle}>
-      <div style={hideWhenVisible} className='blog'>
-        {blog.title} {blog.author}
-        <button onClick={toggle}>view</button>
-
+  return(
+    <div>
+      <div>
+        <br />
+        <h2>{blog.title} {blog.author}</h2>
       </div>
-      <div style={showWhenVisibile} className='blogView'>
-        {blog.title} {blog.author}
-        <button onClick={toggle}>hide</button>
-        <br/>
+      <div>
         {blog.url}
-        <br/>
-        {blog.likes}
+        <br />
+        {blog.likes} Likes
         <button onClick={handleLike}>like</button>
-        <br/>
-        {blog.user.name}
-        <br/>
+        <br />
+        added by: {blog.user.name}
+        <br />
         {showDeleteButton()}
       </div>
     </div>

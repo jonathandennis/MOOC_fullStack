@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -17,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Switch, Route, useRouteMatch
+  Switch, Route, useRouteMatch, useHistory
 } from 'react-router-dom'
 
 
@@ -30,12 +31,8 @@ const App = () => {
   const users = useSelector(state => state.users)
   console.log('loggedUser in App: ', loggedUser)
 
-  const match = useRouteMatch('/users/:id')
-  const user = match
-    ? users.find(user => user.id === String(match.params.id))
-    : null
-
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -79,6 +76,7 @@ const App = () => {
       'loggedBlogappUser', JSON.stringify(loggedUser)
     )
     dispatch(setLoggedUserNull(null))
+    history.push('/')
     dispatch(setNotification(`${loggedUser.name} has been sucessfully logged out.`, 5))
     //notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
@@ -93,6 +91,16 @@ const App = () => {
     />
   )
 
+  const matchBlogs = useRouteMatch('/:id')
+  const blog = matchBlogs
+    ? blogs.find(blog => blog.id === String(matchBlogs.params.id))
+    : null
+
+  const matchUsers = useRouteMatch('/users/:id')
+  const user = matchUsers
+    ? users.find(user => user.id === String(matchUsers.params.id))
+    : null
+
   if (loggedUser === null) {
     return (
       <div className="container">
@@ -105,8 +113,6 @@ const App = () => {
     )
   }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
-
   return (
     <div className="container">
       <div>
@@ -118,21 +124,18 @@ const App = () => {
         <button type="submit" onClick={handleLogout}>logout</button>
 
         <Switch>
-          <Route path="/blogs">
-            <BlogForm />
-            {blogs.sort(byLikes).map(blog =>
-              <Blog
-                key={blog.id}
-                loggedUser={loggedUser}
-                blog={blog}
-              />
-            )}
-          </Route>
           <Route path="/users/:id">
             <User user={user} />
           </Route>
           <Route path="/users">
             <UserList users={users} />
+          </Route>
+          <Route path="/:id">
+            <Blog blog={blog} loggedUser={loggedUser} />
+          </Route>
+          <Route path="/">
+            <BlogForm />
+            <BlogList blogs={blogs} />
           </Route>
         </Switch>
         <Footer />

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteBlog, likeBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ user, blog }) => {
+const Blog = ({ loggedUser, blog }) => {
   const [ visibility, setVisibility ] = useState(false)
 
   const blogs = useSelector(state => state.blogs)
@@ -24,7 +24,7 @@ const Blog = ({ user, blog }) => {
   // Allow blogs to be deleted only if blog post created by user
   const showDeleteButton = () => {
 
-    if (user.username === blog.user['username']) {
+    if (loggedUser.username === blog.user['username']) {
       return (
         <button onClick={() => handleDeleteBlog(blog.id)}>Remove</button>
       )

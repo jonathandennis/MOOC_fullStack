@@ -4,19 +4,20 @@ import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import UserList from './components/UserList'
+import User from './components/User'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 import { initializeBlogs } from './reducers/blogReducer'
-import { initializeUser, setUser, setUserNull } from './reducers/userReducer'
+import { initializeLoggedUser, setLoggedUser, setLoggedUserNull } from './reducers/loggedUserReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-  BrowserRouter as
-  Switch, Route, Link
+  BrowserRouter as Router,
+  Switch, Route, useRouteMatch
 } from 'react-router-dom'
 
 
@@ -25,8 +26,14 @@ const App = () => {
   const [password, setPassword] = useState('')
 
   const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
-  //const users = useSelector(state => state.users)
+  const loggedUser = useSelector(state => state.loggedUser)
+  const users = useSelector(state => state.users)
+  console.log('loggedUser in App: ', loggedUser)
+
+  const match = useRouteMatch('/users/:id')
+  const user = match
+    ? users.find(user => user.id === String(match.params.id))
+    : null
 
   const dispatch = useDispatch()
 
@@ -35,7 +42,7 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(initializeUser())
+    dispatch(initializeLoggedUser())
   }, [dispatch])
 
   useEffect(() => {
@@ -48,15 +55,15 @@ const App = () => {
     console.log('logging in with', username, password)
 
     try {
-      const user = await loginService.login({
+      const loggedUser = await loginService.login({
         username, password,
       })
 
       window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(loggedUser)
       )
-      blogService.setToken(user.token)
-      dispatch(setUser())
+      blogService.setToken(loggedUser.token)
+      dispatch(setLoggedUser())
       setUsername('')
       setPassword('')
     } catch (error) {
@@ -69,10 +76,10 @@ const App = () => {
 
   const handleLogout = async () => {
     window.localStorage.removeItem(
-      'loggedBlogappUser', JSON.stringify(user)
+      'loggedBlogappUser', JSON.stringify(loggedUser)
     )
-    dispatch(setUserNull(null))
-    dispatch(setNotification(`${user.name} has been sucessfully logged out.`, 5))
+    dispatch(setLoggedUserNull(null))
+    dispatch(setNotification(`${loggedUser.name} has been sucessfully logged out.`, 5))
     //notify(`${user.name} has been sucessfully logged out.`, 'ok')
   }
 
@@ -86,7 +93,7 @@ const App = () => {
     />
   )
 
-  if (user === null) {
+  if (loggedUser === null) {
     return (
       <div className="container">
         <div>
@@ -107,21 +114,25 @@ const App = () => {
 
         <Notification />
 
-        <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
+        <p>{loggedUser.name} logged in</p>
+        <button type="submit" onClick={handleLogout}>logout</button>
+
         <Switch>
           <Route path="/blogs">
             <BlogForm />
             {blogs.sort(byLikes).map(blog =>
               <Blog
                 key={blog.id}
-                user={user}
+                loggedUser={loggedUser}
                 blog={blog}
               />
             )}
           </Route>
-
+          <Route path="/users/:id">
+            <User user={user} />
+          </Route>
           <Route path="/users">
-            <UserList />
+            <UserList users={users} />
           </Route>
         </Switch>
         <Footer />

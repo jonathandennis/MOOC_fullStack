@@ -10,10 +10,10 @@ const UserList = () => {
   return(
     <div>
       <h2>Users</h2>
-      <Table borderless>
+      <Table borderless size="sm">
         <thead>
           <tr>
-            <th> </th>
+            <th></th>
             <th>blogs created</th>
           </tr>
         </thead>

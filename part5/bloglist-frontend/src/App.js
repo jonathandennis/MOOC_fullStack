@@ -14,6 +14,11 @@ import { initializeUsers } from './reducers/usersReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
+import {
+  BrowserRouter as
+  Switch, Route, Link
+} from 'react-router-dom'
+
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -103,17 +108,22 @@ const App = () => {
         <Notification />
 
         <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
+        <Switch>
+          <Route path="/blogs">
+            <BlogForm />
+            {blogs.sort(byLikes).map(blog =>
+              <Blog
+                key={blog.id}
+                user={user}
+                blog={blog}
+              />
+            )}
+          </Route>
 
-        <BlogForm />
-        {blogs.sort(byLikes).map(blog =>
-          <Blog
-            key={blog.id}
-            user={user}
-            blog={blog}
-
-          />
-        )}
-        <UserList />
+          <Route path="/users">
+            <UserList />
+          </Route>
+        </Switch>
         <Footer />
       </div>
     </div>

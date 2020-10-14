@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
+import UserList from './components/UserList'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -82,10 +83,12 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
-        <Notification />
-        {loginForm()}
-        <Footer />
+      <div className="container">
+        <div>
+          <Notification />
+          {loginForm()}
+          <Footer />
+        </div>
       </div>
     )
   }
@@ -93,23 +96,26 @@ const App = () => {
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <div className="container">
+      <div>
+        <h2>blogs</h2>
 
-      <Notification />
+        <Notification />
 
-      <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
+        <p>{user.name} logged in  <button type="submit" onClick={handleLogout}>logout</button></p>
 
-      <BlogForm />
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          user={user}
-          blog={blog}
+        <BlogForm />
+        {blogs.sort(byLikes).map(blog =>
+          <Blog
+            key={blog.id}
+            user={user}
+            blog={blog}
 
-        />
-      )}
-      <Footer />
+          />
+        )}
+        <UserList />
+        <Footer />
+      </div>
     </div>
   )
 }

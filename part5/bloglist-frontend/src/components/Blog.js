@@ -44,6 +44,7 @@ const Blog = ({ user, blog }) => {
 
   const handleLike = async () => {
     console.log('blog in handleLike: ', blog)
+
     try {
       dispatch(likeBlog(blog))
       dispatch(setNotification(`Like added to: ${blog.title}`, 5))
@@ -61,15 +62,12 @@ const Blog = ({ user, blog }) => {
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} className='blog'>
-        <li>
-          {blog.title}
-          {blog.author}
-          <button onClick={toggle}>view</button>
-        </li>
+        {blog.title} {blog.author}
+        <button onClick={toggle}>view</button>
+
       </div>
       <div style={showWhenVisibile} className='blogView'>
-        {blog.title}
-        {blog.author}
+        {blog.title} {blog.author}
         <button onClick={toggle}>hide</button>
         <br/>
         {blog.url}

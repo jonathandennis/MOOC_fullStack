@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Switch, Route, useRouteMatch, useHistory
+  Switch, Route, Link, useRouteMatch, useHistory
 } from 'react-router-dom'
 
 
@@ -113,16 +113,23 @@ const App = () => {
     )
   }
 
+  const padding = {
+    padding: 4
+  }
+
   return (
     <div className="container">
       <div>
-        <h2>blogs</h2>
-
         <Notification />
-
-        <p>{loggedUser.name} logged in</p>
-        <button type="submit" onClick={handleLogout}>logout</button>
-
+        <div>
+          <Link style={padding} to="/">blogs</Link>
+          <Link style={padding} to="/users">users</Link>
+          <em>{loggedUser.name} logged in</em>
+          <button type="submit" onClick={handleLogout}>logout</button>
+        </div>
+        <br />
+        <h2>blog app</h2>
+        <br />
         <Switch>
           <Route path="/users/:id">
             <User user={user} />

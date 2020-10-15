@@ -29,7 +29,7 @@ const BlogForm = () => {
   }
 
   return (
-    <Togglable buttonLabel='add new blog' ref={blogFormRef}>
+    <Togglable buttonLabel='add new blog' buttonBorderRadius={5} ref={blogFormRef}>
       <div className="formDiv">
         <h2>Create new</h2>
 
@@ -55,7 +55,7 @@ const BlogForm = () => {
               type="text"
             />
           </div>
-          <button type="submit">create</button>
+          <button type="submit" >create</button>
         </form>
       </div>
     </Togglable>

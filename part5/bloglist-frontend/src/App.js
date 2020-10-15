@@ -114,18 +114,24 @@ const App = () => {
   }
 
   const padding = {
-    padding: 4
+    paddingLeft: 10
+  }
+
+  const buttonStyle = {
+    padding: (0, 3, 0, 3),
+    borderRadius: 10,
+    marginLeft: 350
   }
 
   return (
     <div className="container">
       <div>
         <Notification />
-        <div>
+        <div style={{ backgroundColor: 'gainsboro' }}>
           <Link style={padding} to="/">blogs</Link>
           <Link style={padding} to="/users">users</Link>
-          <em>{loggedUser.name} logged in</em>
-          <button type="submit" onClick={handleLogout}>logout</button>
+          <em style={padding}>{loggedUser.name} logged in </em>
+          <button type="submit" onClick={handleLogout} style={buttonStyle}>logout</button>
         </div>
         <br />
         <h2>blog app</h2>

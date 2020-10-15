@@ -8,15 +8,19 @@ const BlogList = ({ blogs }) => {
 
   const ulStyle = {
     margin: 0,
-    padding: 0
+    padding: 0,
+    listStyleType: 'none'
   }
 
   const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
+    paddingTop: 7,
+    paddingLeft: 20,
+    paddingBottom: 8,
     border: 'solid',
+    borderRadius: 2.5,
     borderWidth: 1,
-    marginBottom: 5
+    borderColor: 'dimgray',
+    marginTop: 5
   }
 
   const byLikes = (b1, b2) => b2.likes - b1.likes

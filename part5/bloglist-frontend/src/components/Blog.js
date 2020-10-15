@@ -52,17 +52,22 @@ const Blog = ({ blog, loggedUser }) => {
     return null
   }
 
+  const buttonStyle = {
+    marginLeft: 3,
+    padding: (0, 2, 0, 2),
+    borderRadius: 6,
+  }
+
   return(
     <div>
       <div>
-        <br />
         <h2>{blog.title} {blog.author}</h2>
       </div>
       <div>
         {blog.url}
         <br />
         {blog.likes} Likes
-        <button onClick={handleLike}>like</button>
+        <button onClick={handleLike} style={buttonStyle}>like</button>
         <br />
         added by: {blog.user.name}
         <br />

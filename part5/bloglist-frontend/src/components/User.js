@@ -11,7 +11,7 @@ export const User = ({ user }) => {
     <div>
       <h2>{user.name}</h2>
       <h5>added blogs</h5>
-      <ul>
+      <ul style={{ listStyleType: 'none' }}>
         {user.blogs.map(user =>
           <li key={user.id}>
             {user.title}

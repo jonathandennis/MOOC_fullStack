@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'react-bootstrap'
 
-import { BrowserRouter as Router, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const UserList = ({ users }) => {

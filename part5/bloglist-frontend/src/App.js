@@ -17,7 +17,6 @@ import { setNotification } from './reducers/notificationReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-  BrowserRouter as Router,
   Switch, Route, Link, useRouteMatch, useHistory
 } from 'react-router-dom'
 
@@ -114,19 +113,18 @@ const App = () => {
   }
 
   const padding = {
-    paddingLeft: 10
+    paddingLeft: 20
   }
 
   const buttonStyle = {
     padding: (0, 3, 0, 3),
     borderRadius: 10,
-    marginLeft: 350
+    marginLeft: 330
   }
 
   return (
     <div className="container">
       <div>
-        <Notification />
         <div style={{ backgroundColor: 'gainsboro' }}>
           <Link style={padding} to="/">blogs</Link>
           <Link style={padding} to="/users">users</Link>
@@ -134,6 +132,7 @@ const App = () => {
           <button type="submit" onClick={handleLogout} style={buttonStyle}>logout</button>
         </div>
         <br />
+        <Notification />
         <h2>blog app</h2>
         <br />
         <Switch>

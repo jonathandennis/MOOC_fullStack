@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const Blog = ({ blog, loggedUser }) => {
   console.log('blog in Blog: ', blog)
@@ -17,7 +17,7 @@ const Blog = ({ blog, loggedUser }) => {
 
     if (loggedUser.username === blog.user['username']) {
       return (
-        <button onClick={() => handleDeleteBlog(blog.id)}>Remove</button>
+        <button onClick={() => handleDeleteBlog(blog.id)}>Remove Blog</button>
       )
     }
   }
@@ -70,6 +70,13 @@ const Blog = ({ blog, loggedUser }) => {
         <button onClick={handleLike} style={buttonStyle}>like</button>
         <br />
         added by: {blog.user.name}
+        <br />
+        <br />
+        <h5>comments</h5>
+        <ul>
+          {blog.comments.map(comment =>
+            <li key={comment.id}>{comment.comment}</li>)}
+        </ul>
         <br />
         {showDeleteButton()}
       </div>

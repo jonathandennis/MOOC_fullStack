@@ -1,11 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkZm90byIsImlkIjoiNWY1Nzg2ZGZkMDA5Mzc5ODA2ZmVkOGE2IiwiaWF0IjoxNTk5NTcyMjQ0fQ.zlu6YFHLQKxM7Ue1Uiny2MZ6N1K18PPb3Cl1oNAWzTM
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkZm90byIsImlkIjoiNWYzNjY1ZjM1NjMwYTI0ZTkwMmVkYWYxIiwiaWF0IjoxNjAyNzg3NTI3fQ.hihnkm4RheVxV0VgiqnOFRTcwAkh7j0YLwv0hko9o0A
 
 {
-    "title": "one to delete",
-    "author": "mike lukls",
-    "url": "http://www.testingloggerurl.com",
-    "likes": 7,
-    "userId": "5f5786dfd009379806fed8a6"
+    "title": "trying to add comments",
+    "author": "jaco pastorius",
+    "url": "http://www.somewebsite.com",
+    "likes": 0,
+    "userId": "5f3665f35630a24e902edaf1",
 }

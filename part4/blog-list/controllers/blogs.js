@@ -72,42 +72,27 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/:id/comments', async (request, response) => {
+  logger.info('hit blogsRouter/comment, request: ', request.body)
   const body = request.body
   logger.info('body in comments blogsRouter.post: ', body)
   if (body.comment === undefined) {
     return response.status(400).json({ error: 'content missing' })
   }
   const comment = new Comment({ comment: body.comment })
-  logger.info('comment in comments blogsRouter.post: ', comment)
+  logger.info('comment in blogsRouter/comments : ', comment)
   const savedComment = await comment.save()
 
   const blog = await Blog.findById(request.params.id)
   logger.info('blog in comments blogsRouter.post: ', blog)
 
   logger.info('savedComment in comments blogsRouter.post: ', savedComment)
-  logger.info('PRE blog.comments in comments blogsRouter.post: ', blog.comments)
+  //logger.info('PRE blog.comments in comments blogsRouter.post: ', blog.comments)
   blog.comments = blog.comments.concat(savedComment._id)
-  logger.info('POST blog.comments in comments blogsRouter.post: ', blog.comments)
+  //logger.info('POST blog.comments in comments blogsRouter.post: ', blog.comments)
 
   await blog.save()
   response.json(savedComment)
+  //logger.info('response in blogsRouter/comments: ', response)
 })
 
 module.exports = blogsRouter
-
-/* blogsRouter.post('/:id/comments', async (request, response) => {
-  const body = request.body
-  logger.info('body in comments blogsRouter.post: ', body)
-  const comment = new Comment({ comment: body.comment })
-  logger.info('comment in comments blogsRouter.post: ', comment)
-  const blog = await Blog.findById(request.params.id)
-  logger.info('blog in comments blogsRouter.post: ', blog)
-
-  const savedComment = await comment.save()
-  logger.info('savedComment in comments blogsRouter.post: ', savedComment)
-  logger.info('blog.comments in comments blogsRouter.post: ', blog.comments)
-  blog.comments = blog.comments.concat(savedComment._id)
-
-  await blog.save()
-  response.json(savedComment)
-}) */

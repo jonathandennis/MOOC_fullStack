@@ -15,6 +15,15 @@ const blogReducer = (state = [], action) => {
     const id = action.data.data.id
     return state.map(blog => blog.id !== id ? blog : action.data.data)
   }
+  case 'NEW_COMMENT': {
+    const id = action.id
+    const comment = action.data
+
+    return state.map(blog => blog.id !== id ? blog : {
+      ...blog,
+      comments: [...blog.comments, comment]
+    })
+  }
 
   default:
     return state
@@ -34,7 +43,6 @@ export const initializeBlogs = () => {
 export const createBlog = (title, author, url) => {
   return async dispatch => {
     const newBlog = await blogService.create(title, author, url)
-    console.log('newBlog in createBlog: ', newBlog)
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog,
@@ -52,6 +60,19 @@ export const likeBlog = (blog) => {
     dispatch({
       type: 'LIKE_BLOG',
       data: newObject
+    })
+  }
+}
+
+export const addComment = (id, comment) => {
+  console.log('id in addComment reducer: ', id)
+  console.log('comment in addComment reducer: ', comment)
+  return async dispatch => {
+    const newComment = await blogService.addComment(id, comment)
+    console.log('newComment in addComment reducer: ', newComment)
+    dispatch({
+      type: 'NEW_COMMENT',
+      data: newComment, id
     })
   }
 }

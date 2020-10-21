@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import { likeBlog, deleteBlog, addComment } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 import { useHistory } from 'react-router-dom'
@@ -48,6 +48,16 @@ const Blog = ({ blog, loggedUser }) => {
     }
   }
 
+  const handleComment = async (event) => {
+    event.preventDefault()
+
+    const comment = event.target.comment.value
+    event.target.comment.value = ''
+    console.log('comment in handleComment: ', comment)
+
+    dispatch(addComment(blog.id, comment))
+  }
+
   if (!blog) {
     return null
   }
@@ -73,6 +83,16 @@ const Blog = ({ blog, loggedUser }) => {
         <br />
         <br />
         <h5>comments</h5>
+        <br />
+        <div>
+          <form onSubmit={handleComment}>
+            <input
+              name="comment"
+            />
+            <button type="submit">add comment</button>
+          </form>
+        </div>
+        <br />
         <ul>
           {blog.comments.map(comment =>
             <li key={comment.id}>{comment.comment}</li>)}

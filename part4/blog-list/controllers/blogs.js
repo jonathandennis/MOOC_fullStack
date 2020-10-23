@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
-const logger = require('../utils/logger')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const Comment = require('../models/comment')
@@ -21,11 +20,6 @@ blogsRouter.delete('/:id', async (request, response) => {
   }
 
   const blog = await Blog.findById(request.params.id)
-
-  console.log('request.params.id: ', request.params.id)
-  console.log('decodedToken.id: ', decodedToken.id)
-  console.log('blog.user: ', blog.user)
-
   if (decodedToken.id.toString() === blog.user.toString()) {
     await blog.remove()
     return response.status(204).end()
@@ -44,16 +38,15 @@ blogsRouter.post('/', async (request, response) => {
   const blog = new Blog({
     title: body.title,
     author: body.author,
-    user: user._id,
     url: body.url,
     likes: body.likes || 0,
-    comments: body.comments,
+    user: user._id,
   })
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.json(savedBlog)
+  response.status(201).json(savedBlog)
 })
 
 blogsRouter.put('/:id', async (request, response) => {
@@ -64,35 +57,31 @@ blogsRouter.put('/:id', async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
-    comments: body.comments,
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  const updatedBlog = await Blog
+    .findByIdAndUpdate(request.params.id, blog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 })
+
   response.json(updatedBlog.toJSON())
 })
 
 blogsRouter.post('/:id/comments', async (request, response) => {
-  logger.info('hit blogsRouter/comment, request: ', request.body)
   const body = request.body
-  logger.info('body in comments blogsRouter.post: ', body)
+
   if (body.comment === undefined) {
     return response.status(400).json({ error: 'content missing' })
   }
+
   const comment = new Comment({ comment: body.comment })
-  logger.info('comment in blogsRouter/comments : ', comment)
   const savedComment = await comment.save()
 
   const blog = await Blog.findById(request.params.id)
-  logger.info('blog in comments blogsRouter.post: ', blog)
-
-  logger.info('savedComment in comments blogsRouter.post: ', savedComment)
-  //logger.info('PRE blog.comments in comments blogsRouter.post: ', blog.comments)
   blog.comments = blog.comments.concat(savedComment._id)
-  //logger.info('POST blog.comments in comments blogsRouter.post: ', blog.comments)
 
   await blog.save()
   response.json(savedComment)
-  //logger.info('response in blogsRouter/comments: ', response)
 })
 
 module.exports = blogsRouter

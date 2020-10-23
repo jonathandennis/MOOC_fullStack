@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 const BlogList = ({ blogs }) => {
 
-  console.log('blogs in BlogList: ', blogs)
-
   const ulStyle = {
     margin: 0,
     padding: 0,

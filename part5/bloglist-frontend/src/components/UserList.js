@@ -16,7 +16,7 @@ const UserList = ({ users }) => {
   return(
     <div>
       <h2>Users</h2>
-      <table cstyle={tableStyle}>
+      <table style={tableStyle}>
         <thead>
           <tr style={trthStyle}>
             <th></th>

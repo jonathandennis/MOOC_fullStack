@@ -26,18 +26,16 @@ const Blog = ({ blog, loggedUser }) => {
       try {
         dispatch(deleteBlog(id))
         history.push('/')
-        dispatch(setNotification(`${blog.title} by ${blog.author} was successfully deleted!`, 5))
-        //notify(`${toDelete.title} by ${toDelete.author} was successfully deleted!`, 'ok')
+        dispatch(setNotification(`${blog.title} by ${blog.author} was successfully deleted!`, 'ok'))
       } catch(exception){
-        dispatch(setNotification('Error!', 5))
+        dispatch(setNotification('Error!'))
       }
   }
 
   const handleLike = async () => {
     try {
       dispatch(likeBlog(blog))
-      dispatch(setNotification(`Like added to: ${blog.title}`, 5))
-      //notify(`Like added to: ${blog.title}`, 'ok')
+      dispatch(setNotification(`Like added to: ${blog.title}`, 'ok'))
     } catch (exception){
       dispatch(setNotification('Error!', 5))
     }
@@ -45,13 +43,14 @@ const Blog = ({ blog, loggedUser }) => {
 
   const handleComment = async (event) => {
     event.preventDefault()
-    const comment = event.target.comment.value
-    event.target.comment.value = ''
-    dispatch(addComment(blog.id, comment))
-  }
-
-  if (!blog) {
-    return null
+    try {
+      const comment = event.target.comment.value
+      event.target.comment.value = ''
+      dispatch(addComment(blog.id, comment))
+      dispatch(setNotification('Your comment was added successfully!', 'ok'))
+    } catch (exception){
+      dispatch(setNotification('Error adding Comment', 5))
+    }
   }
 
   const buttonStyle = {
@@ -60,10 +59,14 @@ const Blog = ({ blog, loggedUser }) => {
     borderRadius: 6,
   }
 
+  if (!blog) {
+    return null
+  }
+
   return(
     <div>
       <div>
-        <h2>{blog.title} {blog.author}</h2>
+        <h2>{blog.title}, {blog.author}</h2>
       </div>
       <div>
         {blog.url}
@@ -72,6 +75,8 @@ const Blog = ({ blog, loggedUser }) => {
         <button onClick={handleLike} style={buttonStyle}>like</button>
         <br />
         added by: {blog.user.name}
+      </div>
+      <div>
         <br />
         <br />
         <h5>comments</h5>

@@ -18,13 +18,13 @@ export const clearNotification = () => {
 
 let timeoutID
 
-export const setNotification = (message, seconds) => {
+export const setNotification = (message, type='error') => {
   console.log('timeoutID: ', timeoutID)
 
   return async (dispatch) => {
     dispatch({
       type: 'NOTIFY',
-      data: { message },
+      data: { message, type },
     })
 
     if (timeoutID) {
@@ -33,7 +33,7 @@ export const setNotification = (message, seconds) => {
 
     timeoutID = setTimeout(() => {
       dispatch(clearNotification())
-    }, seconds * 1000)
+    }, 5000)
   }
 }
 

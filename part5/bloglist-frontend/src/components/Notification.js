@@ -10,7 +10,7 @@ const Notification = () => {
 
   const style = {
     background: 'lightgrey',
-    //color: notification.type ==='ok' ? 'green' : 'red',
+    color: notification.type ==='ok' ? 'green' : 'red',
     fontSize: 20,
     borderStyle: 'solid',
     borderRadius: 5,

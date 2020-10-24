@@ -12,8 +12,8 @@ const BlogList = ({ blogs }) => {
 
   const blogStyle = {
     paddingTop: 7,
-    paddingLeft: 20,
-    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingBottom: 5,
     border: 'solid',
     borderRadius: 2.5,
     borderWidth: 1,
@@ -28,7 +28,7 @@ const BlogList = ({ blogs }) => {
       <ul style={ulStyle}>
         {blogs.sort(byLikes).map(blog =>
           <li key={blog.id} style={blogStyle}>
-            <Link to={`/${blog.id}`}>{blog.title} {blog.author}</Link>
+            <Link to={`/${blog.id}`}>{blog.title}, {blog.author}</Link>
           </li>
         )}
       </ul>

@@ -100,9 +100,24 @@ const App = () => {
     ? users.find(user => user.id === String(matchUsers.params.id))
     : null
 
+  const contStyle = {
+    fontFamily: ('lato', 'sans-serif'),
+    margin: (5, 20, 5, 20)
+  }
+
+  const linkStyle = {
+    paddingLeft: 15
+  }
+
+  const buttonStyle = {
+    padding: (0, 3, 0, 3),
+    borderRadius: 10,
+    marginLeft: 330
+  }
+
   if (loggedUser === null) {
     return (
-      <div className="container">
+      <div className="container" style={contStyle}>
         <div>
           <Notification />
           {loginForm()}
@@ -112,23 +127,13 @@ const App = () => {
     )
   }
 
-  const padding = {
-    paddingLeft: 20
-  }
-
-  const buttonStyle = {
-    padding: (0, 3, 0, 3),
-    borderRadius: 10,
-    marginLeft: 330
-  }
-
   return (
-    <div className="container">
+    <div className="container" style={contStyle}>
       <div>
         <div style={{ backgroundColor: 'gainsboro' }}>
-          <Link style={padding} to="/">blogs</Link>
-          <Link style={padding} to="/users">users</Link>
-          <em style={padding}>{loggedUser.name} logged in </em>
+          <Link style={linkStyle} to="/">blogs</Link>
+          <Link style={linkStyle} to="/users">users</Link>
+          <em style={linkStyle}>{loggedUser.name} logged in </em>
           <button type="submit" onClick={handleLogout} style={buttonStyle}>logout</button>
         </div>
         <br />

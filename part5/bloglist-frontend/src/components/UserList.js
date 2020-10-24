@@ -1,19 +1,24 @@
 import React from 'react'
-import { Table } from 'react-bootstrap'
-
 import { Link } from 'react-router-dom'
-
 
 const UserList = ({ users }) => {
   console.log('users in UserList: ', users)
 
+  const tableStyle = {
+    width: '60%',
+    tableLayout: 'fixed'
+  }
+
+  const trthStyle = {
+    textAlign: 'left'
+  }
 
   return(
     <div>
       <h2>Users</h2>
-      <Table borderless size="sm">
+      <table cstyle={tableStyle}>
         <thead>
-          <tr>
+          <tr style={trthStyle}>
             <th></th>
             <th>blogs created</th>
           </tr>
@@ -30,7 +35,7 @@ const UserList = ({ users }) => {
             </tr>
           )}
         </tbody>
-      </Table>
+      </table>
     </div>
   )
 }

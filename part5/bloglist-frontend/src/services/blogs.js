@@ -23,14 +23,12 @@ const create =  async (title, author, url) => {
 }
 
 const update = (id, newObject) => {
-  console.log('newObject in blogs services: ', newObject)
   return axios.put(`${baseUrl}/${id}`, newObject)
 }
 
 const addComment = async (id, comment) => {
   const object = { comment }
   const response = await axios.post(`${baseUrl}/${id}/comments`, object)
-  console.log('response in updateComment: ', response)
   return response.data
 }
 

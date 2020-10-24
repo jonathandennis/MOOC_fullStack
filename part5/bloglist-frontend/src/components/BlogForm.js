@@ -13,19 +13,16 @@ const BlogForm = () => {
 
     const title = event.target.title.value
     event.target.title.value = ''
-    console.log('title: ', title)
 
     const author = event.target.author.value
     event.target.author.value = ''
-    console.log('author: ', author)
 
     const url = event.target.url.value
     event.target.url.value = ''
-    console.log('url: ', url)
 
     blogFormRef.current.toggleVisibility()
     dispatch(createBlog(title, author, url))
-    dispatch(setNotification(`A new blog: '${title}' by ${author} added`, 5))
+    dispatch(setNotification(`A new blog: '${title}' by ${author} added`, 'ok'))
   }
 
   return (

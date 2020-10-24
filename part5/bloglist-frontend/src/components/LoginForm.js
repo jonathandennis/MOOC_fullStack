@@ -10,7 +10,6 @@ const LoginForm = ({
 }) => {
   return (
     <div>
-
       <form onSubmit={handleSubmit}>
         <div>
           <h2>Log in to application</h2>

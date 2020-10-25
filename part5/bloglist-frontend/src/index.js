@@ -4,8 +4,12 @@ import { Provider } from 'react-redux'
 import store from './store'
 import App from './App'
 
+
 import { BrowserRouter as Router } from 'react-router-dom'
 
+import './index.css'
+import '../src/fonts/Lato-Regular.ttf'
+import '../src/fonts/Lato-Italic.ttf'
 
 
 ReactDOM.render(

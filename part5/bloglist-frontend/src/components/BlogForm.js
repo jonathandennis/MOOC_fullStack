@@ -26,9 +26,10 @@ const BlogForm = () => {
   }
 
   return (
-    <Togglable buttonLabel='add new blog' buttonBorderRadius={5} ref={blogFormRef}>
-      <div className="formDiv">
-        <h2>Create new</h2>
+    <Togglable buttonLabel='add new blog'
+      id="blog-button" buttonBorderRadius={5} ref={blogFormRef}>
+      <div className="form-div">
+        <h2>Create new:</h2>
 
         <form onSubmit={addBlog}>
           <div>

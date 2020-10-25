@@ -4,32 +4,23 @@ import { Link } from 'react-router-dom'
 const UserList = ({ users }) => {
   console.log('users in UserList: ', users)
 
-  const tableStyle = {
-    width: '60%',
-    tableLayout: 'fixed'
-  }
-
-  const trthStyle = {
-    textAlign: 'left'
-  }
-
   return(
     <div>
-      <h2>Users</h2>
-      <table style={tableStyle}>
+      <h2 className="users-header">Users:</h2>
+      <table className="table">
         <thead>
-          <tr style={trthStyle}>
-            <th></th>
-            <th>blogs created</th>
+          <tr>
+            <th className="th"></th>
+            <th className="th" style={{ fontSize: '.94rem' }}>blogs created:</th>
           </tr>
         </thead>
         <tbody>
           {users.map(user =>
-            <tr key={user.id}>
-              <td>
-                <Link to={`/users/${user.id}`}>{user.name}</Link>
+            <tr key={user.id} className="tr">
+              <td className="td">
+                <Link to={`/users/${user.id}`} className="link">{user.name}</Link>
               </td>
-              <td>
+              <td className="td" style={{ paddingLeft: '7rem' }}>
                 {user.blogs.length}
               </td>
             </tr>

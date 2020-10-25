@@ -9,6 +9,7 @@ import User from './components/User'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
 
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeLoggedUser, setLoggedUser, setLoggedUserNull } from './reducers/loggedUserReducer'
@@ -76,8 +77,7 @@ const App = () => {
     )
     dispatch(setLoggedUserNull(null))
     history.push('/')
-    dispatch(setNotification(`${loggedUser.name} has been sucessfully logged out.`, 5))
-    //notify(`${user.name} has been sucessfully logged out.`, 'ok')
+    dispatch(setNotification(`${loggedUser.name} has been sucessfully logged out.`, 'ok'))
   }
 
   const loginForm = () => (
@@ -100,27 +100,14 @@ const App = () => {
     ? users.find(user => user.id === String(matchUsers.params.id))
     : null
 
-  const contStyle = {
-    fontFamily: ('lato', 'sans-serif'),
-    margin: (5, 20, 5, 20)
-  }
-
-  const linkStyle = {
-    paddingLeft: 15
-  }
-
-  const buttonStyle = {
-    padding: (0, 3, 0, 3),
-    borderRadius: 10,
-    marginLeft: 330
-  }
-
   if (loggedUser === null) {
     return (
-      <div className="container" style={contStyle}>
-        <div>
+      <div className="body">
+        <div className="main">
           <Notification />
           {loginForm()}
+        </div>
+        <div className="footer">
           <Footer />
         </div>
       </div>
@@ -128,18 +115,20 @@ const App = () => {
   }
 
   return (
-    <div className="container" style={contStyle}>
-      <div>
-        <div style={{ backgroundColor: 'gainsboro' }}>
-          <Link style={linkStyle} to="/">blogs</Link>
-          <Link style={linkStyle} to="/users">users</Link>
-          <em style={linkStyle}>{loggedUser.name} logged in </em>
-          <button type="submit" onClick={handleLogout} style={buttonStyle}>logout</button>
+    <div className="body">
+      <div className="nav-bar">
+        <div className="nav-left">
+          <Link className="nav-link-1" to="/">blogs</Link>
+          <Link className="nav-link-2" to="/users">users</Link>
         </div>
-        <br />
+        <div className="nav-right">
+          <em id="nav-user">{loggedUser.name} logged in </em>
+          <button type="submit" onClick={handleLogout} id="nav-button">logout</button>
+        </div>
+      </div>
+      <div className="main">
         <Notification />
-        <h2>blog app</h2>
-        <br />
+        <h2 className="blog-app">blog app</h2>
         <Switch>
           <Route path="/users/:id">
             <User user={user} />
@@ -155,6 +144,8 @@ const App = () => {
             <BlogList blogs={blogs} />
           </Route>
         </Switch>
+      </div>
+      <div className="footer">
         <Footer />
       </div>
     </div>

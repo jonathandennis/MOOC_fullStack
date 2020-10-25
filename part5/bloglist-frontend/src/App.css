@@ -1,38 +1,113 @@
-.App {
+.body {
+  font-family: lato;
+  font-size: 1.05rem;
+  margin: 1.7rem;
+}
+
+.blog-app {
+  padding: 1rem 0 1.5rem 0;
+  font-size: 2.3rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-bar {
+  padding: .85rem;
+  background-color: #e5e4e2;
+  overflow: hidden;
+  border-radius: .18rem;
+}
+
+.nav-left {
+  float: left;
   text-align: center;
+  font-size: 1.2rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav-link-1 {
+  text-decoration: none;
+  margin-left: .3rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav-link-2 {
+  text-decoration: none;
+  margin-left: 1.2rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.nav-right {
+  position: relative;
+  text-align: center;
+  float: right;
+  margin-right: 3rem;
 }
 
-.App-link {
-  color: #61dafb;
+#nav-user {
+  margin-right: 3.5rem;
+  font-size: .8rem;
+  color: seagreen;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#nav-button {
+  border-radius: .4rem;
+  padding: .3rem .5rem .3rem .5rem;
+  position: absolute;
+  top: -.16rem;
+  right: -3rem;
+}
+
+.BlogList-ul {
+  list-style-type: none;
+  margin-top: 2rem;
+}
+
+.BlogList-li {
+  padding: .5rem 0 .6rem .6rem;
+  border-radius: .18rem;
+  margin-top: .5%;
+}
+
+.form-div {
+  padding: 0 0 2rem 1rem;
+}
+
+.users-header {
+  font-size: 1.45rem;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse; 
+}
+
+.th, .td {
+  text-align: left;
+  padding: .7rem;
+}
+
+.tr:nth-child(odd) {
+  background-color: #f4f0ec;
+}
+
+.stripe-li:nth-child(odd) {
+  background-color: #f4f0ec;
+}
+
+.user-name {
+  font-size: 1.8rem;
+  margin-bottom: 1.6rem;
+}
+
+.user-li {
+  padding: .4rem 0 .5rem .8rem;
+  width: 100%;
+}
+
+.footer {
+  width: 100%;
+  margin: 2.5rem 0 1.5rem 0;
 }

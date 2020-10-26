@@ -40,7 +40,7 @@ blogsRouter.post('/', async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
-    user: user._id,
+    user: user,
   })
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
@@ -70,8 +70,8 @@ blogsRouter.put('/:id', async (request, response) => {
 blogsRouter.post('/:id/comments', async (request, response) => {
   const body = request.body
 
-  if (body.comment === undefined) {
-    return response.status(400).json({ error: 'content missing' })
+  if (body.comment === '') {
+    return response.status(400).json({ message: 'content missing' })
   }
 
   const comment = new Comment({ comment: body.comment })

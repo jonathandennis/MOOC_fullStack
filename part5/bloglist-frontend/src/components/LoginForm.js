@@ -9,11 +9,11 @@ const LoginForm = ({
   handlePasswordChange
 }) => {
   return (
-    <div>
+    <div className="login-form">
       <form onSubmit={handleSubmit}>
         <div>
-          <h2>Log in to application</h2>
-          username
+          <h2>Log in to application:</h2>
+          username:
           <input
             id="username"
             type="text"
@@ -23,7 +23,7 @@ const LoginForm = ({
           />
         </div>
         <div>
-          password
+          password:
           <input
             id="password"
             type="password"

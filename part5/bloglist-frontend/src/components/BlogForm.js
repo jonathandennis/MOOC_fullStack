@@ -9,7 +9,7 @@ const BlogForm = () => {
   const blogFormRef = useRef()
 
   const addBlog = async (event) => {
-    //event.preventDefault()
+    event.preventDefault()
 
     const title = event.target.title.value
     event.target.title.value = ''
@@ -22,41 +22,43 @@ const BlogForm = () => {
 
     blogFormRef.current.toggleVisibility()
     dispatch(createBlog(title, author, url))
-    dispatch(setNotification(`A new blog: '${title}' by ${author} added`, 'ok'))
+    dispatch(setNotification(`A new blog:  '${title}' by: ${author} has been added`, 'ok'))
   }
 
   return (
-    <Togglable buttonLabel='add new blog'
-      id="blog-button" buttonBorderRadius={5} ref={blogFormRef}>
-      <div className="form-div">
-        <h2>Create new:</h2>
+    <div className="blog-form">
+      <Togglable buttonLabel='add new blog'
+        buttonBorderRadius={5} ref={blogFormRef}>
+        <div className="form-div">
+          <h2>Create new:</h2>
 
-        <form onSubmit={addBlog}>
-          <div>
-            Title: <input
-              id="title"
-              name="title"
-              type="text"
-            />
-          </div>
-          <div>
-            Author: <input
-              id="author"
-              name="author"
-              type="text"
-            />
-          </div>
-          <div>
-            Url: <input
-              id="url"
-              name="url"
-              type="text"
-            />
-          </div>
-          <button type="submit" >create</button>
-        </form>
-      </div>
-    </Togglable>
+          <form onSubmit={addBlog}>
+            <div>
+              Title: <input
+                id="title"
+                name="title"
+                type="text"
+              />
+            </div>
+            <div>
+              Author: <input
+                id="author"
+                name="author"
+                type="text"
+              />
+            </div>
+            <div>
+              Url: <input
+                id="url"
+                name="url"
+                type="text"
+              />
+            </div>
+            <button type="submit" >create</button>
+          </form>
+        </div>
+      </Togglable>
+    </div>
   )
 }
 

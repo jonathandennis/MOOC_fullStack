@@ -29,7 +29,6 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const loggedUser = useSelector(state => state.loggedUser)
   const users = useSelector(state => state.users)
-  console.log('loggedUser in App: ', loggedUser)
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -63,9 +62,9 @@ const App = () => {
       dispatch(setLoggedUser())
       setUsername('')
       setPassword('')
+      dispatch(setNotification(`${loggedUser.name} has been sucessfully logged in.`, 'ok'))
     } catch (error) {
-      dispatch(setNotification('Wrong username or password', 5))
-      //notify('Wrong username or password')
+      dispatch(setNotification('Wrong username or password'))
       setUsername('')
       setPassword('')
     }
@@ -102,33 +101,36 @@ const App = () => {
 
   if (loggedUser === null) {
     return (
-      <div className="body">
-        <div className="main">
+      <body className="body">
+        <main className="main">
+          <h2 className="blog-app">&lt;blog app&gt;</h2>
           <Notification />
           {loginForm()}
-        </div>
-        <div className="footer">
-          <Footer />
-        </div>
-      </div>
+          <footer className="footer">
+            <Footer />
+          </footer>
+        </main>
+      </body>
     )
   }
 
   return (
-    <div className="body">
-      <div className="nav-bar">
-        <div className="nav-left">
-          <Link className="nav-link-1" to="/">blogs</Link>
-          <Link className="nav-link-2" to="/users">users</Link>
-        </div>
-        <div className="nav-right">
-          <em id="nav-user">{loggedUser.name} logged in </em>
-          <button type="submit" onClick={handleLogout} id="nav-button">logout</button>
-        </div>
-      </div>
-      <div className="main">
+    <body className="body">
+      <header>
+        <nav className="nav-bar">
+          <div className="nav-left">
+            <Link className="link nav-link-1" to="/">blogs</Link>
+            <Link className="link nav-link-2" to="/users">users</Link>
+          </div>
+          <div className="nav-right">
+            <em id="nav-user">{loggedUser.name} logged in </em>
+            <button type="submit" onClick={handleLogout} id="nav-button">logout</button>
+          </div>
+        </nav>
+        <h2 className="blog-app">&lt;blog app&gt;</h2>
+      </header>
+      <main className="main">
         <Notification />
-        <h2 className="blog-app">blog app</h2>
         <Switch>
           <Route path="/users/:id">
             <User user={user} />
@@ -140,15 +142,15 @@ const App = () => {
             <Blog blog={blog} loggedUser={loggedUser} />
           </Route>
           <Route path="/">
-            <BlogForm />
+            <BlogForm loggedUser={loggedUser} />
             <BlogList blogs={blogs} />
           </Route>
         </Switch>
-      </div>
-      <div className="footer">
-        <Footer />
-      </div>
-    </div>
+        <footer className="footer">
+          <Footer />
+        </footer>
+      </main>
+    </body>
   )
 }
 

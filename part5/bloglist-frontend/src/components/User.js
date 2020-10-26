@@ -1,8 +1,6 @@
 import React from 'react'
 
 export const User = ({ user }) => {
-  console.log('user in User: ', user)
-
   if (!user) {
     return null
   }

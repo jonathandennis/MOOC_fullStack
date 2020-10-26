@@ -8,20 +8,8 @@ const Notification = () => {
     return null
   }
 
-  const style = {
-    background: 'lightgrey',
-    color: notification.type ==='ok' ? 'green' : 'red',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 5,
-    marginBottom: 10
-  }
-
   return (
-    <div
-      className="notification"
-      style={style}>
+    <div className="notification" style={{ color: notification.type ==='ok' ? 'green' : 'red' }}>
       {notification.message}
     </div>
   )

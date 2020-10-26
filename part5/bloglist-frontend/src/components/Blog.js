@@ -37,7 +37,7 @@ const Blog = ({ blog, loggedUser }) => {
       dispatch(likeBlog(blog))
       dispatch(setNotification(`Like added to: ${blog.title}`, 'ok'))
     } catch (exception){
-      dispatch(setNotification('Error!', 5))
+      dispatch(setNotification('Error!'))
     }
   }
 
@@ -49,14 +49,8 @@ const Blog = ({ blog, loggedUser }) => {
       dispatch(addComment(blog.id, comment))
       dispatch(setNotification('Your comment was added successfully!', 'ok'))
     } catch (exception){
-      dispatch(setNotification('Error adding Comment', 5))
+      dispatch(setNotification('Error!'))
     }
-  }
-
-  const buttonStyle = {
-    marginLeft: 3,
-    padding: (0, 2, 0, 2),
-    borderRadius: 6,
   }
 
   if (!blog) {
@@ -64,39 +58,41 @@ const Blog = ({ blog, loggedUser }) => {
   }
 
   return(
-    <div>
-      <div>
-        <h2>{blog.title}, {blog.author}</h2>
+    <div className="blogview-container">
+      <div className="blog-container">
+        <div className="blog-title">
+          <h2>{blog.title},&nbsp;&nbsp;{blog.author}</h2>
+        </div>
+        <div className="blog-body">
+          <div className="body-1">
+            <a href={blog.url}>{blog.url}</a>
+          </div>
+          <div className="body-1">
+            {blog.likes}&nbsp;Likes
+            <button onClick={handleLike} id="like-button">like</button>
+          </div>
+          <div className="body-1">
+          added by:&nbsp;{blog.user.name}
+          </div>
+        </div>
       </div>
-      <div>
-        {blog.url}
-        <br />
-        {blog.likes} Likes
-        <button onClick={handleLike} style={buttonStyle}>like</button>
-        <br />
-        added by: {blog.user.name}
-      </div>
-      <div>
-        <br />
-        <br />
-        <h5>comments</h5>
-        <br />
-        <div>
+      <div className="comments-container">
+        <div className="comments-form">
           <form onSubmit={handleComment}>
             <input
               name="comment"
+              id="comment-input"
             />
-            <button type="submit">add comment</button>
+            <button type="submit" id="comment-button">add comment</button>
           </form>
         </div>
-        <br />
+        <h5 className="comments-header">comments:</h5>
         <ul>
           {blog.comments.map(comment =>
-            <li key={comment.id}>{comment.comment}</li>)}
+            <li key={comment.id} className="stripe-li comment-li">{comment.comment}</li>)}
         </ul>
-        <br />
-        {showDeleteButton()}
       </div>
+      {showDeleteButton()}
     </div>
   )
 }

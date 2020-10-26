@@ -1,11 +1,12 @@
-.body {
+body {
   font-family: lato;
   font-size: 1.05rem;
-  margin: 1.7rem;
+  margin: 1.2rem;
 }
 
 .blog-app {
-  padding: 1rem 0 1.5rem 0;
+  padding: 1rem 0;
+  margin: .7rem 0;
   font-size: 2.3rem;
 }
 
@@ -13,6 +14,10 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+header {
+  margin: 0 0 1rem 0;
 }
 
 .nav-bar {
@@ -28,13 +33,15 @@ ul {
   font-size: 1.2rem;
 }
 
-.nav-link-1 {
+.link {
   text-decoration: none;
+}
+
+.nav-link-1 {
   margin-left: .3rem;
 }
 
 .nav-link-2 {
-  text-decoration: none;
   margin-left: 1.2rem;
 }
 
@@ -46,7 +53,7 @@ ul {
 }
 
 #nav-user {
-  margin-right: 3.5rem;
+  margin-right: 2rem;
   font-size: .8rem;
   color: seagreen;
 }
@@ -59,15 +66,38 @@ ul {
   right: -3rem;
 }
 
+.main {
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.blog-form {
+  margin-top: 1rem;
+}
+
+.login-form {
+  margin: 3rem 0 1.5rem 1.5rem;
+}
+
+.notification {
+  background: #f4f0ec;
+  font-size: 1.4rem;
+  border-style: solid;
+  border-radius: .5rem;
+  padding: .25rem;
+  margin-top: -1.7rem;
+  margin-bottom: 0rem;
+}
+
 .BlogList-ul {
-  list-style-type: none;
   margin-top: 2rem;
 }
 
 .BlogList-li {
+  font-size: 1.05rem;
   padding: .5rem 0 .6rem .6rem;
   border-radius: .18rem;
-  margin-top: .5%;
+  margin-top: .2rem;
 }
 
 .form-div {
@@ -105,6 +135,39 @@ ul {
 .user-li {
   padding: .4rem 0 .5rem .8rem;
   width: 100%;
+}
+
+.blogview-container {
+  margin-left: 1rem;
+}
+
+.blog-title {
+  font-size: 1rem;
+}
+
+.blog-body {
+  margin-top: 1rem;
+  font-size: 1.05rem;
+}
+
+.body-1 {
+  padding: .3rem .3rem;
+}
+
+#like-button {
+  margin-left: .5rem;
+  padding: .2rem .5rem;
+  border-radius: .3rem;
+}
+
+.comments-container {
+  margin: 1.5rem 0 1rem 0;
+}
+
+.comment-li {
+  padding: .25rem 0 .35rem .6rem;
+  border-radius: .18rem;
+  margin-top: .1rem;
 }
 
 .footer {

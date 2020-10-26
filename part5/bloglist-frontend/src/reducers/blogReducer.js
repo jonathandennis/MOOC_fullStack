@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { setNotification } from './notificationReducer'
 
 const blogReducer = (state = [], action) => {
   console.log('state now: ', state)
@@ -18,7 +19,6 @@ const blogReducer = (state = [], action) => {
   case 'NEW_COMMENT': {
     const id = action.id
     const comment = action.data
-
     return state.map(blog => blog.id !== id ? blog : {
       ...blog,
       comments: [...blog.comments, comment]
@@ -32,21 +32,29 @@ const blogReducer = (state = [], action) => {
 
 export const initializeBlogs = () => {
   return async dispatch => {
-    const blogs = await blogService.getAll()
-    dispatch({
-      type: 'INIT_BLOGS',
-      data: blogs,
-    })
+    try {
+      const blogs = await blogService.getAll()
+      dispatch({
+        type: 'INIT_BLOGS',
+        data: blogs,
+      })
+    } catch(exception){
+      dispatch(setNotification('Error getting blogs!'))
+    }
   }
 }
 
 export const createBlog = (title, author, url) => {
   return async dispatch => {
-    const newBlog = await blogService.create(title, author, url)
-    dispatch({
-      type: 'NEW_BLOG',
-      data: newBlog,
-    })
+    try {
+      const newBlog = await blogService.create(title, author, url)
+      dispatch({
+        type: 'NEW_BLOG',
+        data: newBlog,
+      })
+    } catch(exception){
+      dispatch(setNotification('Error adding blog, missing content!'))
+    }
   }
 }
 
@@ -56,32 +64,44 @@ export const likeBlog = (blog) => {
     likes: blog.likes + 1
   }
   return async dispatch => {
-    const newObject = await blogService.update(blog.id, changedBlog)
-    dispatch({
-      type: 'LIKE_BLOG',
-      data: newObject
-    })
+    try {
+      const newObject = await blogService.update(blog.id, changedBlog)
+      dispatch({
+        type: 'LIKE_BLOG',
+        data: newObject
+      })
+    } catch(exception){
+      dispatch(setNotification('Error liking blog!'))
+    }
   }
 }
 
 export const addComment = (id, comment) => {
   return async dispatch => {
-    const newComment = await blogService.addComment(id, comment)
-    dispatch({
-      type: 'NEW_COMMENT',
-      data: newComment, id
-    })
+    try {
+      const newComment = await blogService.addComment(id, comment)
+      dispatch({
+        type: 'NEW_COMMENT',
+        data: newComment, id
+      })
+    } catch(exception){
+      dispatch(setNotification('Error, Requires content!'))
+    }
   }
 }
 
 export const deleteBlog = (id) => {
   return async dispatch => {
-    await blogService.remove(id)
-    console.log('blog to delete: ', id)
-    dispatch({
-      type: 'DELETE_BLOG',
-      data: id,
-    })
+    try {
+      await blogService.remove(id)
+      console.log('blog to delete: ', id)
+      dispatch({
+        type: 'DELETE_BLOG',
+        data: id,
+      })
+    } catch(exception){
+      dispatch(setNotification('Error deleting blog!'))
+    }
   }
 }
 

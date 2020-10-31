@@ -6,8 +6,9 @@ body {
 
 .blog-app {
   padding: 1rem 0;
-  margin: .7rem 0;
-  font-size: 2.3rem;
+  margin: 4rem 0 2rem 4rem;
+  font-size: 3.2rem;
+  color: #232839;
 }
 
 ul {
@@ -17,12 +18,12 @@ ul {
 }
 
 header {
-  margin: 0 0 1rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .nav-bar {
-  padding: .85rem;
-  background-color: #e5e4e2;
+  padding: .85rem; 
+  background-color: #f4f0ec;
   overflow: hidden;
   border-radius: .18rem;
 }
@@ -30,19 +31,20 @@ header {
 .nav-left {
   float: left;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .link {
   text-decoration: none;
+  color: #4a9de1;
 }
 
 .nav-link-1 {
-  margin-left: .3rem;
+  margin-left: 1rem;
 }
 
 .nav-link-2 {
-  margin-left: 1.2rem;
+  margin-left: 2rem;
 }
 
 .nav-right {
@@ -55,7 +57,7 @@ header {
 #nav-user {
   margin-right: 2rem;
   font-size: .8rem;
-  color: seagreen;
+  color: #60a667;
 }
 
 #nav-button {
@@ -66,8 +68,8 @@ header {
   right: -3rem;
 }
 
-.main {
-  margin-top: 2rem;
+main {
+  margin: 4rem 5rem 0rem 5rem;
   padding-top: 1rem;
 }
 
@@ -95,7 +97,7 @@ header {
 
 .BlogList-li {
   font-size: 1.05rem;
-  padding: .5rem 0 .6rem .6rem;
+  padding: .5rem 0 .6rem .8rem;
   border-radius: .18rem;
   margin-top: .2rem;
 }
@@ -106,6 +108,7 @@ header {
 
 .users-header {
   font-size: 1.45rem;
+  color: #232839;
 }
 
 .table {
@@ -135,6 +138,7 @@ header {
 .user-li {
   padding: .4rem 0 .5rem .8rem;
   width: 100%;
+  color: #232839;
 }
 
 .blogview-container {
@@ -172,5 +176,7 @@ header {
 
 .footer {
   width: 100%;
-  margin: 2.5rem 0 1.5rem 0;
+  margin: 5rem 0 1.5rem 0;
+  font-size: 1rem;
+  color: #60a667;
 }

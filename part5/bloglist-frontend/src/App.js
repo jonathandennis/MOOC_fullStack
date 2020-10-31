@@ -127,9 +127,9 @@ const App = () => {
             <button type="submit" onClick={handleLogout} id="nav-button">logout</button>
           </div>
         </nav>
-        <h2 className="blog-app">&lt;blog app&gt;</h2>
+        <h2 className="blog-app">&lt;blog-list app&gt;</h2>
       </header>
-      <main className="main">
+      <main>
         <Notification />
         <Switch>
           <Route path="/users/:id">

@@ -11,7 +11,7 @@ const BlogList = ({ blogs }) => {
       <ul className="BlogList-ul">
         {blogs.sort(byLikes).map(blog =>
           <li key={blog.id} className="BlogList-li stripe-li">
-            <Link to={`/${blog.id}`} className="link">{blog.title},&nbsp;&nbsp;{blog.author}</Link>
+            <Link className="link" to={`/${blog.id}`}>{blog.title},&nbsp;&nbsp;{blog.author}</Link>
           </li>
         )}
       </ul>

@@ -36,7 +36,12 @@ header {
 
 .link {
   text-decoration: none;
+  color: #232839;
+}
+
+.link:hover {
   color: #4a9de1;
+  font-size: 101.5%;
 }
 
 .nav-link-1 {

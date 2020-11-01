@@ -18,7 +18,7 @@ const LoginForm = ({
             id="username"
             type="text"
             value={username}
-            placeHolder="type 'test'"
+            placeHolder="&nbsp;&nbsp;for access type: test "
             name="Username"
             onChange={handleUsernameChange}
           />
@@ -29,7 +29,7 @@ const LoginForm = ({
             id="password"
             type="password"
             value={password}
-            placeHolder="type 'user'"
+            placeHolder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type: user "
             name="Password"
             onChange={handlePasswordChange}
           />

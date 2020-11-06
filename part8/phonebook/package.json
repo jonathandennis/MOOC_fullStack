@@ -1,0 +1,15 @@
+{
+  "name": "phonebook-lesson",
+  "version": "1.0.0",
+  "description": "part 8 lesson example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Dennis",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.19.0",
+    "graphql": "^15.4.0"
+  }
+}

@@ -114,15 +114,17 @@ const resolvers = {
     allBooks: (root, args) => {
       if (!args.author && !args.genre) {
         return books
-      } else if (args.author) {
+      } else if (args.author && !args.genre) {
           const authArgs = books.filter((b) => b.author === args.author)
           return authArgs
-      } else if (args.genre) {
+      } else if (args.genre && !args.author) {
           const genArgs = books.filter((b) => b.genres.includes(args.genre))
           return genArgs
       }
-          const allParams = books.filter((b) => b.author === args.author && b.genres.includes(args.genre))
-          return allParams
+          const oneParam = books.filter((b) => b.author === args.author) 
+          console.log('oneParam: ', oneParam)
+          const twoParam = oneParam.filter((b) => b.genres.includes(args.genre))
+          return twoParam
     },
     allAuthors: () => authors
 

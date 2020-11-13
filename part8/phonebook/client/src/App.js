@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { useQuery } from '@apollo/client';
 
-function App() {
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import PhoneForm from './components/PhoneForm'
+
+import { ALL_PERSONS } from './queries'
+
+const Notify = ({errorMessage}) => {
+  if ( !errorMessage ) {
+    return null
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{color: 'red'}}>
+    {errorMessage}
     </div>
-  );
+  )
 }
 
-export default App;
+const App = () => {
+  const [errorMessage, setErrorMessage] = useState(null)
+
+  const result = useQuery(ALL_PERSONS)
+
+  if (result.loading)  {
+    return <div>loading...</div>
+  }
+
+  const notify = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 10000)
+  }
+
+  return (
+    <div>
+      <Notify errorMessage={errorMessage} />
+      <Persons persons = {result.data.allPersons} />
+      <PersonForm setError={notify} />
+      <PhoneForm setError={notify} />
+    </div>
+  )
+}
+
+export default App
